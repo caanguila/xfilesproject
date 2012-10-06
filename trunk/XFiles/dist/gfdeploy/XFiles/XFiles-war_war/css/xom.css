@@ -292,6 +292,25 @@ h6 {
        
         
 }
+#button1 {
+	       
+        background: #d1d1d1; 
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#a1a1a1'); 
+	background: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#a1a1a1)); 
+	background: -moz-linear-gradient(top,  #ebebeb,  #a1a1a1); 
+        border-radius: 1.5em;
+	-webkit-border-radius: 1.5em;
+	-moz-border-radius: 1.5em;
+	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .4);
+	-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, .4);
+        
+	color: #444;
+	margin-left: 19px;
+	margin-top: 0px;
+       text-shadow: 0 1px 1px rgba(0, 0, 0, .4);
+         font-weight: bold;
+          text-decoration: none;
+}
 #left_panel ul {
     z-index: 10;
 	background: #ddd; 
