@@ -1,253 +1,100 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-<h:head>
-<meta charset="UTF-8"/>
-<title>MY KITESURF EXAMPLE</title>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<!--[if lt IE 9]>
- <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-<style type="text/css">
-<!--
-body {
-	margin-top: 0px;
-	background-image: url(images/bg.jpg);
-	background-repeat: repeat-x;
-	background-position: top;
-	background-color: #E7E7E7;
-}
--->
-</style>
-<link href="css/xom.css" rel="stylesheet" type="text/css"/>
+    <ui:composition template="templates/creatively-index.xhtml">
 
-<script src="free_validation.js"></script>
-<script>
-	required.add('Full_Name','NOT_EMPTY','Full Name');
-	required.add('Email_Address','EMAIL','Email Address');
-	required.add('Your_Message','NOT_EMPTY','Your Message')
-	</script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><style type="text/css">
-<!--
-a:link {
-	color: #D2D2D2;
-	text-decoration: none;
-}
-a:visited {
-	text-decoration: none;
-	color: #FCFCFC;
-}
-a:hover {
-	text-decoration: underline;
-}
-a:active {
-	text-decoration: none;
-	color: #E9E9E9;
-}
--->
-</style>
-</h:head>
-<h:body>
-<!--Start wrapper -->
-<div class="containerWrap">
- <!--start header -->
-  <div class="header">
-      <!--start logo -->
-      <div class="logo">
-        <h1>X-Files</h1>
-    </div><!--end logo -->
-    <!--start navigation -->
-    <div id="nav">  
-      <li class="current"><a href="#">Home</a></li>
-      <li><a href="#">Home</a>
-         
-      </li>
-      <li><a href="#">Information</a>
-          <ul>
-            <li><a href="#">Our Team</a>
-                <ul>
-                  <li><a href="#">Sub-Level Item</a></li>
-                  <li><a href="#">Sub-Level Item</a>
-                      <ul>
+        <ui:param name="pageTitle" value="X Files"/>
+        
+        <ui:define name="showcase">
+            <!-- Showcase title -->
+            <h2 class="grid_12">X Files</h2>
 
-                        <li><a href="#">Level Item</a></li>
-                        <li><a href="#">Level Item</a></li>
-                        <li><a href="#">Level Item</a></li>
-                      </ul>
-                  </li>
-                  <li><a href="#">Level Item</a></li>
-                </ul>
+            <!-- Showcase tagline -->
+            <section class="tagline grid_12">
+                <p>Modern &amp; customizable premium site template.</p>
+                <div>
+                    <a href="#" class="button_grey_big">Take a tour</a>
+                    <span>or</span>
+                    <a href="#" class="button_green_big">Buy</a>
+                </div>
+            </section>
+        </ui:define>
 
+        <ui:define name="sidebar">
+            <h3>Something about Creatively</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam faucibus nibh mi. Sed in lectus leo.</p>
+            <p>Vestibulum ante <a href="#">ipsum primis</a> in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+            <ul class="check">
+                <li>HTML5 valid</li>
+                <li>Beautiful and lightweight</li>
+                <li>Working contact form</li>
+            </ul>
+            <p>Donec ac diam id magna euismod interdum. Praesent vulputate scelerisque adipiscing.</p>
+
+        </ui:define>
+
+        <ui:define name="portfolio">
+            <li class="grid_3">
+                <a href="#"><img src="img/placeholders/214x114/1.jpg" alt="" class="shadow" /></a>
+                <h4>Lorem ipsum</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ipsum dui, id egestas sapien.</p>
             </li>
-            <li><a href="#">Accounts</a></li>
-            <li><a href="#">Groups</a></li>
-            <li><a href="#">Configuration</a>
-                <ul>
-                  <li><a href="#">Sub-Level Item</a></li>
-                  <li><a href="#">Sub-Level Item</a></li>
-
-                  <li><a href="#">Sub-Level Item</a></li>
-                </ul>
+            <li class="grid_3">
+                <a href="#"><img src="img/placeholders/214x114/2.jpg" alt="" class="shadow" /></a>
+                <h4>Integer sagittis</h4>
+                <p>Integer sagittis rutrum eleifend. Suspendisse a libero libero, vitae sagittis arcu.</p>
             </li>
-          </ul>
-      </li>
-      <li><a href="#">Help</a></li>
-        <li><a href="#">Search</a></li>
-    <li><a href="#">Register</a></li>
-    </div> 
-    <!--end navigation -->
-    <div  id="wrapper" class="content">
-<!--      <article>-->
-<!--        <h3 class="shad">The sea breeze and the waves that caress your fighting spirit. I was born on the beach, and he ... I recall as a loving father.</h3>
-         -->
-       
-        <div id="left_panel" class="intro">
-            <li class="current"><a href="#">My Account</a></li>
-            <li ><a href="#">My Groups</a></li>
-            <li ><a href="#">My Messages</a>
-                <ul>
-                    <li><a href="#">Send </a></li>
-                    <br/>
-                    <li><h:button id="button1" value="Inbox" /></li>
-                </ul>
+            <li class="grid_3">
+                <a href="#"><img src="img/placeholders/214x114/3.jpg" alt="" class="shadow" /></a>
+                <h4>Phasellus dictum</h4>
+                <p>Phasellus dictum elit at arcu condimentum sit amet elementum felis sollicitudin.</p>
             </li>
-            <li><a href="#">External</a></li>
-            
-              
-              
-        </div>
-        
-        <div id="info_div" class="info">
-            
-            
-            
-            
-        </div>
-        
-         <div id="info_div2" class="info1">
-             <div id="login_form" class="login" >
-            <h:form>
-                <h:panelGrid columns="3">
-            <h:outputLabel value="Login:" for="login"/>  
-            <h:inputText id="login" />
-            <h:message for="login"/>
-            
-            <h:outputLabel value="Password:" for="password"/>  
-            <h:inputText id="password" />
-            <h:message for="password"/>
-            <h:outputLabel value="" /> 
-            </h:panelGrid>
-                <h:panelGroup class="loginbutton" rendered="true"><a href="#">Log In</a></h:panelGroup>
-                <h:panelGroup class="loginbutton" rendered="false"><a href="#">Log Out</a></h:panelGroup>
-        
-            </h:form>
-            </div>
-        
-        
-    
-     <div id="right_panel" class="thumb"> 
-         <h:form>
-          <h1>Welcome to X-Files</h1>
+            <li class="grid_3">
+                <a href="#"><img src="img/placeholders/214x114/4.jpg" alt="" class="shadow" /></a>
+                <h4>Lorem ipsum</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id.</p>
+            </li>
+        </ui:define>
 
-      
-<!--       <ul class="thumbinail">
-    <li><a href="…"><img src="images/kite1.jpg" alt=""/></a></li>
-    <li><a href="…"><img src="images/kite2.jpg" alt=""/></a></li>
-    <li><a href="…"><img src="images/kite3.jpg" alt=""/></a></li>
-    <li><a href="…"><img src="images/kite4.jpg" alt=""/></a></li>
-  </ul>   -->
-       <div class="redbutton"><a href="#">Gallery</a></div> 
-       <div class="social">  
-       <a href="#"><img src="images/twitter.png" alt="Follow on Twitter" width="64" height="64"/></a>
-         <a href="#"><img src="images/youtube.png" alt="Video Kitesurf" width="64" height="64"/></a>
-         <a href="#"><img src="images/facebook.png" alt="Become a fan" width="64" height="64"/></a>  
-         <a href="#"><img src="images/flickr.png" alt="from Flickr" width="64" height="64"/></a>        
-          </div>
-       </h:form>
-        </div>  
-        </div>
-<!--        <div id="right_side" class="right_s">-->
-       
-            </div>
-        
-      
-      <!--contact form -->
-<!--      <div>
-        <form name="contactformfree" method="post" action="free_process.php" onSubmit="return validate.check(this)">
-	<h1 class="shadows">CONTACT US</h1>
-            <table width="400px" class="cffree">
-	<tr>
-	 <td colspan="2">
-	  <p style="text-align:center">Fields marked with <span class="required_star"> * </span> are required.</p>
-	 </td>
-	</tr>
-	<tr>
-	 <td valign="top" class="cffree_td">
-	  <label for="Full_Name" class="required">Full Name<span class="required_star"> * </span></label>
-	 </td>
-	 <td valign="top" class="cffree_td">
-	  <input type="text" name="Full_Name" id="Full_Name" maxlength="80" style="width:250px"/>
-	 </td>
-	</tr>
-	<tr>
-	 <td valign="top" class="cffree_td">
-	  <label for="Email_Address" class="required">Email Address<span class="required_star"> * </span></label>
-	 </td>
-	 <td valign="top" class="cffree_td">
-	  <input type="text" name="Email_Address" id="Email_Address" maxlength="100" style="width:250px"/>
-	 </td>
-	</tr>
-	<tr>
-	 <td valign="top" class="cffree_td">
-	  <label for="Telephone_Number" class="not-required">Telephone Number</label>
-	 </td>
-	 <td valign="top" class="cffree_td">
-	  <input type="text" name="Telephone_Number" id="Telephone_Number" maxlength="100" style="width:250px"/>
-	 </td>
-	</tr>
-	<tr>
-	 <td valign="top" class="cffree_td">
-	  <label for="Your_Message" class="required">Your Message<span class="required_star"> * </span></label>
-	 </td>
-	 <td valign="top" class="cffree_td">
-	  <textarea style="width:250px;height:120px" name="Your_Message" id="Your_Message" maxlength="2000"></textarea>
-	 </td>
-	</tr>
-	<tr>
-	 <td colspan="2" style="text-align:center"  class="cffree_td">
-	  <input type="submit" value=" Submit Form "/> 
-	 </td>
-	</tr>
-	</table>
-        </form>
-      </div>-->
-      <!--end contact form -->
-<!--      </article>start article -->
-<!--      <aside>-->
-            
-<!-- </aside>                 -->
- </div>
-  </div>
- <!--start footer -->  
-  <footer>
- <div class="top"> 
- <!--end footer -->
- </div>
-<!--  <div class="footerWrapper" id="footercontent">
-    <li><a href="#">Home Page</a></li> 
- <li><a href="#">Spire Parts</a></li> 
- <li><a href="#">About Kite</a></li> 
- <li><a href="#">Forum</a></li> 
- <li><a href="#">Training</a></li> 
- <li><a href="#">Terms</a></li> 
- <li><a href="#">Site Map</a></li> 
- 
- </div> -->
-</footer> 
-<!--</div>-->
-<!--end wrapper -->
-<!-- Free template distributed by http://freehtml5templates.com -->
-</h:body>
+        <ui:define name="testimonials">
+            <li>
+                <q>Maecenas ut lacinia lorem. Nulla lacinia interdum porttitor. Curabitur id nisi elit, in pharetra est.</q>
+                <span class="author">John Doe</span>
+            </li>
+            <li>
+                <q>Fusce rutrum rutrum leo, congue semper eros ornare a. Quisque id orci dapibus mauris volutpat accumsan.</q>
+                <span class="author">John Smith</span>
+            </li>
+        </ui:define>
+
+        <ui:define name="twitter">
+            <ul id="twitter"></ul>
+        </ui:define>
+
+        <ui:define name="list">
+            <li>
+                <h3><span>1</span> Lorem ipsum dolor sit amet</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ipsum dui, id egestas sapien.</p>
+            </li>
+            <li>
+                <h3><span>2</span> In consectetur nunc quis massa</h3>
+                <p>In consectetur nunc quis massa pharetra eu elementum ante commodo. Curabitur nulla ligula, pretium fermentum accumsan at.</p>
+            </li>
+        </ui:define>
+
+        <ui:define name="javascript">
+            <ui:include src="templates/roles/common/javascripts.xhtml"/>
+        </ui:define>
+
+        <ui:define name="footer">
+            <ui:include src="templates/roles/footer.xhtml"/>
+
+        </ui:define>
+    </ui:composition>
+
 </html>
