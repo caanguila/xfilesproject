@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Types.findByDescription", query = "SELECT t FROM Types t WHERE t.description = :description"),
     @NamedQuery(name = "Types.findByOptions", query = "SELECT t FROM Types t WHERE t.options = :options")})
 public class Types implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue 
@@ -168,5 +169,4 @@ public class Types implements Serializable {
     public String toString() {
         return "entity.Types[ typeId=" + typeId + " ]";
     }
-    
 }

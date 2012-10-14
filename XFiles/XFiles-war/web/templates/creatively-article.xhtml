@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <f:view xmlns:h="http://java.sun.com/jsf/html"
             xmlns:p="http://primefaces.org/ui"
             xmlns:f="http://java.sun.com/jsf/core" 
             xmlns:c="http://java.sun.com/jsp/jstl/core"
             xmlns:ui="http://java.sun.com/jsf/facelets">
+        <!-- Mirrored from creatively.equiet.sk/typography.html by HTTrack Website Copier/3.x [XR&CO'2010], Sun, 14 Oct 2012 11:07:15 GMT -->
         <h:head>
             <meta charset="utf-8"/>
 
@@ -95,8 +96,7 @@
 
         <h:body>
 
-            <!-- Wrapper begin -->
-            <div id="wrapper" class="clearfix">
+            <!-- Wrapper begin --><div id="wrapper" class="clearfix">
 
                 <!-- Header -->
                 <header>
@@ -104,7 +104,7 @@
                         <h1 class="grid_4"><a href="index-2.html">#{webSiteTitle}</a></h1>
                         <nav class="grid_8">
                             <ul class="right">
-                                <li class="selected">
+                                <li>
                                     <a href="index-2.html">Home</a>
                                     <ul>
                                         <li><a href="index-2.html">Standard</a></li>
@@ -137,7 +137,7 @@
                                         <li><a href="blogpost.html">Blogpost</a></li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="selected">
                                     <a href="pricing_boxes.html">Pages</a>		
                                     <ul>
                                         <li><a href="pricing_boxes.html">Pricing boxes</a></li>
@@ -151,106 +151,36 @@
                     </div>
                 </header>
 
-                <!-- Container begin --><div class="container_12">
+                <!-- Container begin -->
+                <div class="container_12">
 
                     <!-- MAIN CONTENT BEGIN -->
 
-                    <!-- Showcase -->
-                    <!-- Container end --></div>
-                <section id="showcase" class="clearfix">
-                    <!-- Container begin -->
-                    <div class="container_12">
-                        <ui:insert name="showcase">
+                    <!-- Page title -->
+                    <section id="title">
 
-                        </ui:insert>
-                        <!-- Container end -->
-                    </div>
-                </section>
-                <!-- Container begin -->
-                <div class="container_12">
-                    <!-- Features -->
-                    <ui:insert name="features">
+                        <!-- Heading -->
+                        <h1 class="grid_5">Pages <span>#{pageTitle}</span></h1>
 
-                    </ui:insert>
-                    <ul class="features grid_4">
-                        <li>
-                            <span class="shadow"><img src="img/icons/text-html.png" alt="" /></span>
-                            <h3 class="small_section">HTML5 valid</h3>
-                            <p>All built with modern technologies like HTML5 and CSS3.</p>
-                        </li>
-                        <li>
-                            <span class="shadow"><img src="img/icons/applications-graphics.png" alt="" /></span>
-                            <h3 class="small_section">Easy to customize</h3>
-                            <p>Rebuild this theme as you like it. More than 2,750,000 variations possible.</p>
-                        </li>
-                        <li>
-                            <span class="shadow"><img src="img/icons/stock_bookmark.png" alt="" /></span>
-                            <h3 class="small_section">Fall in love</h3>
-                            <p>Designed to make both site owners and visitors happy.</p>
-                        </li>
-                    </ul>
-                    <ul class="features grid_4">
-                        <li>
-                            <span class="shadow"><img src="img/icons/evolution.png" alt="" /></span>
-                            <h3 class="small_section">Working contact form</h3>
-                            <p>AJAX-based contact form working out-of-the-box. All you need is PHP.</p>
-                        </li>
-                        <li>
-                            <span class="shadow"><img src="img/icons/gnome-panel-launcher.png" alt="" /></span>
-                            <h3 class="small_section">Instantly ready</h3>
-                            <p>Just unpack the file and the theme is ready to go.</p>
-                        </li>
-                        <li>
-                            <span class="shadow"><img src="img/icons/file-roller.png" alt="" /></span>
-                            <h3 class="small_section">Everything you need</h3>
-                            <p>Nivo Slider, Fancybox, Twitter stream - it’s all here.</p>
-                        </li>
-                    </ul>
+                        <!-- Submenu -->
+                        <nav class="grid_7">
+                            <ui:insert name="submenu"/>
+                        </nav>
+
+                    </section>
 
                     <!-- Sidebar -->
                     <section class="sidebar grid_4">
-                        <ui:insert name="sidebar">
 
-                        </ui:insert>
+                        <!-- Categories -->
+                        <ui:insert name="categories"/>
+
                     </section>
 
-                    <div class="clearfix"></div>
-
-                    <!-- Message -->
-                    <div class="tagline grid_12">
-                        <p>Integer et consectetur sapien. Cras vulputate eros eget odio <strong>rutrum gravida</strong>. Nam bibendum luctus sem, ut egestas <strong>felis luctus id</strong>. Fusce sollicitudin mollis orci, a mattis quam suscipit a.</p>
-                    </div>
-
-                    <!-- Portfolio showcase -->
-                    <ul class="portfolio clearfix">
-                        <ui:insert name="portfolio">
-
-                        </ui:insert>
-                    </ul>
-
-                    <hr class="grid_12" />
-
-                    <!-- Testimonials -->
-                    <ul class="testimonials grid_4">
-                        <ui:insert name="testimonials">
-
-                        </ui:insert>
-                    </ul>
-
-                    <!-- Twitter -->
-                    <div class="twitter grid_4">
-                        <ui:insert name="twitter">
-
-                        </ui:insert>
-                    </div>
-
-                    <!-- Numbered list -->
-                    <ul class="list grid_4">
-                        <ui:insert name="list">
-
-                        </ui:insert>
-                    </ul>
-
+                    <!-- Typography -->
+                    <section class="text grid_8">
+                        <ui:insert name="content"/>
+                    </section> 
 
                     <!-- MAIN CONTENT END -->
 
@@ -278,8 +208,9 @@
 
             <!-- Customization -->
             <div id="customization">
-                <ui:insert name="toolbar">
-                </ui:insert>
+
+                <ui:insert name="toolbar"/>
+
             </div>
             <script>
                 $(function () {
@@ -332,3 +263,4 @@
         </h:body>
     </f:view>
 </html>
+
