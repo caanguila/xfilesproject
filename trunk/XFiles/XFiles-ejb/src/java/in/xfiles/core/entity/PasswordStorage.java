@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class PasswordStorage implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
+    @GeneratedValue //I can wrong
     protected PasswordStoragePK passwordStoragePK;
     @Size(max = 500)
     @Column(name = "key")

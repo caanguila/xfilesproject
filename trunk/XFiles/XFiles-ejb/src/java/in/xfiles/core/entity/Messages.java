@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Messages implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "message_id")
