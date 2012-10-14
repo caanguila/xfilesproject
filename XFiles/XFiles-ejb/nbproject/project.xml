@@ -6,6 +6,9 @@
             <name>XFiles-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library dirs="200">file.reference.log4j-1.2.16.jar</included-library>
+            <included-library dirs="200">file.reference.quartz-all-2.1.6.jar</included-library>
+            <included-library dirs="200">file.reference.secretshare-v1.1.jar</included-library>
+            <included-library dirs="200">file.reference.zip4j_1.3.1.jar</included-library>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
