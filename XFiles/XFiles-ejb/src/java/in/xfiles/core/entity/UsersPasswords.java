@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UsersPasswords implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_id")
