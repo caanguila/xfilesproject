@@ -18,7 +18,33 @@
             <section class="tagline grid_12">
                 <p>Modern &amp; customizable premium site template.</p>
                 <div>
-                    <a href="#" class="button_grey_big">Take a tour</a>
+                    <a href="#" id="log_in" class="btn btn-danger"
+                           rel="popover"
+                           data-placement="top"
+                          >Sign In</a>
+                   
+ <script>  
+$(function ()  
+{ $("#log_in").popover({
+  html:true,
+            placement:"top",
+            offset:5,
+            delay:{ show:500, hide:100 },
+            template:'<div class="popover"><div class="popover-inner"><h2 class="popover-title"></h2><div class="popover-content"><div></div></div></div></div>',
+            title:function () {
+                return $(this).html();
+            },
+            content:function () {
+                              
+                return '<form>'+
+               '<input /> '+     
+                '</form>';
+            }
+        });
+});
+</script> 
+                     
+                    
                     <span>or</span>
                     <a href="#" class="button_green_big">Buy</a>
                 </div>
@@ -188,6 +214,9 @@
 
                 </div>
         </ui:define>
+        
     </ui:composition>
+    
+    
 
 </html>
