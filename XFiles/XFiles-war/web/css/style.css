@@ -1463,3 +1463,17 @@ footer {
 			font-size: 15px;
 			color: #333;
 		}
+                
+                #login {
+                  width: 80px; 
+                  height: 15px;
+                 margin-left: 10px;
+                }
+                #password {
+                  width: 80px; 
+                  height: 15px;
+                  margin-left: 10px;
+                }
+                #login_try{
+                    margin-top: 10px; 
+                }

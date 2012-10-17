@@ -17,8 +17,8 @@
             <!-- Showcase tagline -->
             <section class="tagline grid_12">
                 <p>Modern &amp; customizable premium site template.</p>
-                <div>
-                    <a href="#" id="log_in" class="btn btn-danger"
+                <div id="my">
+                    <a href="#" id="log_in" class="button_green_big"
                            rel="popover"
                            data-placement="top"
                           >Sign In</a>
@@ -27,26 +27,41 @@
 $(function ()  
 { $("#log_in").popover({
   html:true,
-            placement:"top",
-            offset:5,
-            delay:{ show:500, hide:100 },
-            template:'<div class="popover"><div class="popover-inner"><h2 class="popover-title"></h2><div class="popover-content"><div></div></div></div></div>',
-            title:function () {
+           
+             
+             title:function () {
                 return $(this).html();
             },
             content:function () {
-                              
-                return '<form>'+
-               '<input /> '+     
-                '</form>';
+                
+                 $('#login_try').click(function() {
+                location.reload();
+            });
+                            
+                return $('#myDiv').html();
+                
+        
             }
+     
         });
+      
+  
 });
+
 </script> 
-                     
+     
                     
+                       
+                               
                     <span>or</span>
-                    <a href="#" class="button_green_big">Buy</a>
+<!--                     <script type="text/javascript">
+       
+            $('#login_try').click(function() {
+                location.reload();
+            });
+             
+    </script>-->
+                    <a href="#" id="buy" class="button_green_big">Buy</a>
                 </div>
             </section>
         </ui:define>
@@ -114,6 +129,20 @@ $(function ()
         </ui:define>
 
         <ui:define name="toolbar">
+            <div id="myDiv" style="display: none">
+                <div style="width: 300px">
+                    <h:form prependId="false">
+                        <h:panelGrid columns="2">
+                            <h:outputText id="loginLabel" value="Login:"/> 
+                            <h:inputText id="login" value="#{loginBean.login}" />
+                            <h:outputText id="passwordLabel" value="Password:"/>
+                            <h:inputText id="password" value="#{loginBean.password}" />
+                        </h:panelGrid>
+                        <h:commandButton value="Login" id="login_try" class="btn" type="submit" action="#{loginBean.process()}" />
+                    </h:form>
+                </div>
+            </div>
+            
             <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
 
                 <div class="options float">
