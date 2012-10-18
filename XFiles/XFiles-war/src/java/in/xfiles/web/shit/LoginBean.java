@@ -15,7 +15,7 @@ import javax.faces.context.FacesContext;
  * @author 7
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class LoginBean {
 
 private String login;
@@ -24,6 +24,7 @@ private String login;
      * Creates a new instance of LoginBean
      */
     public LoginBean() {
+        
     }
 
     public String getLogin() {

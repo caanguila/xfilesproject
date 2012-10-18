@@ -27,20 +27,13 @@
 $(function ()  
 { $("#log_in").popover({
   html:true,
-           
-             
-             title:function () {
+            title:function () {
                 return $(this).html();
             },
             content:function () {
-                
-                 $('#login_try').click(function() {
-                location.reload();
-            });
-                            
+                                       
                 return $('#myDiv').html();
-                
-        
+         
             }
      
         });
@@ -54,13 +47,7 @@ $(function ()
                        
                                
                     <span>or</span>
-<!--                     <script type="text/javascript">
-       
-            $('#login_try').click(function() {
-                location.reload();
-            });
-             
-    </script>-->
+                    
                     <a href="#" id="buy" class="button_green_big">Buy</a>
                 </div>
             </section>
@@ -130,7 +117,7 @@ $(function ()
 
         <ui:define name="toolbar">
             <div id="myDiv" style="display: none">
-                <div style="width: 300px">
+                
                     <h:form prependId="false">
                         <h:panelGrid columns="2">
                             <h:outputText id="loginLabel" value="Login:"/> 
@@ -140,7 +127,7 @@ $(function ()
                         </h:panelGrid>
                         <h:commandButton value="Login" id="login_try" class="btn" type="submit" action="#{loginBean.process()}" />
                     </h:form>
-                </div>
+               
             </div>
             
             <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
