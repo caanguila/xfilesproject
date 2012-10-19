@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -21,7 +25,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UsersPasswords implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_id")
@@ -107,7 +110,7 @@ public class UsersPasswords implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.UsersPasswords[ userId=" + userId + " ]";
+        return "in.xfiles.core.entity.UsersPasswords[ userId=" + userId + " ]";
     }
     
 }

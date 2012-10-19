@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -23,7 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class UserSession implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "session_id")
@@ -117,7 +120,7 @@ public class UserSession implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.UserSession[ sessionId=" + sessionId + " ]";
+        return "in.xfiles.core.entity.UserSession[ sessionId=" + sessionId + " ]";
     }
     
 }

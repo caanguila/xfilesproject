@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -22,7 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Logs implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "log_id")
@@ -138,7 +141,7 @@ public class Logs implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Logs[ logId=" + logId + " ]";
+        return "in.xfiles.core.entity.Logs[ logId=" + logId + " ]";
     }
     
 }
