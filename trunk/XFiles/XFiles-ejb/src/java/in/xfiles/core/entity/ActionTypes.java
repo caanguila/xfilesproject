@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -23,7 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ActionTypes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "action_type_id")
@@ -106,7 +109,7 @@ public class ActionTypes implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ActionTypes[ actionTypeId=" + actionTypeId + " ]";
+        return "in.xfiles.core.entity.ActionTypes[ actionTypeId=" + actionTypeId + " ]";
     }
     
 }

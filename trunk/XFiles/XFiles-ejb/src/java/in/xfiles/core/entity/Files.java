@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -21,13 +25,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Files.findByName", query = "SELECT f FROM Files f WHERE f.name = :name"),
     @NamedQuery(name = "Files.findByDescription", query = "SELECT f FROM Files f WHERE f.description = :description"),
     @NamedQuery(name = "Files.findByContentType", query = "SELECT f FROM Files f WHERE f.contentType = :contentType"),
-    @NamedQuery(name = "Files.findByFileSize", query = "SELECT f FROM Files f WHERE f.fileSize = :fileSize"),
+    @NamedQuery(name = "Files.findBySize", query = "SELECT f FROM Files f WHERE f.size = :size"),
     @NamedQuery(name = "Files.findByCrc", query = "SELECT f FROM Files f WHERE f.crc = :crc"),
     @NamedQuery(name = "Files.findByIsfolder", query = "SELECT f FROM Files f WHERE f.isfolder = :isfolder")})
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "file_id")
@@ -47,8 +50,8 @@ public class Files implements Serializable {
     private String contentType;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "file_size")
-    private long fileSize;
+    @Column(name = "size")
+    private long size;
     @Basic(optional = false)
     @NotNull
     @Column(name = "crc")
@@ -74,13 +77,10 @@ public class Files implements Serializable {
     @ManyToOne(optional = false)
     private Types typeId;
     @JoinColumns({
-        @JoinColumn(name = "created_by", referencedColumnName = "user_id"),
+        @JoinColumn(name = "user_id_psw", referencedColumnName = "user_id"),
         @JoinColumn(name = "enc_type_def_id", referencedColumnName = "enc_type_def_id")})
     @ManyToOne(optional = false)
     private PasswordStorage passwordStorage;
-    @JoinColumn(name = "created_by", referencedColumnName = "message_id")
-    @ManyToOne(optional = false)
-    private Messages createdBy1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentId")
     private Collection<Files> filesCollection;
     @JoinColumn(name = "parent_id", referencedColumnName = "file_id")
@@ -97,11 +97,11 @@ public class Files implements Serializable {
         this.fileId = fileId;
     }
 
-    public Files(Long fileId, String name, String contentType, long fileSize, int crc, boolean isfolder) {
+    public Files(Long fileId, String name, String contentType, long size, int crc, boolean isfolder) {
         this.fileId = fileId;
         this.name = name;
         this.contentType = contentType;
-        this.fileSize = fileSize;
+        this.size = size;
         this.crc = crc;
         this.isfolder = isfolder;
     }
@@ -138,12 +138,12 @@ public class Files implements Serializable {
         this.contentType = contentType;
     }
 
-    public long getFileSize() {
-        return fileSize;
+    public long getSize() {
+        return size;
     }
 
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
+    public void setSize(long size) {
+        this.size = size;
     }
 
     public int getCrc() {
@@ -204,14 +204,6 @@ public class Files implements Serializable {
         this.passwordStorage = passwordStorage;
     }
 
-    public Messages getCreatedBy1() {
-        return createdBy1;
-    }
-
-    public void setCreatedBy1(Messages createdBy1) {
-        this.createdBy1 = createdBy1;
-    }
-
     @XmlTransient
     public Collection<Files> getFilesCollection() {
         return filesCollection;
@@ -259,7 +251,7 @@ public class Files implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Files[ fileId=" + fileId + " ]";
+        return "in.xfiles.core.entity.Files[ fileId=" + fileId + " ]";
     }
     
 }

@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -22,7 +26,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class PasswordStorage implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    @GeneratedValue //I can wrong
     protected PasswordStoragePK passwordStoragePK;
     @Size(max = 500)
     @Column(name = "key")
@@ -88,7 +91,7 @@ public class PasswordStorage implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.PasswordStorage[ passwordStoragePK=" + passwordStoragePK + " ]";
+        return "in.xfiles.core.entity.PasswordStorage[ passwordStoragePK=" + passwordStoragePK + " ]";
     }
     
 }

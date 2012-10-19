@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -23,10 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Types.findByDescription", query = "SELECT t FROM Types t WHERE t.description = :description"),
     @NamedQuery(name = "Types.findByOptions", query = "SELECT t FROM Types t WHERE t.options = :options")})
 public class Types implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "type_id")
@@ -167,6 +169,7 @@ public class Types implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Types[ typeId=" + typeId + " ]";
+        return "in.xfiles.core.entity.Types[ typeId=" + typeId + " ]";
     }
+    
 }

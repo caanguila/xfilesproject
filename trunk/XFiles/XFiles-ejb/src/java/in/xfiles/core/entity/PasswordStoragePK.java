@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -71,7 +75,7 @@ public class PasswordStoragePK implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.PasswordStoragePK[ userId=" + userId + ", encTypeDefId=" + encTypeDefId + " ]";
+        return "in.xfiles.core.entity.PasswordStoragePK[ userId=" + userId + ", encTypeDefId=" + encTypeDefId + " ]";
     }
     
 }

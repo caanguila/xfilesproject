@@ -1,13 +1,15 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -26,7 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Messages implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue 
     @Basic(optional = false)
     @NotNull
     @Column(name = "message_id")
@@ -44,8 +45,6 @@ public class Messages implements Serializable {
     @Column(name = "date_recieved")
     @Temporal(TemporalType.DATE)
     private Date dateRecieved;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdBy1")
-    private Collection<Files> filesCollection;
     @JoinColumn(name = "recipient_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private Users recipientId;
@@ -108,15 +107,6 @@ public class Messages implements Serializable {
         this.dateRecieved = dateRecieved;
     }
 
-    @XmlTransient
-    public Collection<Files> getFilesCollection() {
-        return filesCollection;
-    }
-
-    public void setFilesCollection(Collection<Files> filesCollection) {
-        this.filesCollection = filesCollection;
-    }
-
     public Users getRecipientId() {
         return recipientId;
     }
@@ -163,7 +153,7 @@ public class Messages implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Messages[ messageId=" + messageId + " ]";
+        return "in.xfiles.core.entity.Messages[ messageId=" + messageId + " ]";
     }
     
 }

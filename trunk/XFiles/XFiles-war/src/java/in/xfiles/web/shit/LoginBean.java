@@ -20,6 +20,7 @@ public class LoginBean {
 
 private String login;
     private String password;
+    private String password1;
     /**
      * Creates a new instance of LoginBean
      */
@@ -45,11 +46,39 @@ private String login;
         this.password = password;
        
     }
+
+    public String getPassword1() {
+        return password1;
+    }
+
+    public void setPassword1(String password1) {
+        this.password1 = password1;
+    }
+    
     public String process(){
       
         
         System.out.println("Hello "+login);
         return "index.xhtml?faces-redirect=true";
+    }
+    
+    public void confirm(){
+        
+        System.out.printf("Login: "+login+" password: "+password+" password1: "+password1);
+    }
+    public String validate(){
+        if(password instanceof String && password1 instanceof String){
+            if(password.equals(password1)) return "true";
+        }
+        
+        return "false";
+    }
+    public boolean validatet(){
+        if(password instanceof String && password1 instanceof String){
+            if(password.equals(password1)) return true;
+        }
+        
+        return false;
     }
     
 }

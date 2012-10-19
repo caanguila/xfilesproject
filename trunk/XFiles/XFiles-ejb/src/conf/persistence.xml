@@ -2,7 +2,18 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="XFiles-ejbPU" transaction-type="JTA">
     <jta-data-source>Xdatabase</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>in.xfiles.core.entity.ActionTypes</class>
+    <class>in.xfiles.core.entity.Encryptionfiles</class>
+    <class>in.xfiles.core.entity.Files</class>
+    <class>in.xfiles.core.entity.Groups</class>
+    <class>in.xfiles.core.entity.Logs</class>
+    <class>in.xfiles.core.entity.Messages</class>
+    <class>in.xfiles.core.entity.PasswordStorage</class>
+    <class>in.xfiles.core.entity.Types</class>
+    <class>in.xfiles.core.entity.UserSession</class>
+    <class>in.xfiles.core.entity.Users</class>
+    <class>in.xfiles.core.entity.UsersPasswords</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>
