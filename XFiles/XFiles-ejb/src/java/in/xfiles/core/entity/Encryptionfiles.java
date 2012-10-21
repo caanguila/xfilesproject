@@ -27,9 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Encryptionfiles implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "en_file_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "en_file_id",columnDefinition = "BIGSERIAL")
     private Long enFileId;
     @Basic(optional = false)
     @NotNull

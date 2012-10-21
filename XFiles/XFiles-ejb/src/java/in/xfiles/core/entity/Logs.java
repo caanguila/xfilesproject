@@ -26,9 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Logs implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "log_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "log_id",columnDefinition = "BIGSERIAL")
     private Long logId;
     @Basic(optional = false)
     @NotNull

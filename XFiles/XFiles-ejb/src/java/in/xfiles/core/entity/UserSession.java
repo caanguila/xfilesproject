@@ -27,9 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class UserSession implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "session_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "session_id",columnDefinition = "BIGSERIAL")
     private Long sessionId;
     @Basic(optional = false)
     @NotNull

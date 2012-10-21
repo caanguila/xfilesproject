@@ -28,9 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Messages implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "message_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_id",columnDefinition = "BIGSERIAL")
     private Long messageId;
     @Column(name = "date_send")
     @Temporal(TemporalType.DATE)

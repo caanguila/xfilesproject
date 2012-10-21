@@ -11,14 +11,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
+import java.math.BigInteger;
 /**
  *
  * @author 7
  */
 @Entity
 @Table(name = "action_types")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ActionTypes.findAll", query = "SELECT a FROM ActionTypes a"),
     @NamedQuery(name = "ActionTypes.findByActionTypeId", query = "SELECT a FROM ActionTypes a WHERE a.actionTypeId = :actionTypeId"),
@@ -27,18 +26,20 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ActionTypes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "action_type_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "action_type_id", columnDefinition="BIGSERIAL")
     private Long actionTypeId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
+    
     @Size(max = 2000)
     @Column(name = "description")
     private String description;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeActionId")
     private Collection<Logs> logsCollection;
 

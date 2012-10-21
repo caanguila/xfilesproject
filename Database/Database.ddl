@@ -10,7 +10,6 @@ ALTER TABLE Users DROP CONSTRAINT FKUsers864710;
 ALTER TABLE Messages DROP CONSTRAINT FKMessages341025;
 ALTER TABLE Groups DROP CONSTRAINT FKGroups485330;
 ALTER TABLE Files DROP CONSTRAINT FKFiles91587;
-ALTER TABLE Files DROP CONSTRAINT FKFiles611046;
 ALTER TABLE Files DROP CONSTRAINT "User Files";
 ALTER TABLE User_Files DROP CONSTRAINT FKUser_Files575887;
 ALTER TABLE User_Files DROP CONSTRAINT FKUser_Files865345;
@@ -37,6 +36,7 @@ DROP TABLE Password_Storage;
 DROP TABLE Logs;
 DROP TABLE Action_types;
 DROP TABLE Files_Groups;
+
 CREATE TABLE Users (
   user_id         BIGSERIAL NOT NULL, 
   name           varchar(255) NOT NULL, 
@@ -48,6 +48,7 @@ CREATE TABLE Users (
   photo          bytea, 
   type_id        int8 NOT NULL, 
   PRIMARY KEY (user_id));
+
 CREATE TABLE Types (
   type_id      BIGSERIAL NOT NULL, 
   category    varchar(255) NOT NULL, 
@@ -55,6 +56,7 @@ CREATE TABLE Types (
   description varchar(1000), 
   options     varchar(2000), 
   PRIMARY KEY (type_id));
+
 CREATE TABLE Messages (
   message_id     BIGSERIAL NOT NULL, 
   date_send     date, 
@@ -65,22 +67,26 @@ CREATE TABLE Messages (
   message       varchar(5000), 
   date_recieved date, 
   PRIMARY KEY (message_id));
+
 CREATE TABLE Groups (
   group_id     BIGSERIAL NOT NULL, 
   name        varchar(500) NOT NULL, 
   Description varchar(5000), 
   type_id     int8 NOT NULL, 
   PRIMARY KEY (group_id));
+
 CREATE TABLE Users_Groups (
   Users_user_id   int8 NOT NULL, 
   Groups_group_id int8 NOT NULL, 
   PRIMARY KEY (Users_user_id, 
   Groups_group_id));
+
 CREATE TABLE Users_Passwords (
   user_id  int8 NOT NULL, 
   password varchar(255) NOT NULL, 
   login    varchar(255) NOT NULL UNIQUE, 
   PRIMARY KEY (user_id));
+
 CREATE TABLE Files (
   file_id          BIGSERIAL NOT NULL, 
   name            varchar(1000) NOT NULL, 
@@ -96,6 +102,7 @@ CREATE TABLE Files (
   isFolder        bool NOT NULL, 
   user_id_psw     int8 NOT NULL, 
   PRIMARY KEY (file_id));
+
 CREATE TABLE User_Files (
   Users_user_id int8 NOT NULL, 
   Files_file_id int8 NOT NULL, 
@@ -149,7 +156,6 @@ ALTER TABLE Users ADD CONSTRAINT FKUsers864710 FOREIGN KEY (type_id) REFERENCES 
 ALTER TABLE Messages ADD CONSTRAINT FKMessages341025 FOREIGN KEY (type_id) REFERENCES Types (type_id);
 ALTER TABLE Groups ADD CONSTRAINT FKGroups485330 FOREIGN KEY (type_id) REFERENCES Types (type_id);
 ALTER TABLE Files ADD CONSTRAINT FKFiles91587 FOREIGN KEY (parent_id) REFERENCES Files (file_id);
-ALTER TABLE Files ADD CONSTRAINT FKFiles611046 FOREIGN KEY (created_by) REFERENCES Messages (message_id);
 ALTER TABLE Files ADD CONSTRAINT "User Files" FOREIGN KEY (created_by) REFERENCES Users (user_id);
 ALTER TABLE User_Files ADD CONSTRAINT FKUser_Files575887 FOREIGN KEY (Users_user_id) REFERENCES Users (user_id);
 ALTER TABLE User_Files ADD CONSTRAINT FKUser_Files865345 FOREIGN KEY (Files_file_id) REFERENCES Files (file_id);

@@ -27,9 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Groups implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "group_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "group_id",columnDefinition = "BIGSERIAL")
     private Long groupId;
     @Basic(optional = false)
     @NotNull
