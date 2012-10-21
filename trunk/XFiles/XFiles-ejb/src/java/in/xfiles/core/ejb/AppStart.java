@@ -1,11 +1,16 @@
 package in.xfiles.core.ejb;
 
+
+import in.xfiles.core.entity.Users;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import org.apache.log4j.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -15,18 +20,27 @@ import org.apache.log4j.Logger;
 @LocalBean
 @Startup
 public class AppStart {
-
+    @PersistenceContext
+    private EntityManager entityManager;
+    
     private static final Logger log = Logger.getLogger(AppStart.class);
     
     @PostConstruct
     public void startup()
     {
         log.info("Application Initialized");
+       
+       log.info(entityManager);
+       List rs = entityManager.createQuery("SELECT u FROM Users u").getResultList();
+      Users one = (Users)rs.get(0);
+      log.info(""+one.getName()+" "+one.getSurname()+"  "+one.getEmail()+"  "+one.getDateCreation());
+      log.info("Type "+one.getTypeId().getName());
     }
     
     @PreDestroy
     public void shutdown() {
         log.info("Application is about to shutdown");
+       
     }
     
 //    private void log4jInit() {

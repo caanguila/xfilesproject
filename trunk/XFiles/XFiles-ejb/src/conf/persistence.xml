@@ -13,6 +13,7 @@
     <class>in.xfiles.core.entity.UserSession</class>
     <class>in.xfiles.core.entity.Users</class>
     <class>in.xfiles.core.entity.UsersPasswords</class>
+    <class>in.xfiles.core.entity.Sequence</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

@@ -10,16 +10,14 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
+import java.math.BigInteger;
 /**
  *
  * @author 7
  */
 @Entity
 @Table(name = "users")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
     @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId"),
@@ -32,57 +30,72 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Users implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", columnDefinition = "BIGSERIAL")
     private Long userId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "surname")
     private String surname;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "date_creation")
     @Temporal(TemporalType.DATE)
     private Date dateCreation;
+    
     @Column(name = "date_suspended")
     @Temporal(TemporalType.DATE)
     private Date dateSuspended;
+    
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
+    
     @Size(max = 2000)
     @Column(name = "information")
     private String information;
+    
     @Lob
     @Column(name = "photo")
     private byte[] photo;
+    
     @ManyToMany(mappedBy = "usersCollection")
     private Collection<Files> filesCollection;
+    
     @ManyToMany(mappedBy = "usersCollection")
     private Collection<Groups> groupsCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdBy")
     private Collection<Files> filesCollection1;
+    
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne(optional = false)
     private Types typeId;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<UserSession> userSessionCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Logs> logsCollection;
+    
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
     private UsersPasswords usersPasswords;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipientId")
     private Collection<Messages> messagesCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "senderId")
     private Collection<Messages> messagesCollection1;
 

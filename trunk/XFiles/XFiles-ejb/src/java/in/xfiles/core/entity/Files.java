@@ -31,9 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "file_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "file_id",columnDefinition = "BIGSERIAL")
     private Long fileId;
     @Basic(optional = false)
     @NotNull

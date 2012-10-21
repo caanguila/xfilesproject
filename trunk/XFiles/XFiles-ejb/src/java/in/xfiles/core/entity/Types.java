@@ -29,9 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Types implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "type_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "type_id",columnDefinition = "BIGSERIAL")
     private Long typeId;
     @Basic(optional = false)
     @NotNull
