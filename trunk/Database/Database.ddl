@@ -36,6 +36,7 @@ DROP TABLE Password_Storage;
 DROP TABLE Logs;
 DROP TABLE Action_types;
 DROP TABLE Files_Groups;
+drop sequence xfiles_seq
 
 CREATE TABLE Users (
   user_id         BIGSERIAL NOT NULL, 
@@ -168,3 +169,4 @@ ALTER TABLE Logs ADD CONSTRAINT FKLogs759364 FOREIGN KEY (session_id) REFERENCES
 ALTER TABLE Files_Groups ADD CONSTRAINT FKFiles_Grou569633 FOREIGN KEY (Filesfile_id) REFERENCES Files (file_id);
 ALTER TABLE Files_Groups ADD CONSTRAINT FKFiles_Grou941164 FOREIGN KEY (Groupsgroup_id) REFERENCES Groups (group_id);
 ALTER TABLE Messages ADD CONSTRAINT FKMessages902981 FOREIGN KEY (recipient_id) REFERENCES Users (user_id);
+

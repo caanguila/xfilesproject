@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "file_id",columnDefinition = "BIGSERIAL")
     private Long fileId;
     @Basic(optional = false)
@@ -63,7 +64,7 @@ public class Files implements Serializable {
         @JoinColumn(name = "files_file_id", referencedColumnName = "file_id")}, inverseJoinColumns = {
         @JoinColumn(name = "users_user_id", referencedColumnName = "user_id")})
     @ManyToMany
-    private Collection<Users> usersCollection;
+    private Collection<User> usersCollection;
     @JoinTable(name = "files_groups", joinColumns = {
         @JoinColumn(name = "filesfile_id", referencedColumnName = "file_id")}, inverseJoinColumns = {
         @JoinColumn(name = "groupsgroup_id", referencedColumnName = "group_id")})
@@ -71,7 +72,7 @@ public class Files implements Serializable {
     private Collection<Groups> groupsCollection;
     @JoinColumn(name = "created_by", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private Users createdBy;
+    private User createdBy;
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne(optional = false)
     private Types typeId;
@@ -162,11 +163,11 @@ public class Files implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Users> getUsersCollection() {
+    public Collection<User> getUsersCollection() {
         return usersCollection;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection) {
+    public void setUsersCollection(Collection<User> usersCollection) {
         this.usersCollection = usersCollection;
     }
 
@@ -179,11 +180,11 @@ public class Files implements Serializable {
         this.groupsCollection = groupsCollection;
     }
 
-    public Users getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Users createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 

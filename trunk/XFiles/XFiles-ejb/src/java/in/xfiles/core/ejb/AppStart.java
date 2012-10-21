@@ -1,7 +1,7 @@
 package in.xfiles.core.ejb;
 
 
-import in.xfiles.core.entity.Users;
+import in.xfiles.core.entity.User;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -31,8 +31,8 @@ public class AppStart {
         log.info("Application Initialized");
        
        log.info(entityManager);
-       List rs = entityManager.createQuery("SELECT u FROM Users u").getResultList();
-      Users one = (Users)rs.get(0);
+       List rs = entityManager.createQuery("SELECT u FROM User u").getResultList();
+      User one = (User)rs.get(0);
       log.info(""+one.getName()+" "+one.getSurname()+"  "+one.getEmail()+"  "+one.getDateCreation());
       log.info("Type "+one.getTypeId().getName());
     }

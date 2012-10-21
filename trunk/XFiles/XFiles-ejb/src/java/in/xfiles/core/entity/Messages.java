@@ -28,7 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Messages implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "message_id",columnDefinition = "BIGSERIAL")
     private Long messageId;
     @Column(name = "date_send")
@@ -46,10 +47,10 @@ public class Messages implements Serializable {
     private Date dateRecieved;
     @JoinColumn(name = "recipient_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private Users recipientId;
+    private User recipientId;
     @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private Users senderId;
+    private User senderId;
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne(optional = false)
     private Types typeId;
@@ -106,19 +107,19 @@ public class Messages implements Serializable {
         this.dateRecieved = dateRecieved;
     }
 
-    public Users getRecipientId() {
+    public User getRecipientId() {
         return recipientId;
     }
 
-    public void setRecipientId(Users recipientId) {
+    public void setRecipientId(User recipientId) {
         this.recipientId = recipientId;
     }
 
-    public Users getSenderId() {
+    public User getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(Users senderId) {
+    public void setSenderId(User senderId) {
         this.senderId = senderId;
     }
 

@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Types implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "type_id",columnDefinition = "BIGSERIAL")
     private Long typeId;
     @Basic(optional = false)
@@ -51,7 +52,7 @@ public class Types implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
     private Collection<Files> filesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
-    private Collection<Users> usersCollection;
+    private Collection<User> usersCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
     private Collection<Groups> groupsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
@@ -120,11 +121,11 @@ public class Types implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Users> getUsersCollection() {
+    public Collection<User> getUsersCollection() {
         return usersCollection;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection) {
+    public void setUsersCollection(Collection<User> usersCollection) {
         this.usersCollection = usersCollection;
     }
 

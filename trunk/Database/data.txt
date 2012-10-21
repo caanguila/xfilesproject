@@ -1,0 +1,9 @@
+insert into Types(type_id, category, name)
+values(1, 'Admin', 'sysadm');
+
+insert into Users(user_id, name, surname, date_creation, email,type_id)
+values(1000, 'Alexander', 'Kozlovskiy', current_date, 'out31@rambler.ru', 1);
+
+insert into action_types(action_type_id, name, description)
+values(1,'User creation', 'Action should occers when user created');
+

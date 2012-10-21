@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class UserSession implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "session_id",columnDefinition = "BIGSERIAL")
     private Long sessionId;
     @Basic(optional = false)
@@ -40,7 +41,7 @@ public class UserSession implements Serializable {
     private String brouser;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sessionId")
     private Collection<Logs> logsCollection;
 
@@ -80,11 +81,11 @@ public class UserSession implements Serializable {
         this.brouser = brouser;
     }
 
-    public Users getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

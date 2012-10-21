@@ -25,7 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UsersPasswords implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "user_id",columnDefinition = "BIGSERIAL")
     private Long userId;
     @Basic(optional = false)
@@ -40,7 +41,7 @@ public class UsersPasswords implements Serializable {
     private String login;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private Users users;
+    private User users;
 
     public UsersPasswords() {
     }
@@ -79,11 +80,11 @@ public class UsersPasswords implements Serializable {
         this.login = login;
     }
 
-    public Users getUsers() {
+    public User getUsers() {
         return users;
     }
 
-    public void setUsers(Users users) {
+    public void setUsers(User users) {
         this.users = users;
     }
 

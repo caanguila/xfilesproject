@@ -5,7 +5,7 @@
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.Files;
-import in.xfiles.core.entity.Users;
+import in.xfiles.core.entity.User;
 import java.math.BigInteger;
 import java.util.Collection;
 import javax.ejb.Stateless;
@@ -17,11 +17,11 @@ import javax.ejb.Stateless;
 @Stateless
 public class GroupManager implements GroupManagerLocal {
     
-    public Collection<Users> getUsers(BigInteger groupId){
+    public Collection<User> getUsers(BigInteger groupId){
         return null;
     }
     
-    public Collection<Users> getUsersByType(BigInteger typeId){
+    public Collection<User> getUsersByType(BigInteger typeId){
         return null;
     }
     
