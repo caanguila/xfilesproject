@@ -26,7 +26,8 @@ import java.math.BigInteger;
 public class ActionTypes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "action_type_id", columnDefinition="BIGSERIAL")
     private Long actionTypeId;
     

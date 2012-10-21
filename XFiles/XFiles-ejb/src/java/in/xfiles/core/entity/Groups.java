@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Groups implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "group_id",columnDefinition = "BIGSERIAL")
     private Long groupId;
     @Basic(optional = false)
@@ -44,7 +45,7 @@ public class Groups implements Serializable {
         @JoinColumn(name = "groups_group_id", referencedColumnName = "group_id")}, inverseJoinColumns = {
         @JoinColumn(name = "users_user_id", referencedColumnName = "user_id")})
     @ManyToMany
-    private Collection<Users> usersCollection;
+    private Collection<User> usersCollection;
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne(optional = false)
     private Types typeId;
@@ -95,11 +96,11 @@ public class Groups implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Users> getUsersCollection() {
+    public Collection<User> getUsersCollection() {
         return usersCollection;
     }
 
-    public void setUsersCollection(Collection<Users> usersCollection) {
+    public void setUsersCollection(Collection<User> usersCollection) {
         this.usersCollection = usersCollection;
     }
 

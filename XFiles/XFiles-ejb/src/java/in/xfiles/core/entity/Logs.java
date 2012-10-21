@@ -26,7 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Logs implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "log_id",columnDefinition = "BIGSERIAL")
     private Long logId;
     @Basic(optional = false)
@@ -42,7 +43,7 @@ public class Logs implements Serializable {
     private String message;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private User userId;
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
     @ManyToOne(optional = false)
     private UserSession sessionId;
@@ -94,11 +95,11 @@ public class Logs implements Serializable {
         this.message = message;
     }
 
-    public Users getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

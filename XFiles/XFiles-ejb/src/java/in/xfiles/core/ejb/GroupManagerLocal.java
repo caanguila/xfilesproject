@@ -5,7 +5,7 @@
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.Files;
-import in.xfiles.core.entity.Users;
+import in.xfiles.core.entity.User;
 import java.math.BigInteger;
 import java.util.Collection;
 import javax.ejb.Local;
@@ -16,9 +16,9 @@ import javax.ejb.Local;
  */
 @Local
 interface GroupManagerLocal {
-     Collection<Users> getUsers(BigInteger groupId);
+     Collection<User> getUsers(BigInteger groupId);
     
-     Collection<Users> getUsersByType(BigInteger typeId);
+     Collection<User> getUsersByType(BigInteger typeId);
     
      Collection<Files> getGroupFilesById(BigInteger groupId);
 }

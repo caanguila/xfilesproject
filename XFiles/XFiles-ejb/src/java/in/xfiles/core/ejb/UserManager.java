@@ -5,7 +5,7 @@
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.Types;
-import in.xfiles.core.entity.Users;
+import in.xfiles.core.entity.User;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Map;
@@ -13,9 +13,9 @@ import java.util.Set;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import org.apache.log4j.Logger;
-
+import java.util.List;
 /**
  *
  * @author 7
@@ -28,25 +28,20 @@ public class UserManager implements UserManagerLocal{
     
      private static final Logger log = Logger.getLogger(UserManager.class);
     
-    public Users createUser(Map Params){
-        Users user = null;
+    public User createUser(Map<String, Object> Params){
+        User user = null;
         //TO-DO Realisation
         return user;
     }
     
-    public Users createUser(Set Params){
-        Users user = null;
-        //TO-DO Realisation
-        return user;
-    }
-    
-    public Users createUser(String name, String surname, Date dateCreation, Date dateSuspend, String email, String information, BigInteger type ){
+       
+    public User createUser(String name, String surname, Date dateCreation, Date dateSuspend, String email, String information, BigInteger type ){
         Long typeID = new Long(type.toString());
         Types otype = entityManager.find(Types.class, typeID);
         
         if(otype instanceof Types){
       
-        Users user = new Users();
+        User user = new User();
       //  user.setUserId(new Long("1001"));
         user.setName(name);
         user.setSurname(surname);
@@ -55,10 +50,11 @@ public class UserManager implements UserManagerLocal{
         user.setEmail(email);
         user.setInformation(information);
         user.setTypeId(otype);
-        log.info("User: "+user);
+        
        
        entityManager.persist(user);
-  
+       log.info("User: "+user);
+       
         return user;
         }
         else{
@@ -69,15 +65,30 @@ public class UserManager implements UserManagerLocal{
         
     }
     
-    public boolean removeUserById(BigInteger userId){
+    public boolean removeUserById(Long userId){
         //TO-DO Realisation
         return false;
     }
     
-    public Users getUserById(BigInteger userId){
-       Users user = null;
+    public User getUserById(Long userId){
+       User user = null;
         //TO-DO Realisation
         return user; 
     }
+//    private User findUserByDate(Date dateCreation){
+//        Query query = entityManager.createQuery("select q from User q where q.dateCreation=:date");
+//        query.setParameter("date", dateCreation);
+//        List<User> list = query.getResultList();
+//        if(!list.isEmpty()){
+//            User user = list.get(0);
+//            log.debug("User found: "+user);
+//            return user;
+//        }else{
+//            log.warn("Can't find user by date: "+dateCreation);
+//        }
+//        return null;
+//    }
+    
+    
     
 }
