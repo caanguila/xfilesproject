@@ -9,7 +9,7 @@
     <ui:composition template="templates/creatively-index.xhtml">
 
         <ui:param name="pageTitle" value="X Files"/>
-        
+
         <ui:define name="showcase">
             <!-- Showcase title -->
             <h2 class="grid_12">X Files</h2>
@@ -18,80 +18,82 @@
             <section class="tagline grid_12">
                 <p>Modern &amp; customizable premium site template.</p>
                 <div id="my">
-                    <a href="#" id="log_in" class="button_green_big"
-                           rel="popover"
-                           data-placement="top"
-                          >Sign In</a>
-                   
- <script>  
-$(function ()  
-{ $("#log_in").popover({
-  html:true,
-            title:function () {
-                return $(this).html();
-            },
-            content:function () {
-                                       
-                return $('#myDiv').html();
-         
-            }
-     
-        });
-      
-  
-});
+                    <a href="#" id="log_in" class="button_green_big" rel="popover" data-placement="top">Sign In</a>
+                    <!--                    <a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
+                    -->
+                    <!-- Modal-->
+                    <span>or</span>
+                    <a href="#myModal" id="buy" data-toggle="modal" class="button_green_big">Register</a>
+                </div>
 
-</script> 
-                    
-                    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Modal header</h3>
-  </div>
-  <div class="modal-body">
-    <h:form prependId="false">
-        <h:panelGrid id="abc" columns="3">
+            </section>
+        </ui:define>
+
+        <ui:define name="dialogs">
+            <div id="log_in_content" style="display: none">
+
+                <h:form prependId="false">
+                    <h:panelGrid columns="2">
+                        <h:outputText id="loginLabel" value="Login:"/> 
+                        <h:inputText id="login" value="#{loginBean.login}" />
+                        <h:outputText id="passwordLabel" value="Password:"/>
+                        <h:inputSecret id="password" value="#{loginBean.password}" />
+                    </h:panelGrid>
+                    <div style="text-align: right;">
+                        <a href="#myModal" data-toggle="modal" class="button_grey">Register</a>
+                        <a href="#" id="login_try" class="button_green">Login</a>
+                    </div>
+                </h:form>
+            </div>
+            
+            <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Modal header</h3>
+                </div>
+                <div class="modal-body">
+                    <h:form prependId="false">
+                        <h:panelGrid id="abc" columns="3" style="text-align: right;">
                             <h:outputText id="registerLogin" value="Login:"/> 
                             <h:inputText id="registerLogin_input" value="#{loginBean.login}" />
                             <h:message for="registerLogin_input" />
                             <h:outputText id="registerPassword" value="Password:"/>
-                            <h:inputText id="registerPassword_input"  required="true" value="#{loginBean.password}" >
-                              
-                            </h:inputText>
+                            <h:inputSecret id="registerPassword_input"  required="true" value="#{loginBean.password}" >
+
+                            </h:inputSecret>
                             <h:message for="registerPassword_input" />
-                            
+
                             <h:outputText id="registerPassword1" value="Confirm password:"  />
-                            <h:inputText id="registerPassword_input1"  required="true" value="#{loginBean.password1}">
-                               
-                            </h:inputText>
+                            <h:inputSecret id="registerPassword_input1"  required="true" value="#{loginBean.password1}">
+
+                            </h:inputSecret>
                             <h:message for="registerPassword_input1"  />
                         </h:panelGrid>
-        <h:commandButton value="Login" id="login_try1" class="btn" type="submit"  >
-            
-        </h:commandButton>
-                        <h:commandButton value="Save changes" class="btn btn-primary" action="#{loginBean.confirm()}"/>
+                        <div style="text-align: right;">
+                            <h:commandButton value="Register" class="btn btn-primary" action="#{loginBean.confirm}"/>
+                        </div>
                     </h:form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-   
-  </div>
-</div>
-                   
-<!--                    <a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
- -->
-<!-- Modal-->
-
-
-
-                    
-                       
-                               
-                    <span>or</span>
-                    
-                    <a href="#myModal" id="buy" data-toggle="modal" class="button_green_big">Register</a>
                 </div>
-            </section>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+
+                </div>
+            </div>
+            
+            <script>  
+                        $(function () { 
+                            $("#log_in").popover({
+                                html:      true,
+                                title:     function () {
+                                    return $(this).html();
+                                },
+                                content:   function () {
+                                    return $('#log_in_content').html(); 
+                                }  
+                            });
+                        });
+
+                    </script> 
         </ui:define>
 
         <ui:define name="sidebar">
@@ -157,84 +159,13 @@ $(function ()
         </ui:define>
 
         <ui:define name="toolbar">
-            <div id="myDiv" style="display: none">
-                
-                    <h:form prependId="false">
-                        <h:panelGrid columns="2">
-                            <h:outputText id="loginLabel" value="Login:"/> 
-                            <h:inputText id="login" value="#{loginBean.login}" />
-                            <h:outputText id="passwordLabel" value="Password:"/>
-                            <h:inputText id="password" value="#{loginBean.password}" />
-                        </h:panelGrid>
-                        <h:commandButton value="Login" id="login_try" class="btn" type="submit" action="#{loginBean.process()}" />
-                    </h:form>
-               
-            </div>
-            
             <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
 
-                <div class="options float">
+            <div class="options float">
 
-                    <section class="header_color clearfix">
-                        <h2>Header pattern</h2>
-                        <div class="header_white">
-                            <a href="#" data-src="light_honeycomb.png"></a>
-                            <a href="#" data-src="little_pluses.png"></a>
-                            <a href="#" data-src="45degreee_fabric.png"></a>
-                            <a href="#" data-src="60degree_gray.png"></a>	
-                            <a href="#" data-src="beige_paper.png"></a>
-                            <a href="#" data-src="bright_squares.png"></a>
-                            <a href="#" data-src="brushed_alu.png"></a>
-                            <a href="#" data-src="concrete_wall_2.png"></a>
-                            <a href="#" data-src="concrete_wall_3.png"></a>
-                            <a href="#" data-src="white_sand.png"></a>
-                            <a href="#" data-src="vichy.png"></a>
-                            <a href="#" data-src="wavecut.png"></a>
-                            <a href="#" data-src="white_carbon.png"></a>
-                            <a href="#" data-src="rockywall.png"></a>
-                            <a href="#" data-src="smooth_wall.png"></a>
-                            <a href="#" data-src="noisy.png"></a>
-                            <a href="#" data-src="old_mathematics.png"></a>
-                            <a href="#" data-src="paper_1.png"></a>
-                            <a href="#" data-src="paper_2.png"></a>
-                            <a href="#" data-src="paper_3.png"></a>
-                            <a href="#" data-src="pinstripe.png"></a>
-                            <a href="#" data-src="leather_1.png"></a>
-                            <a href="#" data-src="cork_1.png"></a>
-                            <a href="#" data-src="double_lined.png"></a>
-                            <a href="#" data-src="exclusive_paper.png"></a>
-                            <a href="#" data-src="fabric_1.png"></a>
-                            <a href="#" data-src="soft_wallpaper.png"></a>
-                            <a href="#" data-src="subtle_freckles.png"></a>
-                            <a href="#" data-src="subtle_orange_emboss.png"></a>
-                            <a href="#" data-src="green_gobbler.png"></a>
-                            <a href="#" data-src="grunge_wall.png"></a>
-                            <a href="#" data-src="handmadepaper.png"></a>
-                        </div>
-                        <div class="header_black">
-                            <a href="#" data-src="always_grey.png"></a>
-                            <a href="#" data-src="brushed_alu_dark.png"></a>
-                            <a href="#" data-src="padded.png"></a>
-                            <a href="#" data-src="gray_sand.png"></a>
-                            <a href="#" data-src="crossed_stripes.png"></a>
-                            <a href="#" data-src="green-fibers.png"></a>
-                            <a href="#" data-src="tactile_noise.png"></a>
-                            <a href="#" data-src="black_denim.png"></a>
-                            <a href="#" data-src="black-Linen.png"></a>
-                            <a href="#" data-src="blackmamba.png"></a>
-                            <a href="#" data-src="carbon_fibre.png"></a>
-                            <a href="#" data-src="dark_stripes.png"></a>
-                            <a href="#" data-src="darth_stripe.png"></a>
-                            <a href="#" data-src="concrete_wall.png"></a>
-                            <a href="#" data-src="black_paper.png"></a>
-                            <a href="#" data-src="micro_carbon.png"></a>
-                            <a href="#" data-src="random_grey_variations.png"></a>
-                            <a href="#" data-src="wood_1.png"></a>
-                        </div>
-                    </section>
-
-                    <section class="showcase_color clearfix">
-                        <h2>Showcase pattern</h2>
+                <section class="header_color clearfix">
+                    <h2>Header pattern</h2>
+                    <div class="header_white">
                         <a href="#" data-src="light_honeycomb.png"></a>
                         <a href="#" data-src="little_pluses.png"></a>
                         <a href="#" data-src="45degreee_fabric.png"></a>
@@ -267,13 +198,67 @@ $(function ()
                         <a href="#" data-src="green_gobbler.png"></a>
                         <a href="#" data-src="grunge_wall.png"></a>
                         <a href="#" data-src="handmadepaper.png"></a>
-                    </section>
+                    </div>
+                    <div class="header_black">
+                        <a href="#" data-src="always_grey.png"></a>
+                        <a href="#" data-src="brushed_alu_dark.png"></a>
+                        <a href="#" data-src="padded.png"></a>
+                        <a href="#" data-src="gray_sand.png"></a>
+                        <a href="#" data-src="crossed_stripes.png"></a>
+                        <a href="#" data-src="green-fibers.png"></a>
+                        <a href="#" data-src="tactile_noise.png"></a>
+                        <a href="#" data-src="black_denim.png"></a>
+                        <a href="#" data-src="black-Linen.png"></a>
+                        <a href="#" data-src="blackmamba.png"></a>
+                        <a href="#" data-src="carbon_fibre.png"></a>
+                        <a href="#" data-src="dark_stripes.png"></a>
+                        <a href="#" data-src="darth_stripe.png"></a>
+                        <a href="#" data-src="concrete_wall.png"></a>
+                        <a href="#" data-src="black_paper.png"></a>
+                        <a href="#" data-src="micro_carbon.png"></a>
+                        <a href="#" data-src="random_grey_variations.png"></a>
+                        <a href="#" data-src="wood_1.png"></a>
+                    </div>
+                </section>
 
-                </div>
+                <section class="showcase_color clearfix">
+                    <h2>Showcase pattern</h2>
+                    <a href="#" data-src="light_honeycomb.png"></a>
+                    <a href="#" data-src="little_pluses.png"></a>
+                    <a href="#" data-src="45degreee_fabric.png"></a>
+                    <a href="#" data-src="60degree_gray.png"></a>	
+                    <a href="#" data-src="beige_paper.png"></a>
+                    <a href="#" data-src="bright_squares.png"></a>
+                    <a href="#" data-src="brushed_alu.png"></a>
+                    <a href="#" data-src="concrete_wall_2.png"></a>
+                    <a href="#" data-src="concrete_wall_3.png"></a>
+                    <a href="#" data-src="white_sand.png"></a>
+                    <a href="#" data-src="vichy.png"></a>
+                    <a href="#" data-src="wavecut.png"></a>
+                    <a href="#" data-src="white_carbon.png"></a>
+                    <a href="#" data-src="rockywall.png"></a>
+                    <a href="#" data-src="smooth_wall.png"></a>
+                    <a href="#" data-src="noisy.png"></a>
+                    <a href="#" data-src="old_mathematics.png"></a>
+                    <a href="#" data-src="paper_1.png"></a>
+                    <a href="#" data-src="paper_2.png"></a>
+                    <a href="#" data-src="paper_3.png"></a>
+                    <a href="#" data-src="pinstripe.png"></a>
+                    <a href="#" data-src="leather_1.png"></a>
+                    <a href="#" data-src="cork_1.png"></a>
+                    <a href="#" data-src="double_lined.png"></a>
+                    <a href="#" data-src="exclusive_paper.png"></a>
+                    <a href="#" data-src="fabric_1.png"></a>
+                    <a href="#" data-src="soft_wallpaper.png"></a>
+                    <a href="#" data-src="subtle_freckles.png"></a>
+                    <a href="#" data-src="subtle_orange_emboss.png"></a>
+                    <a href="#" data-src="green_gobbler.png"></a>
+                    <a href="#" data-src="grunge_wall.png"></a>
+                    <a href="#" data-src="handmadepaper.png"></a>
+                </section>
+
+            </div>
         </ui:define>
-        
-    </ui:composition>
-    
-    
 
+    </ui:composition>
 </html>

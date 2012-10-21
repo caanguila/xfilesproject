@@ -18,7 +18,8 @@
         </h:head>
         <h:body>
 
-            <!-- Wrapper begin --><div id="wrapper" class="clearfix">
+            <!-- Wrapper begin -->
+            <div id="wrapper" class="clearfix">
 
                 <!-- Header -->
                 <header>
@@ -82,7 +83,7 @@
                     <section id="title">
 
                         <!-- Heading -->
-                        <h1 class="grid_5">Pages <span>#{pageTitle}</span></h1>
+                        <h1 class="grid_5"><span>#{pageTitle}</span></h1>
 
                         <!-- Submenu -->
                         <nav class="grid_7">
@@ -95,7 +96,7 @@
                     <section class="sidebar grid_4">
 
                         <!-- Categories -->
-                        <ui:insert name="categories"/>
+                        <ui:insert name="sidebar"/>
 
                     </section>
 
@@ -117,15 +118,6 @@
 
             <!-- Load main script -->
             <script src="js/script.js"></script>
-
-            <!-- Load Nivo Slider -->
-            <script src="js/libs/jquery.nivo.slider.pack.js"></script>
-
-            <!-- Load Fancybox -->
-            <script src="js/libs/jquery.fancybox-1.3.4.pack.js"></script>
-
-            <!-- Load Twitter news stream -->
-            <script src="js/libs/jquery.tweet.js"></script>
 
 
             <!-- Customization -->
