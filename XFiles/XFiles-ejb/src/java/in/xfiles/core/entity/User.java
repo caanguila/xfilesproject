@@ -19,18 +19,19 @@ import java.math.BigInteger;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
-    @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId"),
-    @NamedQuery(name = "Users.findByName", query = "SELECT u FROM Users u WHERE u.name = :name"),
-    @NamedQuery(name = "Users.findBySurname", query = "SELECT u FROM Users u WHERE u.surname = :surname"),
-    @NamedQuery(name = "Users.findByDateCreation", query = "SELECT u FROM Users u WHERE u.dateCreation = :dateCreation"),
-    @NamedQuery(name = "Users.findByDateSuspended", query = "SELECT u FROM Users u WHERE u.dateSuspended = :dateSuspended"),
-    @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
-    @NamedQuery(name = "Users.findByInformation", query = "SELECT u FROM Users u WHERE u.information = :information")})
-public class Users implements Serializable {
+    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
+    @NamedQuery(name = "Users.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "Users.findBySurname", query = "SELECT u FROM User u WHERE u.surname = :surname"),
+    @NamedQuery(name = "Users.findByDateCreation", query = "SELECT u FROM User u WHERE u.dateCreation = :dateCreation"),
+    @NamedQuery(name = "Users.findByDateSuspended", query = "SELECT u FROM User u WHERE u.dateSuspended = :dateSuspended"),
+    @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "Users.findByInformation", query = "SELECT u FROM User u WHERE u.information = :information")})
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "user_id", columnDefinition = "BIGSERIAL")
     private Long userId;
     
@@ -99,14 +100,14 @@ public class Users implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "senderId")
     private Collection<Messages> messagesCollection1;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(Long userId) {
+    public User(Long userId) {
         this.userId = userId;
     }
 
-    public Users(Long userId, String name, String surname, Date dateCreation, String email) {
+    public User(Long userId, String name, String surname, Date dateCreation, String email) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
@@ -267,10 +268,10 @@ public class Users implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Users)) {
+        if (!(object instanceof User)) {
             return false;
         }
-        Users other = (Users) object;
+        User other = (User) object;
         if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
             return false;
         }
