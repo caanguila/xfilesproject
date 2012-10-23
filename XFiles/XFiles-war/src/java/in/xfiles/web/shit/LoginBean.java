@@ -74,9 +74,11 @@ private String login;
     }
     
     public void confirm(){
-        UserManagerLocal userManager = (UserManagerLocal) EJBHelper.getInstance().findBeanByName("java:global/XFiles/XFiles-ejb/UserManager!in.xfiles.core.ejb.UserManager");
-        SessionManagerLocal sessionManager = (SessionManagerLocal) EJBHelper.getInstance().findBeanByName("java:global/XFiles/XFiles-ejb/SessionManager!in.xfiles.core.ejb.SessionManager");
-        LogManagerLocal logManager = (LogManagerLocal) EJBHelper.getInstance().findBeanByName("java:global/XFiles/XFiles-ejb/LogManager!in.xfiles.core.ejb.LogManager");
+        EJBHelper ejbHelper = EJBHelper.getInstance();
+        UserManagerLocal userManager = ejbHelper.getBean(UserManagerLocal.class);
+        SessionManagerLocal sessionManager = ejbHelper.getBean(SessionManagerLocal.class);
+        LogManagerLocal logManager =  ejbHelper.getBean(LogManagerLocal.class);
+       
         
         System.out.printf("Login: "+login+" password: "+password+" password1: "+password1);
         User user = userManager.createUser(login, "Danshin", new Date(), null, "danon@frtk.ru", "I'm a proger", new BigInteger("1"));
