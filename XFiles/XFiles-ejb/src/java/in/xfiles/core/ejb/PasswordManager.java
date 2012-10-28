@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.ejb;
 
-import java.math.BigInteger;
 import javax.ejb.Stateless;
 
 /**
@@ -14,8 +9,12 @@ import javax.ejb.Stateless;
 @Stateless
 public class PasswordManager implements PasswordManagerLocal{
     
-    public boolean checkUserPassword(BigInteger userId, String password){
-    return false;
+    public boolean checkUserPassword(Long userId, String password){
+        return false;
+    }
+    
+    public boolean checkUserPassword(String login, String password) {
+        return false;
     }
     
 }

@@ -1,94 +1,94 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.Types;
 import in.xfiles.core.entity.User;
-import java.math.BigInteger;
+import in.xfiles.core.entity.UsersPasswords;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.*;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.apache.log4j.Logger;
-import java.util.List;
+
 /**
  *
  * @author 7
  */
 @Stateless
 @LocalBean
-public class UserManager implements UserManagerLocal{
+public class UserManager implements UserManagerLocal {
+
     @PersistenceContext
     private EntityManager entityManager;
-    
-     private static final Logger log = Logger.getLogger(UserManager.class);
-    
-    public User createUser(Map<String, Object> Params){
+    private final Logger log = Logger.getLogger(UserManager.class);
+    @PersistenceContext
+    private EntityManager em;
+
+    @Override
+    public User createUser(Map<String, Object> params) {
         User user = null;
-        //TO-DO Realisation
+        //TO-DO Implementation
         return user;
     }
-    
-       
-    public User createUser(String name, String surname, Date dateCreation, Date dateSuspend, String email, String information, BigInteger type ){
-        Long typeID = new Long(type.toString());
+
+    @Override
+    public User createUser(Long typeID, String email, String name, String surname, String password, String information) {
         Types otype = entityManager.find(Types.class, typeID);
-        
-        if(otype instanceof Types){
-      
-        User user = new User();
-      //  user.setUserId(new Long("1001"));
-        user.setName(name);
-        user.setSurname(surname);
-        user.setDateCreation(dateCreation);
-        user.setDateSuspended(dateSuspend);
-        user.setEmail(email);
-        user.setInformation(information);
-        user.setTypeId(otype);
-        
-       
-       entityManager.persist(user);
-       log.info("User: "+user);
-       
-        return user;
-        }
-        else{
-         log.warn("Type id font find");   
+
+        if (otype != null) {
+
+            User user = new User();
+            user.setName(name);
+            user.setSurname(surname);
+            user.setDateCreation(new Date());
+            user.setEmail(email);
+            user.setInformation(information);
+            user.setTypeId(otype);
+
+            entityManager.persist(user);
+            
+            UsersPasswords up = new UsersPasswords(user.getUserId());
+            up.setLogin(email);
+            up.setPassword(password);
+            entityManager.persist(up);
+            
+            log.info("createUser: User created: " + user);
+
+            return user;
+        } else {
+            log.warn("createUser(): TypeID not found: "+typeID);
             return null;
         }
-        //TO-DO Realisation
-        
     }
-    
-    public boolean removeUserById(Long userId){
-        //TO-DO Realisation
+
+    @Override
+    public boolean removeUserById(Long userId) {
+        User u = getUserById(userId);
+        if (u == null) {
+            return false;
+        }
+        em.remove(u);
         return false;
     }
-    
-    public User getUserById(Long userId){
-       User user = null;
-        //TO-DO Realisation
-        return user; 
+
+    @Override
+    public User getUserById(Long userId) {
+        Query q = em.createNamedQuery("User.findByUserId", User.class);
+        q.setParameter("userId", userId);
+        return (User) q.getSingleResult();
     }
-//    private User findUserByDate(Date dateCreation){
-//        Query query = entityManager.createQuery("select q from User q where q.dateCreation=:date");
-//        query.setParameter("date", dateCreation);
-//        List<User> list = query.getResultList();
-//        if(!list.isEmpty()){
-//            User user = list.get(0);
-//            log.debug("User found: "+user);
-//            return user;
-//        }else{
-//            log.warn("Can't find user by date: "+dateCreation);
-//        }
-//        return null;
-//    }
-    
-    
-    
+
+    @Override
+    public Long tryLogin(String login, String pwd) {
+        Query q = em.createNamedQuery("UsersPasswords.findByLoginAndPassword", UsersPasswords.class);
+        q.setMaxResults(1);
+        List<UsersPasswords> l = q.getResultList();
+        if (l.isEmpty()) {
+            return null;
+        }
+        return l.get(0).getUserId();
+    }
 }

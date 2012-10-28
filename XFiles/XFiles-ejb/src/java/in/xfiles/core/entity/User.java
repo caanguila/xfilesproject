@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -11,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
-import java.math.BigInteger;
 /**
  *
  * @author 7
@@ -19,19 +14,18 @@ import java.math.BigInteger;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
-    @NamedQuery(name = "Users.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "Users.findBySurname", query = "SELECT u FROM User u WHERE u.surname = :surname"),
-    @NamedQuery(name = "Users.findByDateCreation", query = "SELECT u FROM User u WHERE u.dateCreation = :dateCreation"),
-    @NamedQuery(name = "Users.findByDateSuspended", query = "SELECT u FROM User u WHERE u.dateSuspended = :dateSuspended"),
-    @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "Users.findByInformation", query = "SELECT u FROM User u WHERE u.information = :information")})
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
+    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "User.findBySurname", query = "SELECT u FROM User u WHERE u.surname = :surname"),
+    @NamedQuery(name = "User.findByDateCreation", query = "SELECT u FROM User u WHERE u.dateCreation = :dateCreation"),
+    @NamedQuery(name = "User.findByDateSuspended", query = "SELECT u FROM User u WHERE u.dateSuspended = :dateSuspended"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByInformation", query = "SELECT u FROM User u WHERE u.information = :information")})
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", columnDefinition = "BIGSERIAL")
     private Long userId;
     

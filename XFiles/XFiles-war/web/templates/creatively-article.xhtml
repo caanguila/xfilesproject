@@ -85,7 +85,7 @@
                         <h1 class="grid_5">Pages <span>#{pageTitle}</span></h1>
 
                         <!-- Submenu -->
-                        <nav class="grid_7">
+                        <nav class="grid_7" style="display: block; width: 100%;">
                             <ui:insert name="submenu"/>
                         </nav>
 
@@ -134,53 +134,7 @@
                 <ui:insert name="toolbar"/>
 
             </div>
-            <script>
-                $(function () {
-                    $(".options a").each(function () {
-                        $(this).css("background", "url(./img/patterns/" + $(this).attr("data-src") + ")");
-                    });
-                    $("#customization section a").click(function () {
-                        $(this).parents('section').find('a').removeClass("selected");
-                        $(this).addClass("selected");
-                    });
-                    $("#customization .header_color a").click(function () {
-                        $("header")
-                        .css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")")
-                        .removeClass("header_black")
-                        .removeClass("header_white")
-                        .addClass($(this).parent().attr("class"))
-                        ;
-                    });
-                    if ($("#showcase").length == 0) $("#customization .showcase_color").css('display', 'none');
-                    $("#customization .showcase_color a").click(function () {
-                        $("#showcase").css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")");
-                    });
-                    $("#customization .hide").toggle(function () {
-                        $("#customization .options").slideUp("slow", function () {
-                            $("#customization").animate({"margin-left": "-110px"}, "slow");
-                            $("#customization .hide img").attr("src", "img/show.png");		
-                        });	
-                    }, function () {
-                        $("#customization").animate({"margin-left": "10px"}, "slow", function () {
-                            $("#customization .options").slideDown("slow");
-                            $("#customization .hide img").attr("src", "img/hide.png");
-                        });	
-                    });
-                });
-            </script>
-
-            <!-- Google Analytics -->
-            <script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', 'UA-2529322-9']);
-                _gaq.push(['_trackPageview']);
-
-                (function() {
-                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>
+            <ui:include src="creatively-bottom-scripts.xhtml"/>
 
         </h:body>
     </f:view>

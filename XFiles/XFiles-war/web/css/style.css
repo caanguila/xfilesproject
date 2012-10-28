@@ -500,6 +500,7 @@ header {
 		}
 	#title nav {
 		text-align: right;
+                line-height: 20px;
 	}
 		#title ul {
 		}

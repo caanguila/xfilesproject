@@ -13,54 +13,106 @@
 
         <ui:define name="submenu">
             <ul>
-                <li><a href="#">Pricing boxes</a></li>
-                <li><a href="#">Pricing table</a></li>
-                <li><a href="#">E-shop</a></li>
-                <li class="selected"><a href="#">Article Example</a></li>
+                <li><a href="#{request.contextPath}/faces/login.xhtml">Sign In</a></li>
+                <li><a href="#{request.contextPath}/faces/recover.xhtml">Recover Password</a></li>
+                <li class="selected"><a href="#">Registration Form</a></li>
             </ul>
         </ui:define>
 
         <ui:define name="sidebar">
             <h3>See Also</h3>
             <ul class="categories">
-                <li><a href="#">Contact us</a></li>
-                <li><a href="#">Terms of use</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Tutorial</a></li>
+                <li><a href="#{request.contextPath}/faces/contacts.xhtml">Contact us</a></li>
+                <li><a href="#{request.contextPath}/faces/terms.xhtml">Terms of use</a></li>
+                <li><a href="#{request.contextPath}/faces/faq.xhtml">FAQ</a></li>
+                <li><a href="#{request.contextPath}/faces/tutorial.xhtml">Tutorial</a></li>
             </ul>	
         </ui:define>
 
         <ui:define name="content">
-            <p><strong>Here is an example of Registration page.</strong></p>
-            <div id="register">
-                <form autocomplete="on"> 
-                    <table style="width: 400px; vertical-align: central;">
+            <div id="registration_form_container">
+                <h:form id="registration_form" prependId="false"> 
+                    <p><strong>Registration</strong></p>
+                    <h:messages id="messages" title="Validation Errors" showDetail="true"
+                                style="margin-left: 0;"
+                                errorStyle="color: red;">
+                    </h:messages>
+                    <table style="width: 500px; vertical-align: central;">
                         <tr>
-                            <td style="width: 60%"><label for="usernamesignup" data-icon="u">Your username</label></td>
-                            <td style="width: 50%;"><input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" /></td>
-                        </tr>
-                        <tr>
-                            <td><label for="emailsignup" data-icon="e" > Your email</label></td>
-                            <td><input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="mysupermail@mail.com"/></td> 
+                            <td><label for="emailsignup" data-icon="e" >Your email</label></td>
+                            <td><h:inputText id="emailsignup" type="email" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/></td> 
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup" data-icon="p">Your password </label></td>
-                            <td><input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO"/></td>
+                            <td><h:inputSecret id="passwordsignup" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/></td>
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup_confirm" data-icon="p">Please confirm your password </label></td>
-                            <td><input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/></td>
+                            <td><h:inputSecret id="passwordsignup_confirm" placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/></td>
+                        </tr>
+                        <tr>
+                            <td><label for="first_name" data-icon="e" >First Name</label></td>
+                            <td><h:inputText id="first_name" placeholder="John" value="#{registrationBean.firstName}"/></td> 
+                        </tr>
+                        <tr>
+                            <td><label for="last_name" data-icon="e" >Last Name</label></td>
+                            <td><h:inputText id="last_name" placeholder="Doe" value="#{registrationBean.lastName}"/></td> 
+                        </tr>
+                        <tr>
+                            <td><label for="info" data-icon="e" >Extra Info</label></td>
+                            <td><h:inputText id="info" value="#{registrationBean.info}"/></td> 
                         </tr>
                         <tr> 
                             <td>  
-                            Already a member ?
-                            <a href="#tologin"> Go and log in </a>
+                                Already a member ?
+                                <a href="#{request.contextPath}/faces/login.xhtml"> Go and log in </a>
                             </td>
-                            <td style="text-align: right;"><a href="#" class="button_green">Sign up!</a></td>
+                            <td style="text-align: right;">
+                                <h:commandLink class="button_green" style="text-decoration: none;" value="Sign up!" actionListener="#{registrationBean.registerAction}">
+                                    <f:ajax execute="@form" render="@form" onevent="handleRegistration"/>
+                                </h:commandLink>
+                            </td>
                         </tr>
                     </table>
-                </form>
+                    <h:inputHidden id="registration_status" value="#{registrationBean.registrationStatus}"/>
+                </h:form>
+                <script type="text/javascript">
+                        function handleRegistration(e) {
+                            if(e.status == 'success') {
+                                var status = $('#registration_status').val();
+                                if(status == 'ok') {
+                                    window.location = '#{request.contextPath}/faces/login.xhtml';
+                                }
+                            }
+                        }
+                    </script>
             </div>
+        </ui:define>
+        
+        <ui:define name="testimonials">
+            <li>
+                <q>Maecenas ut lacinia lorem. Nulla lacinia interdum porttitor. Curabitur id nisi elit, in pharetra est.</q>
+                <span class="author">John Doe</span>
+            </li>
+            <li>
+                <q>Fusce rutrum rutrum leo, congue semper eros ornare a. Quisque id orci dapibus mauris volutpat accumsan.</q>
+                <span class="author">John Smith</span>
+            </li>
+        </ui:define>
+
+        <ui:define name="twitter">
+            <ul id="twitter"></ul>
+        </ui:define>
+
+        <ui:define name="list">
+            <li>
+                <h3><span>1</span> Lorem ipsum dolor sit amet</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ipsum dui, id egestas sapien.</p>
+            </li>
+            <li>
+                <h3><span>2</span> In consectetur nunc quis massa</h3>
+                <p>In consectetur nunc quis massa pharetra eu elementum ante commodo. Curabitur nulla ligula, pretium fermentum accumsan at.</p>
+            </li>
         </ui:define>
 
         <ui:define name="toolbar">
@@ -69,7 +121,7 @@
             <div class="options float">
 
                 <section class="header_color clearfix">
-                    <h2>Header pattern</h2>
+                   <h2>Header pattern</h2>
                     <div class="header_white">
                         <a href="#" data-src="light_honeycomb.png"></a>
                         <a href="#" data-src="little_pluses.png"></a>

@@ -1,14 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.User;
-import java.math.BigInteger;
-import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 import javax.ejb.Local;
 
 /**
@@ -17,9 +10,14 @@ import javax.ejb.Local;
  */
 @Local
 public interface UserManagerLocal {
-    User createUser(Map<String, Object> Params);
-    User createUser(String name, String surname, Date dateCreation, Date dateSuspend, String email, String information, BigInteger type);
+    User createUser(Map<String, Object> params);
+
+    User createUser(Long typeID, String email, String name, String surname, String password, String information);
+
     boolean removeUserById(Long userId);
+
     User getUserById(Long userId);
+
+    public Long tryLogin(String login, String pwd);
 
 }
