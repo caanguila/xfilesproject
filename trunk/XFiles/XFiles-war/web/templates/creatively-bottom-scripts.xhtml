@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Include file of bottom scripts</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <script>
+                $(function () {
+                    
+                    $(".options a").each(function () {
+                        $(this).css("background", "url(./img/patterns/" + $(this).attr("data-src") + ")");
+                    });
+                    
+                    $("#customization section a").click(function () {
+                        $(this).parents('section').find('a').removeClass("selected");
+                        $(this).addClass("selected");
+                    });
+                    
+                    $("#customization .header_color a").click(function () {
+                        $("header")
+                        .css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")")
+                        .removeClass("header_black")
+                        .removeClass("header_white")
+                        .addClass($(this).parent().attr("class"))
+                        ;
+                    });
+                    
+                    if ($("#showcase").length == 0) $("#customization .showcase_color").css('display', 'none');
+                    $("#customization .showcase_color a").click(function () {
+                        $("#showcase").css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")");
+                    });
+                    
+                    $("#customization .hide").toggle(function () {
+                        $("#customization .options").slideUp("slow", function () {
+                            $("#customization").animate({"margin-left": "-110px"}, "slow");
+                            $("#customization .hide img").attr("src", "img/show.png");		
+                        });	
+                    }, function () {
+                        $("#customization").animate({"margin-left": "10px"}, "slow", function () {
+                            $("#customization .options").slideDown("slow");
+                            $("#customization .hide img").attr("src", "img/hide.png");
+                        });	
+                    });
+                   
+                      
+                
+                });
+            </script>
+
+
+            <!-- Google Analytics -->
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-2529322-9']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+            </script>
+
+        </ui:composition>
+    </h:body>
+</html>

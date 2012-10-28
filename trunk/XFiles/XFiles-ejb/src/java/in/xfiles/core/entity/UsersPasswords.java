@@ -21,7 +21,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UsersPasswords.findAll", query = "SELECT u FROM UsersPasswords u"),
     @NamedQuery(name = "UsersPasswords.findByUserId", query = "SELECT u FROM UsersPasswords u WHERE u.userId = :userId"),
     @NamedQuery(name = "UsersPasswords.findByPassword", query = "SELECT u FROM UsersPasswords u WHERE u.password = :password"),
-    @NamedQuery(name = "UsersPasswords.findByLogin", query = "SELECT u FROM UsersPasswords u WHERE u.login = :login")})
+    @NamedQuery(name = "UsersPasswords.findByLogin", query = "SELECT u FROM UsersPasswords u WHERE u.login = :login"),
+    @NamedQuery(name = "UsersPasswords.findByLoginAndPassword", query="SELECT u FROM UsersPasswords u WHERE u.login = :login AND u.password = :password")
+})
 public class UsersPasswords implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

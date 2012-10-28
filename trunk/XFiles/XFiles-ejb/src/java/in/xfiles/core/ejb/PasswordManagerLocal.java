@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.ejb;
 
 import java.math.BigInteger;
@@ -13,5 +9,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface PasswordManagerLocal {
-     boolean checkUserPassword(BigInteger userId, String password);
+     boolean checkUserPassword(Long userId, String password);
+     boolean checkUserPassword(String login, String password);
 }

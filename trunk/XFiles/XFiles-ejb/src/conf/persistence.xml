@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="XFiles-ejbPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>Xdatabase</jta-data-source>
     <class>in.xfiles.core.entity.ActionTypes</class>
     <class>in.xfiles.core.entity.Encryptionfiles</class>
@@ -15,6 +16,8 @@
     <class>in.xfiles.core.entity.Sequence</class>
     <class>in.xfiles.core.entity.User</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <properties/>
+    <properties>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+    </properties>
   </persistence-unit>
 </persistence>
