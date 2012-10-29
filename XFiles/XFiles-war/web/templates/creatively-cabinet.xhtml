@@ -18,8 +18,7 @@
         </h:head>
         <h:body>
 
-            <!-- Wrapper begin -->
-            <div id="wrapper" class="clearfix">
+            <!-- Wrapper begin --><div id="wrapper" class="clearfix">
 
                 <!-- Header -->
                 <header>
@@ -83,7 +82,7 @@
                     <section id="title">
 
                         <!-- Heading -->
-                        <h1 class="grid_12" style="text-align: left; line-height: 20px;"><span>#{pageTitle}</span></h1>
+                        <h1 class="grid_12" style="line-height: 20px;"><span>#{pageTitle}</span></h1>
 
                         <!-- Submenu -->
                         <nav class="grid_7" style="display: block; width: 100%;">
@@ -92,43 +91,12 @@
 
                     </section>
 
-                    <!-- Sidebar -->
-                    <section class="sidebar grid_4">
-
-                        <!-- Categories -->
-                        <ui:insert name="sidebar"/>
-
-                    </section>
-
                     <!-- Typography -->
-                    <section class="text grid_8">
+                    <section class="text grid_12">
                         <ui:insert name="content"/>
                     </section> 
 
                     <!-- MAIN CONTENT END -->
-                    
-                    <hr class="grid_12" />
-
-                    <!-- Testimonials -->
-                    <ul class="testimonials grid_4">
-                        <ui:insert name="testimonials">
-
-                        </ui:insert>
-                    </ul>
-
-                    <!-- Twitter -->
-                    <div class="twitter grid_4">
-                        <ui:insert name="twitter">
-
-                        </ui:insert>
-                    </div>
-
-                    <!-- Numbered list -->
-                    <ul class="list grid_4">
-                        <ui:insert name="list">
-
-                        </ui:insert>
-                    </ul>
 
                     <!-- Container end --></div>
 
@@ -150,6 +118,7 @@
 
             <!-- Load Twitter news stream -->
             <script src="js/libs/jquery.tweet.js"></script>
+
 
             <!-- Customization -->
             <div id="customization">

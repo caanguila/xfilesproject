@@ -1478,3 +1478,8 @@ footer {
                 #login_try{
                     margin-top: 10px; 
                 }
+
+.message li {
+    line-height: inherit;
+    list-style: none;
+}

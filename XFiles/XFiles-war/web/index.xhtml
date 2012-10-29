@@ -16,7 +16,7 @@
 
             <!-- Showcase tagline -->
             <section class="tagline grid_12">
-                <p>Modern &amp; customizable premium site template.</p>
+                <p>Advanced &amp; secure data storage service.</p>
 
                 <div id="my">
                     <a href="#" id="log_in" class="button_green_big" rel="popover" 
@@ -42,26 +42,26 @@
                 
                 <h:form id="login_user_form" prependId="false" onmouseout= "insidePopover = false"  onmouseup="insidePopover = true" >
 
-                    <h:messages id="messages1" title="Validation Errors" showDetail="true"
-                                style="margin-left: 15px;"
-                                errorStyle="color: red;">
+                    <h:messages id="messages1" class="message" title="Validation Errors" showDetail="true"
+                                style="margin-left: 0;" errorClass="message_bad" fatalClass="message_bad"
+                                warnClass="message_info" infoClass="message_good">
                     </h:messages>
                     <h:panelGrid id="login_grid" columns="2" width="250px" style="text-align: left">
                         <h:outputLabel id="loginLabel" for="login_email" value="Your email"/> 
                         <h:inputText id="login_email" class="input-small" type="email" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
-                        <h:outputLabel id="passwordLabel" value="Your password"/>
+                        <h:outputLabel id="passwordLabel" value="Your password" for="login_password"/>
                         <h:inputSecret id="login_password" class="input-small" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/>
 
 
                         <a href="#myModal" data-toggle="modal" class="button_grey">Register</a>
-                        <div style="text-align: right">
+                        <h:panelGroup style="display: block; width: 60%; text-align: right;">
                             <h:commandLink class="button_green" 
                                            style="text-decoration: none;" 
                                            value="Login" 
                                            actionListener="#{loginBean.loginAction}">
                                 <f:ajax execute="@form" render="@form"  onevent="handleLogin"/>
                             </h:commandLink>
-                        </div>
+                        </h:panelGroup>
                     </h:panelGrid>         
 
                     <h:inputHidden id="login_status" value="hello"/>
@@ -71,7 +71,7 @@
                         if(e.status == 'success') {
                             var status = $('#login_status').val();
                             if(status == 'ok') {
-                                window.location = '#{request.contextPath}/';
+                                window.location = '#{request.contextPath}/faces/cabinet/home.xhtml';
                             }
                         }
                     }
@@ -89,9 +89,9 @@
                 <div class="modal-body">
                     <h:form id="registration_user_form" prependId="false">
                         <p><strong>Registration</strong></p>
-                        <h:messages id="messages" title="Validation Errors" showDetail="true"
-                                    style="margin-left: 15;"
-                                    errorStyle="color: red;">
+                        <h:messages id="messages" class="message" title="Validation Errors" showDetail="true"
+                                    style="margin-left: 0;" errorClass="message_bad" fatalClass="message_bad"
+                                    warnClass="message_info" infoClass="message_good">
                         </h:messages>
                         <h:panelGrid id="reg_grid" columns="2" style="width: 450px; vertical-align: central;">
 
@@ -165,7 +165,8 @@
                         
                                         if((!insidePopover)){ 
                                             $("#log_in").popover('hide');
-                                            $('#log_in_content').html(popoverContent);
+                                            if(popoverContent != '')
+                                                $('#log_in_content').html(popoverContent);
                                         }
                                     }   
                                   );

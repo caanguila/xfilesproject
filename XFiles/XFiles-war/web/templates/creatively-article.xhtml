@@ -23,7 +23,7 @@
                 <!-- Header -->
                 <header>
                     <div class="container_12">
-                        <h1 class="grid_4"><a href="index-2.html">#{webSiteTitle}</a></h1>
+                        <h1 class="grid_4"><a href="#{request.contextPath}/">#{webSiteTitle}</a></h1>
                         <nav class="grid_8">
                             <ul class="right">
                                 <li>
@@ -82,7 +82,7 @@
                     <section id="title">
 
                         <!-- Heading -->
-                        <h1 class="grid_5">Pages <span>#{pageTitle}</span></h1>
+                        <h1 class="grid_12" style="line-height: 20px;">Pages <span>#{pageTitle}</span></h1>
 
                         <!-- Submenu -->
                         <nav class="grid_7" style="display: block; width: 100%;">
@@ -91,10 +91,10 @@
 
                     </section>
 
-                    <!-- Sidebar -->
+<!--                     Sidebar -->
                     <section class="sidebar grid_4">
 
-                        <!-- Categories -->
+<!--                         Categories -->
                         <ui:insert name="categories"/>
 
                     </section>
