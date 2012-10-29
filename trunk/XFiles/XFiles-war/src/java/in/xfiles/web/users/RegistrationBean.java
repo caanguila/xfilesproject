@@ -8,12 +8,11 @@ import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.web.utils.JSFHelper;
-import java.util.Date;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
 
@@ -23,8 +22,8 @@ import org.apache.log4j.Logger;
  * @author danon
  */
 @ManagedBean
-@RequestScoped
-public class RegistrationBean implements CommonConstants {
+@ViewScoped
+public class RegistrationBean implements CommonConstants, Serializable {
     
     private final Logger log = Logger.getLogger(RegistrationBean.class);
     
