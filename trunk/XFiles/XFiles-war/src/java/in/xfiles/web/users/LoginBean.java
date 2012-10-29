@@ -5,6 +5,7 @@ import in.xfiles.core.ejb.UserManagerLocal;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.web.utils.JSFHelper;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean
 @ViewScoped
-public class LoginBean {
+public class LoginBean implements Serializable {
     
     private final Logger log = Logger.getLogger(RegistrationBean.class);
     
