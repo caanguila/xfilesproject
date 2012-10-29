@@ -9,8 +9,7 @@
  */
 
 article,
-aside,
-details,
+aside,details,
 figcaption,
 figure,
 footer,
@@ -5079,7 +5078,7 @@ input[type="submit"].btn.btn-mini {
   left: 0;
   z-index: 1010;
   display: none;
-  width: 236px;
+  width: 260px;
   padding: 1px;
   background-color: #ffffff;
   border: 1px solid #ccc;

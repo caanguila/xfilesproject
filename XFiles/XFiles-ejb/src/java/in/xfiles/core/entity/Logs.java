@@ -30,23 +30,29 @@ public class Logs implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "log_id",columnDefinition = "BIGSERIAL")
     private Long logId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "ip_adress")
     private String ipAdress;
+    
     @Size(max = 255)
     @Column(name = "options")
     private String options;
+    
     @Size(max = 1000)
     @Column(name = "message")
     private String message;
+    
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User userId;
+    
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
     @ManyToOne(optional = false)
     private UserSession sessionId;
+    
     @JoinColumn(name = "type_action_id", referencedColumnName = "action_type_id")
     @ManyToOne(optional = false)
     private ActionTypes typeActionId;

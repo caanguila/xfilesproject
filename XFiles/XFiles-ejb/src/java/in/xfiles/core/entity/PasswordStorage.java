@@ -27,9 +27,11 @@ public class PasswordStorage implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PasswordStoragePK passwordStoragePK;
+    
     @Size(max = 500)
     @Column(name = "key")
     private String key;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "passwordStorage")
     private Collection<Files> filesCollection;
 
