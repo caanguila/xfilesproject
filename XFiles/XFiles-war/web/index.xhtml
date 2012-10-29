@@ -17,78 +17,70 @@
             <!-- Showcase tagline -->
             <section class="tagline grid_12">
                 <p>Modern &amp; customizable premium site template.</p>
-                 
+
                 <div id="my">
                     <a href="#" id="log_in" class="button_green_big" rel="popover" 
                        data-placement="top"
                        onclick="insidePopover = true"                     
-                       onmouseout="insidePopover = false"
-                       >Sign In</a>
-                    <!--                    <a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
-                    -->
-                    <!-- Modal-->
+                       onmouseout="insidePopover = false">Sign In</a>
                     <span>or</span>
                     <a href="#myModal" id="buy" 
                        data-toggle="modal"
-                       class="button_green_big"
-                       
-                       >Register</a>
-                  
-                   
+                       class="button_green_big">Register</a>
                 </div>
 
             </section>
-            
+
         </ui:define>
 
         <ui:define name="dialogs">
             <h:panelGroup id="after_registration" style="display: none">
-                
-            </h:panelGroup>
-            
-            <h:panelGroup id="log_in_content" style="display: none"  >
 
+            </h:panelGroup>
+
+            <h:panelGroup id="log_in_content" style="display: none"  >
+                
                 <h:form id="login_user_form" prependId="false" onmouseout= "insidePopover = false"  onmouseup="insidePopover = true" >
-                    
-<!--                    <h:messages id="messages1" title="Validation Errors" showDetail="true"
+
+                    <h:messages id="messages1" title="Validation Errors" showDetail="true"
                                 style="margin-left: 15px;"
                                 errorStyle="color: red;">
-                    </h:messages>-->
+                    </h:messages>
                     <h:panelGrid id="login_grid" columns="2" width="250px" style="text-align: left">
                         <h:outputLabel id="loginLabel" for="login_email" value="Your email"/> 
                         <h:inputText id="login_email" class="input-small" type="email" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
                         <h:outputLabel id="passwordLabel" value="Your password"/>
                         <h:inputSecret id="login_password" class="input-small" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/>
-                    
-                    
+
+
                         <a href="#myModal" data-toggle="modal" class="button_grey">Register</a>
                         <div style="text-align: right">
-                        <h:commandLink class="button_green" 
-                                       style="text-decoration: none;" 
-                                       value="Login" 
-                                       actionListener="#{loginBean.loginAction}">
-                            <f:ajax execute="@form" render="@form"  onevent="handleLogin"/>
-                        </h:commandLink>
+                            <h:commandLink class="button_green" 
+                                           style="text-decoration: none;" 
+                                           value="Login" 
+                                           actionListener="#{loginBean.loginAction}">
+                                <f:ajax execute="@form" render="@form"  onevent="handleLogin"/>
+                            </h:commandLink>
                         </div>
-                         </h:panelGrid>         
-                        
-                        <h:inputHidden id="login_status" value="hello"/>
-                   </h:form>
+                    </h:panelGrid>         
+
+                    <h:inputHidden id="login_status" value="hello"/>
+                </h:form>
                 <script>
-            function handleLogin(e) {
-                            if(e.status == 'success') {
-                                var status = $('#login_status').val();
-                                if(status == 'ok') {
-                                    window.location = '#{request.contextPath}/';
-                                }
+                    function handleLogin(e) {
+                        if(e.status == 'success') {
+                            var status = $('#login_status').val();
+                            if(status == 'ok') {
+                                window.location = '#{request.contextPath}/';
                             }
                         }
-           </script>
+                    }
+                </script>
             </h:panelGroup>
-            
-            
-            
-            
+
+
+
+
             <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -97,99 +89,92 @@
                 <div class="modal-body">
                     <h:form id="registration_user_form" prependId="false">
                         <p><strong>Registration</strong></p>
-                         <h:messages id="messages" title="Validation Errors" showDetail="true"
-                                style="margin-left: 15;"
-                                errorStyle="color: red;">
-                             </h:messages>
+                        <h:messages id="messages" title="Validation Errors" showDetail="true"
+                                    style="margin-left: 15;"
+                                    errorStyle="color: red;">
+                        </h:messages>
                         <h:panelGrid id="reg_grid" columns="2" style="width: 450px; vertical-align: central;">
-                            
-                            
-                               <label for="emailsignup" data-icon="e" >Your email</label>
-                           <h:inputText id="emailsignup" type="email" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/>
-                        
-                           <label for="passwordsignup" data-icon="p">Your password </label>
-                           <h:inputSecret id="passwordsignup" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/>
-                       
-                           <label for="passwordsignup_confirm" data-icon="p">Please confirm your password </label>
+
+
+                            <label for="emailsignup" data-icon="e" >Your email</label>
+                            <h:inputText id="emailsignup" type="email" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/>
+
+                            <label for="passwordsignup" data-icon="p">Your password </label>
+                            <h:inputSecret id="passwordsignup" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/>
+
+                            <label for="passwordsignup_confirm" data-icon="p">Please confirm your password </label>
                             <h:inputSecret id="passwordsignup_confirm" placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/>
-                     
+
                             <label for="first_name" data-icon="e" >First Name</label>
                             <h:inputText id="first_name" placeholder="John" value="#{registrationBean.firstName}"/>
-                        
+
                             <label for="last_name" data-icon="e" >Last Name</label>
                             <h:inputText id="last_name" placeholder="Doe" value="#{registrationBean.lastName}"/>
-                        
-                        
+
+
                             <label for="info" data-icon="e" >Extra Info</label>
                             <h:inputText id="info" value="#{registrationBean.info}"/>
-                             
+
                         </h:panelGrid>
                         <div style="text-align: right;">
-                             <h:commandLink class="button_grey" style="text-decoration: none;" value="Register" actionListener="#{registrationBean.registerAction}">
-                                    <f:ajax execute="@form" render="@form" onevent="handleRegistration"/>
-                                </h:commandLink>
-                            
+                            <h:commandLink class="button_grey" style="text-decoration: none;" value="Register" actionListener="#{registrationBean.registerAction}">
+                                <f:ajax execute="@form" render="@form" onevent="handleRegistration"/>
+                            </h:commandLink>
+
                         </div>
-                          <h:inputHidden id="registration_status" value="#{registrationBean.registrationStatus}"/>
+                        <h:inputHidden id="registration_status" value="#{registrationBean.registrationStatus}"/>
                     </h:form>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button class="btn" data-dismiss="modal"  aria-hidden="true">Close</button>
 
                 </div>
-                
+
             </div>
-         
-          
+
+
             <script type="text/javascript">
-                        function handleRegistration(e) {
-                            if(e.status == 'success') {
-                                var status = $('#registration_status').val();
-                                if(status == 'ok') {
-                                    window.location = '#{request.contextPath}/faces/index.xhtml';
-                                }
-                            }
+                function handleRegistration(e) {
+                    if(e.status == 'success') {
+                        var status = $('#registration_status').val();
+                        if(status == 'ok') {
+                            window.location = '#{request.contextPath}/faces/index.xhtml';
                         }
-                    </script>
+                    }
+                }
+            </script>
             <script>  
-                      var insidePopover = false;
-                      $(function () { 
-                        $("#log_in").popover({
-                                html:      true,
-                                title:     function () {
-                                    return $(this).html();
-                                },
-                                content:   function () {
-                                    return $('#log_in_content').html(); 
-                                } 
-                         //  /   /  trigger: 'click'////
-                                
-                            })
-                      });
-                    
+                var insidePopover = false;
+                var popoverContent = '';
+                $(document).ready(function () { 
+                    $("#log_in").popover({
+                        html:      true,
+                        title:     function () {
+                            return $(this).html();
+                        },
+                        content:   function () {
+                            popoverContent = $('#log_in_content').html();
+                            $('#log_in_content').html('');
+                            return popoverContent; 
+                        } 
+                        //  /   /  trigger: 'click'////
+                        
+                    });
                     $('body').click(function(){
                         
-                   
-             if((!insidePopover)){ 
-                   $("#log_in").popover('hide')
-       
-                    }
-                  
-            
-                }
-
-);
-                     
-                       
-
-                    </script> 
-            
-            
+                                        if((!insidePopover)){ 
+                                            $("#log_in").popover('hide');
+                                            $('#log_in_content').html(popoverContent);
+                                        }
+                                    }   
+                                  );
+                });
+            </script> 
         </ui:define>
 
         <ui:define name="sidebar">
-            
+
             <h3>Something about Creatively</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam faucibus nibh mi. Sed in lectus leo.</p>
             <p>Vestibulum ante <a href="#">ipsum primis</a> in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
@@ -203,7 +188,7 @@
         </ui:define>
 
         <ui:define name="portfolio">
-            
+
             <li class="grid_3">
                 <a href="#"><img src="img/placeholders/214x114/1.jpg" alt="" class="shadow" /></a>
                 <h4>Lorem ipsum</h4>

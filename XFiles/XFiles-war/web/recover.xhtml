@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="templates/creatively-form.xhtml">
+
+        <ui:param name="pageTitle" value="Password Recovery"/>
+        <ui:param name="webSiteTitle" value="X Files"/>
+
+        <ui:define name="submenu">
+            <ul>
+                <li><a href="#{request.contextPath}/faces/login.xhtml">Sign In</a></li>
+                <li class="selected"><a href="#">Recover Password</a></li>
+                <li><a href="#{request.contextPath}/faces/registration.xhtml">Registration Form</a></li>
+            </ul>
+        </ui:define>
+
+        <ui:define name="sidebar">
+            <h3>See Also</h3>
+            <ul class="categories">
+                <li><a href="#{request.contextPath}/faces/contacts.xhtml">Contact us</a></li>
+                <li><a href="#{request.contextPath}/faces/terms.xhtml">Terms of use</a></li>
+                <li><a href="#{request.contextPath}/faces/faq.xhtml">FAQ</a></li>
+                <li><a href="#{request.contextPath}/faces/tutorial.xhtml">Tutorial</a></li>
+            </ul>	
+        </ui:define>
+
+        <ui:define name="content">
+            <div id="recovery_form_container">
+                <p>New password will be sent to your e-mail</p>
+                <h:form id="recovery_form" prependId="false"> 
+                    <p><strong>Registration</strong></p>
+                    <h:messages id="messages" title="Validation Errors" showDetail="true"
+                                style="margin-left: 0;"
+                                errorStyle="color: red;">
+                    </h:messages>
+                    <table style="width: 500px; vertical-align: central;">
+                        <tr>
+                            <td><label for="login_email" data-icon="e" >Your email</label></td>
+                            <td><h:inputText id="recovery_email" type="email" placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.email}"/></td> 
+                        </tr>
+                        <tr> 
+                            <td>  
+                                New User ?
+                                <a href="#{request.contextPath}/faces/registration.xhtml"> Go and sign up </a>
+                            </td>
+                            <td style="text-align: right;">
+                                <h:commandLink class="button_green" style="text-decoration: none;" value="Reset password!" actionListener="#{loginBean.loginAction}">
+                                    <f:ajax execute="@form" render="@form" onevent="handleLogin"/>
+                                </h:commandLink>
+                            </td>
+                        </tr>
+                    </table>
+                    <h:inputHidden id="login_status" value="#{loginBean.loginStatus}"/>
+                </h:form>
+                <script type="text/javascript">
+                        function handleRecoverPassword(e) {
+                            if(e.status == 'success') {
+                                var status = $('#recovery_status').val();
+                                if(status == 'ok') {
+                                    window.location = '#{request.contextPath}/faces/home.xhtml';
+                                }
+                            }
+                        }
+                    </script>
+            </div>
+        </ui:define>
+        
+        <ui:define name="testimonials">
+            <li>
+                <q>Maecenas ut lacinia lorem. Nulla lacinia interdum porttitor. Curabitur id nisi elit, in pharetra est.</q>
+                <span class="author">John Doe</span>
+            </li>
+            <li>
+                <q>Fusce rutrum rutrum leo, congue semper eros ornare a. Quisque id orci dapibus mauris volutpat accumsan.</q>
+                <span class="author">John Smith</span>
+            </li>
+        </ui:define>
+
+        <ui:define name="twitter">
+            <ul id="twitter"></ul>
+        </ui:define>
+
+        <ui:define name="list">
+            <li>
+                <h3><span>1</span> Lorem ipsum dolor sit amet</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ipsum dui, id egestas sapien.</p>
+            </li>
+            <li>
+                <h3><span>2</span> In consectetur nunc quis massa</h3>
+                <p>In consectetur nunc quis massa pharetra eu elementum ante commodo. Curabitur nulla ligula, pretium fermentum accumsan at.</p>
+            </li>
+        </ui:define>
+
+        <ui:define name="toolbar">
+            <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
+
+            <div class="options float">
+
+                <section class="header_color clearfix">
+                   <h2>Header pattern</h2>
+                    <div class="header_white">
+                        <a href="#" data-src="light_honeycomb.png"></a>
+                        <a href="#" data-src="little_pluses.png"></a>
+                        <a href="#" data-src="45degreee_fabric.png"></a>
+                        <a href="#" data-src="60degree_gray.png"></a>	
+                        <a href="#" data-src="beige_paper.png"></a>
+                        <a href="#" data-src="bright_squares.png"></a>
+                        <a href="#" data-src="brushed_alu.png"></a>
+                        <a href="#" data-src="concrete_wall_2.png"></a>
+                        <a href="#" data-src="concrete_wall_3.png"></a>
+                        <a href="#" data-src="white_sand.png"></a>
+                        <a href="#" data-src="vichy.png"></a>
+                        <a href="#" data-src="wavecut.png"></a>
+                        <a href="#" data-src="white_carbon.png"></a>
+                        <a href="#" data-src="rockywall.png"></a>
+                        <a href="#" data-src="smooth_wall.png"></a>
+                        <a href="#" data-src="noisy.png"></a>
+                        <a href="#" data-src="old_mathematics.png"></a>
+                        <a href="#" data-src="paper_1.png"></a>
+                        <a href="#" data-src="paper_2.png"></a>
+                        <a href="#" data-src="paper_3.png"></a>
+                        <a href="#" data-src="pinstripe.png"></a>
+                        <a href="#" data-src="leather_1.png"></a>
+                        <a href="#" data-src="cork_1.png"></a>
+                        <a href="#" data-src="double_lined.png"></a>
+                        <a href="#" data-src="exclusive_paper.png"></a>
+                        <a href="#" data-src="fabric_1.png"></a>
+                        <a href="#" data-src="soft_wallpaper.png"></a>
+                        <a href="#" data-src="subtle_freckles.png"></a>
+                        <a href="#" data-src="subtle_orange_emboss.png"></a>
+                        <a href="#" data-src="green_gobbler.png"></a>
+                        <a href="#" data-src="grunge_wall.png"></a>
+                        <a href="#" data-src="handmadepaper.png"></a>
+                    </div>
+                    <div class="header_black">
+                        <a href="#" data-src="always_grey.png"></a>
+                        <a href="#" data-src="brushed_alu_dark.png"></a>
+                        <a href="#" data-src="padded.png"></a>
+                        <a href="#" data-src="gray_sand.png"></a>
+                        <a href="#" data-src="crossed_stripes.png"></a>
+                        <a href="#" data-src="green-fibers.png"></a>
+                        <a href="#" data-src="tactile_noise.png"></a>
+                        <a href="#" data-src="black_denim.png"></a>
+                        <a href="#" data-src="black-Linen.png"></a>
+                        <a href="#" data-src="blackmamba.png"></a>
+                        <a href="#" data-src="carbon_fibre.png"></a>
+                        <a href="#" data-src="dark_stripes.png"></a>
+                        <a href="#" data-src="darth_stripe.png"></a>
+                        <a href="#" data-src="concrete_wall.png"></a>
+                        <a href="#" data-src="black_paper.png"></a>
+                        <a href="#" data-src="micro_carbon.png"></a>
+                        <a href="#" data-src="random_grey_variations.png"></a>
+                        <a href="#" data-src="wood_1.png"></a>
+                    </div>
+                </section>
+
+                <section class="showcase_color clearfix">
+                    <h2>Showcase pattern</h2>
+                    <a href="#" data-src="light_honeycomb.png"></a>
+                    <a href="#" data-src="little_pluses.png"></a>
+                    <a href="#" data-src="45degreee_fabric.png"></a>
+                    <a href="#" data-src="60degree_gray.png"></a>	
+                    <a href="#" data-src="beige_paper.png"></a>
+                    <a href="#" data-src="bright_squares.png"></a>
+                    <a href="#" data-src="brushed_alu.png"></a>
+                    <a href="#" data-src="concrete_wall_2.png"></a>
+                    <a href="#" data-src="concrete_wall_3.png"></a>
+                    <a href="#" data-src="white_sand.png"></a>
+                    <a href="#" data-src="vichy.png"></a>
+                    <a href="#" data-src="wavecut.png"></a>
+                    <a href="#" data-src="white_carbon.png"></a>
+                    <a href="#" data-src="rockywall.png"></a>
+                    <a href="#" data-src="smooth_wall.png"></a>
+                    <a href="#" data-src="noisy.png"></a>
+                    <a href="#" data-src="old_mathematics.png"></a>
+                    <a href="#" data-src="paper_1.png"></a>
+                    <a href="#" data-src="paper_2.png"></a>
+                    <a href="#" data-src="paper_3.png"></a>
+                    <a href="#" data-src="pinstripe.png"></a>
+                    <a href="#" data-src="leather_1.png"></a>
+                    <a href="#" data-src="cork_1.png"></a>
+                    <a href="#" data-src="double_lined.png"></a>
+                    <a href="#" data-src="exclusive_paper.png"></a>
+                    <a href="#" data-src="fabric_1.png"></a>
+                    <a href="#" data-src="soft_wallpaper.png"></a>
+                    <a href="#" data-src="subtle_freckles.png"></a>
+                    <a href="#" data-src="subtle_orange_emboss.png"></a>
+                    <a href="#" data-src="green_gobbler.png"></a>
+                    <a href="#" data-src="grunge_wall.png"></a>
+                    <a href="#" data-src="handmadepaper.png"></a>
+                </section>
+
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>

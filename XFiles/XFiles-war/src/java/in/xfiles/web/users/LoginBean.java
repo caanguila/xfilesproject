@@ -8,7 +8,7 @@ import in.xfiles.web.utils.JSFHelper;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
 
@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
  * @author danon
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class LoginBean {
     
     private final Logger log = Logger.getLogger(RegistrationBean.class);
