@@ -31,21 +31,26 @@ public class Groups implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "group_id",columnDefinition = "BIGSERIAL")
     private Long groupId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 500)
     @Column(name = "name")
     private String name;
+    
     @Size(max = 5000)
     @Column(name = "description")
     private String description;
+    
     @ManyToMany(mappedBy = "groupsCollection")
     private Collection<Files> filesCollection;
+    
     @JoinTable(name = "users_groups", joinColumns = {
         @JoinColumn(name = "groups_group_id", referencedColumnName = "group_id")}, inverseJoinColumns = {
         @JoinColumn(name = "users_user_id", referencedColumnName = "user_id")})
     @ManyToMany
     private Collection<User> usersCollection;
+    
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne(optional = false)
     private Types typeId;

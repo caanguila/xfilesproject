@@ -31,14 +31,17 @@ public class Encryptionfiles implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "en_file_id",columnDefinition = "BIGSERIAL")
     private Long enFileId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2000)
     @Column(name = "path")
     private String path;
+    
     @Size(max = 255)
     @Column(name = "attributes")
     private String attributes;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "enFileId")
     private Collection<Files> filesCollection;
 

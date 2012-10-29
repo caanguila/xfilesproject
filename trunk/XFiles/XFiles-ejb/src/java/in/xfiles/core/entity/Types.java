@@ -33,28 +33,36 @@ public class Types implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "type_id",columnDefinition = "BIGSERIAL")
     private Long typeId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "category")
     private String category;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
+    
     @Size(max = 1000)
     @Column(name = "description")
     private String description;
+    
     @Size(max = 2000)
     @Column(name = "options")
     private String options;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
     private Collection<Files> filesCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
     private Collection<User> usersCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
     private Collection<Groups> groupsCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
     private Collection<Messages> messagesCollection;
 

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Files.findByName", query = "SELECT f FROM Files f WHERE f.name = :name"),
     @NamedQuery(name = "Files.findByDescription", query = "SELECT f FROM Files f WHERE f.description = :description"),
     @NamedQuery(name = "Files.findByContentType", query = "SELECT f FROM Files f WHERE f.contentType = :contentType"),
-    @NamedQuery(name = "Files.findBySize", query = "SELECT f FROM Files f WHERE f.size = :size"),
+    @NamedQuery(name = "Files.findBySize", query = "SELECT f FROM Files f WHERE f.fileSize = :size"),
     @NamedQuery(name = "Files.findByCrc", query = "SELECT f FROM Files f WHERE f.crc = :crc"),
     @NamedQuery(name = "Files.findByIsfolder", query = "SELECT f FROM Files f WHERE f.isfolder = :isfolder")})
 public class Files implements Serializable {
@@ -35,11 +35,13 @@ public class Files implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "file_id",columnDefinition = "BIGSERIAL")
     private Long fileId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1000)
     @Column(name = "name")
     private String name;
+    
     @Size(max = 1000)
     @Column(name = "description")
     private String description;
@@ -50,12 +52,14 @@ public class Files implements Serializable {
     private String contentType;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "size")
-    private long size;
+    @Column(name = "file_size")
+    private long fileSize;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "crc")
     private int crc;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "isfolder")
@@ -101,7 +105,7 @@ public class Files implements Serializable {
         this.fileId = fileId;
         this.name = name;
         this.contentType = contentType;
-        this.size = size;
+        this.fileSize = size;
         this.crc = crc;
         this.isfolder = isfolder;
     }
@@ -139,11 +143,11 @@ public class Files implements Serializable {
     }
 
     public long getSize() {
-        return size;
+        return fileSize;
     }
 
     public void setSize(long size) {
-        this.size = size;
+        this.fileSize = size;
     }
 
     public int getCrc() {

@@ -25,7 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "user_id", columnDefinition = "BIGSERIAL")
     private Long userId;
     

@@ -20,6 +20,7 @@ public class PasswordStoragePK implements Serializable {
     @NotNull
     @Column(name = "user_id")
     private long userId;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "enc_type_def_id")

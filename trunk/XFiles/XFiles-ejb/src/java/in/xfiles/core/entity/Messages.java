@@ -32,25 +32,32 @@ public class Messages implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "message_id",columnDefinition = "BIGSERIAL")
     private Long messageId;
+    
     @Column(name = "date_send")
     @Temporal(TemporalType.DATE)
     private Date dateSend;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "group_id")
     private long groupId;
+    
     @Size(max = 5000)
     @Column(name = "message")
     private String message;
+    
     @Column(name = "date_recieved")
     @Temporal(TemporalType.DATE)
     private Date dateRecieved;
+    
     @JoinColumn(name = "recipient_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User recipientId;
+    
     @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User senderId;
+    
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne(optional = false)
     private Types typeId;

@@ -31,17 +31,21 @@ public class UserSession implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "session_id",columnDefinition = "BIGSERIAL")
     private Long sessionId;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "ip_adress")
     private String ipAdress;
+    
     @Size(max = 255)
     @Column(name = "brouser")
     private String brouser;
+    
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User userId;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sessionId")
     private Collection<Logs> logsCollection;
 
