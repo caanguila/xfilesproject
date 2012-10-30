@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import javax.crypto.*;
 import javax.crypto.spec.*;
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -109,15 +110,12 @@ public class CryptoHelper {
      * @param type - type of crypt, for example "AES"
      * @param key - String value of user's key. It may has length != 0
      * @return File temp - output temporary file that contains cipher
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
      * @throws IOException
-     * @throws Exception
      */
     public static File enCryptFile(File file, String type, String key) throws IOException {
         File directory = new File("./tmp");
         directory.mkdir();
-
+        
         //   byte[] keyCode = getSecretKeyCode(key); // this key should be stored in database;
         Cipher cipher = getEncryptCipher(key);
         if (cipher == null) {
@@ -128,33 +126,45 @@ public class CryptoHelper {
         if (type.equalsIgnoreCase("aes")) {
 
             FileInputStream fis = new FileInputStream(file);
-
+            int fileSize = 0; // should be added to crypt
             try {
-                fis.available();
+              fileSize =  fis.available();
             } catch (Exception ex) {
                 log.warn(ex.toString());
                 return null;
             }
             byte[] f = new byte[pieSize];
-
+            
             File temp = File.createTempFile("tmp", "crypt", directory);
             FileOutputStream fos = new FileOutputStream(temp);
             byte[] crypt = null;
 
             try {
-                while (pieSize <= fis.available()) {
-                    log.debug("file avalable: " + fis.available());
+                while (pieSize  < fis.available()) {
+               //     log.debug("file avalable: " + fis.available());
                     fis.read(f);
                     crypt = cipher.doFinal(f);
                     fos.write(crypt);
                 }
 
                 //last part of file
-                f = new byte[pieSize];
-                if (pieSize > fis.available()) {
+              //  Arrays.fill(f, (byte)0);
+                f = new byte[pieSize+16];
+                if (pieSize  >= fis.available()) 
+                {
+                    byte[] sizeBytes = ByteBuffer.allocate(4).putInt(fileSize).array();
+                    int last = fis.available();
+                    log.debug("Real file size: "+fileSize+"  bytes: "+toHexString(sizeBytes) + " l: "+sizeBytes.length);
+                    log.debug("Last part: "+fis.available());
+                    
                     //    log.debug("file avalable: "+fis.available());
                     //f = new byte[fis.available()];
                     fis.read(f);
+                    //we will write on last size of the file to the end of pieSize massive
+                    f[pieSize-4 +16] = sizeBytes[0];
+                    f[pieSize-3 +16] = sizeBytes[1];
+                    f[pieSize-2 +16] = sizeBytes[2];
+                    f[pieSize-1 +16] = sizeBytes[3];
                     crypt = cipher.doFinal(f);
                     fos.write(crypt);
                 }
@@ -187,7 +197,16 @@ public class CryptoHelper {
         }
         return data;
     }
-
+    /**
+     * This method decrypt input file and return temporary file that stores in
+     * ./tmp directory
+     *
+     * @param file - input file to be encrypted
+     * @param type - type of crypt, for example "AES"
+     * @param key - String value of user's key. It may has length != 0
+     * @return File temp - output temporary file that contains cipher
+     * @throws IOException
+     */
     public static File deCryptFile(File file, String type, String key) throws IOException {
         File directory = new File("./tmp");
         directory.mkdir();
@@ -211,19 +230,42 @@ public class CryptoHelper {
             byte[] crypt = null;
 
             try {
-                while (pieSize <= fis.available()) {
-                    log.debug("file avalable: " + fis.available());
+                while (pieSize +16 < fis.available()) {
+                  //  log.debug("file avalable: " + fis.available());
                     fis.read(f);
                     crypt = cipher.doFinal(f);
                     fos.write(crypt);
                 }
-//f = new byte[pieSize];           
-                if (pieSize > fis.available()) {
-                    //log.debug("file avalable: "+fis.available());
-                    f = new byte[fis.available()];
+                
+              //  f = new byte[pieSize+16];           
+                if (pieSize + 16 >= fis.available()) {
+                    log.debug("file avalable: "+fis.available());
+                    byte[] fileSize = new byte[4];
+                                        
+                    f = new byte[pieSize+16];
                     fis.read(f);
                     crypt = cipher.doFinal(f);
-                    fos.write(crypt);
+                    
+                    fileSize[0] = crypt[pieSize - 4 + 16];
+                    fileSize[1] = crypt[pieSize - 3 + 16];
+                    fileSize[2] = crypt[pieSize - 2 + 16];
+                    fileSize[3] = crypt[pieSize - 1 + 16];
+                    
+                //    log.debug("decrypt fileSize: "+toHexString(fileSize));
+                    int sizeOfFile = Integer.parseInt(toHexString(fileSize),16);
+                    int lastPart = sizeOfFile % pieSize;
+                    if(lastPart == 0){
+                        lastPart = pieSize;
+                    }
+               //     log.debug("real size: "+sizeOfFile+"  pieSize: "+pieSize);
+                  //  log.debug("decrypt last part: "+lastPart);
+                    byte[] lastBytePart = new byte[lastPart];
+                    
+                    for(int i=0; i<lastPart; i++){
+                        lastBytePart[i] = crypt[i];
+                    }
+                    
+                    fos.write(lastBytePart);
                 }
             } catch (Exception ex) {
                 log.warn("Can't decrypt input file:");
@@ -243,27 +285,6 @@ public class CryptoHelper {
         return null;
     }
 
-    private static byte[] encrypt_AES(byte[] message, byte[] raw) throws Exception {
-        byte[] encrypted_text = null;
-
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        System.out.println(skeySpec);
-        // Instantiate the cipher
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        encrypted_text = cipher.doFinal(message);
-        return encrypted_text;
-    }
-
-    private static byte[] decrypt_AES(byte[] encrypted_text, byte[] raw) throws Exception {
-
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] original = cipher.doFinal(encrypted_text);
-        return original;
-    }
-
     public static SecretKey getSecretKeyAes() {
         if (secretKey == null) {
             try {
@@ -273,6 +294,7 @@ public class CryptoHelper {
             } catch (NoSuchAlgorithmException ex) {
                 log.warn("Can't instatiate key generator: " + ex.toString());
             }
+            log.debug("SecrKey:"+toHexString(secretKey.getEncoded()));
         }
 
         return secretKey;
@@ -290,7 +312,8 @@ public class CryptoHelper {
             log.warn("User's key is: " + key);
             return null;
         }
-        byte[] code = getSecretKeyAes().getEncoded();
+      //  log.debug("byte[]"+);
+        byte[] code = fromHexString(CommonConstants.secretKey);
         byte[] keyByte = convertBiteToHalf(fromHexString(MD5(key)));
         if (code.length == 16) {
 
@@ -314,4 +337,6 @@ public class CryptoHelper {
 
         return res;
     }
+
+   
 }
