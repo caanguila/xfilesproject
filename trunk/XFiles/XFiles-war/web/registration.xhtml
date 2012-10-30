@@ -40,34 +40,34 @@
                     <table style="width: 500px; vertical-align: central;">
                         <tr>
                             <td><label for="emailsignup" data-icon="e" >Your email</label></td>
-                            <td><h:inputText id="emailsignup" type="email" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/></td> 
+                            <td><h:inputText id="emailsignup" class="input-large" type="email" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/></td> 
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup" data-icon="p">Your password </label></td>
-                            <td><h:inputSecret id="passwordsignup" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/></td>
+                            <td><h:inputSecret id="passwordsignup" class="input-large" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/></td>
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup_confirm" data-icon="p">Please confirm your password </label></td>
-                            <td><h:inputSecret id="passwordsignup_confirm" placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/></td>
+                            <td><h:inputSecret id="passwordsignup_confirm" class="input-large" placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/></td>
                         </tr>
                         <tr>
                             <td><label for="first_name" data-icon="e" >First Name</label></td>
-                            <td><h:inputText id="first_name" placeholder="John" value="#{registrationBean.firstName}"/></td> 
+                            <td><h:inputText id="first_name" class="input-large" placeholder="John" value="#{registrationBean.firstName}"/></td> 
                         </tr>
                         <tr>
                             <td><label for="last_name" data-icon="e" >Last Name</label></td>
-                            <td><h:inputText id="last_name" placeholder="Doe" value="#{registrationBean.lastName}"/></td> 
+                            <td><h:inputText id="last_name" class="input-large" placeholder="Doe" value="#{registrationBean.lastName}"/></td> 
                         </tr>
                         <tr>
                             <td><label for="info" data-icon="e" >Extra Info</label></td>
-                            <td><h:inputText id="info" value="#{registrationBean.info}"/></td> 
+                            <td><h:inputText id="info" class="input-large" value="#{registrationBean.info}" placeholder="Personal info we have to know about you"/></td> 
                         </tr>
                         <tr> 
                             <td>  
                                 Already a member ?
                                 <a href="#{request.contextPath}/faces/login.xhtml"> Go and log in </a>
                             </td>
-                            <td style="text-align: right;">
+                            <td style="text-align: right;" class="input-large">
                                 <h:commandLink class="button_green" style="text-decoration: none;" value="Sign up!" actionListener="#{registrationBean.registerAction}">
                                     <f:ajax execute="@form" render="@form" onevent="handleRegistration"/>
                                 </h:commandLink>

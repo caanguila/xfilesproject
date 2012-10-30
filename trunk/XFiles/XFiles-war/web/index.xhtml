@@ -46,15 +46,15 @@
                                 style="margin-left: 0;" errorClass="message_bad" fatalClass="message_bad"
                                 warnClass="message_info" infoClass="message_good">
                     </h:messages>
-                    <h:panelGrid id="login_grid" columns="2" width="250px" style="text-align: left">
+                    <h:panelGrid id="login_grid" columns="2" width="350px" style="text-align: left">
                         <h:outputLabel id="loginLabel" for="login_email" value="Your email"/> 
-                        <h:inputText id="login_email" class="input-small" type="email" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
+                        <h:inputText id="login_email" class="input-large" type="email" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
                         <h:outputLabel id="passwordLabel" value="Your password" for="login_password"/>
-                        <h:inputSecret id="login_password" class="input-small" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/>
+                        <h:inputSecret id="login_password" class="input-large" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/>
 
 
                         <a href="#myModal" data-toggle="modal" class="button_grey">Register</a>
-                        <h:panelGroup style="display: block; width: 60%; text-align: right;">
+                        <h:panelGroup style="display: block; text-align: right; width: 90%;">
                             <h:commandLink class="button_green" 
                                            style="text-decoration: none;" 
                                            value="Login" 
@@ -148,14 +148,14 @@
                 var insidePopover = false;
                 var popoverContent = '';
                 $(document).ready(function () { 
+                    initPopoverContent();
+                    
                     $("#log_in").popover({
                         html:      true,
                         title:     function () {
                             return $(this).html();
                         },
                         content:   function () {
-                            popoverContent = $('#log_in_content').html();
-                            $('#log_in_content').html('');
                             return popoverContent; 
                         } 
                         //  /   /  trigger: 'click'////
@@ -165,12 +165,15 @@
                         
                                         if((!insidePopover)){ 
                                             $("#log_in").popover('hide');
-                                            if(popoverContent != '')
-                                                $('#log_in_content').html(popoverContent);
                                         }
                                     }   
                                   );
                 });
+                
+                function initPopoverContent() {
+                            popoverContent = $('#log_in_content').html();
+                            $('#log_in_content').html('');
+                }
             </script> 
         </ui:define>
 

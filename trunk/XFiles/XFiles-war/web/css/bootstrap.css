@@ -5078,7 +5078,7 @@ input[type="submit"].btn.btn-mini {
   left: 0;
   z-index: 1010;
   display: none;
-  width: 260px;
+  /* width: 260px;*/
   padding: 1px;
   background-color: #ffffff;
   border: 1px solid #ccc;
@@ -5771,3 +5771,11 @@ a.badge:hover {
 .affix {
   position: fixed;
 }
+
+/*.popover-inner {
+    width: 350px;
+}
+
+.popover-content {
+    width: 350px;
+}*/
