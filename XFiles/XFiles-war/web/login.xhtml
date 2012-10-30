@@ -41,18 +41,18 @@
                     <table style="width: 500px; vertical-align: central;">
                         <tr>
                             <td><label for="emailsignup" data-icon="e" >Your email</label></td>
-                            <td><h:inputText id="login_email" type="email" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/></td> 
+                            <td><h:inputText id="login_email" class="input-large" type="email" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/></td> 
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup" data-icon="p">Your password </label></td>
-                            <td><h:inputSecret id="login_password" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/></td>
+                            <td><h:inputSecret id="login_password" class="input-large" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/></td>
                         </tr>
                         <tr> 
                             <td>  
                                 Forgot password ?
                                 <a href="#{request.contextPath}/faces/recover.xhtml"> Recovery page </a>
                             </td>
-                            <td style="text-align: right;">
+                            <td style="text-align: right;" class="input-large">
                                 <h:commandLink class="button_green" style="text-decoration: none;" value="Sign in!" actionListener="#{loginBean.loginAction}">
                                     <f:ajax execute="@form" render="@form" onevent="handleLogin"/>
                                 </h:commandLink>

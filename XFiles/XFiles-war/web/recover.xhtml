@@ -33,7 +33,7 @@
             <div id="recovery_form_container">
                 <p>New password will be sent to your e-mail</p>
                 <h:form id="recovery_form" prependId="false"> 
-                    <p><strong>Registration</strong></p>
+                    <p><strong>Password Recovery Form</strong></p>
                     <h:messages id="messages" class="message" title="Validation Errors" showDetail="true"
                                 style="margin-left: 0;" errorClass="message_bad" fatalClass="message_bad"
                                 warnClass="message_info" infoClass="message_good">
@@ -41,14 +41,14 @@
                     <table style="width: 500px; vertical-align: central;">
                         <tr>
                             <td><label for="login_email" data-icon="e" >Your email</label></td>
-                            <td><h:inputText id="recovery_email" type="email" placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.email}"/></td> 
+                            <td><h:inputText id="recovery_email" class="input-large" type="email" placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.email}"/></td> 
                         </tr>
                         <tr> 
                             <td>  
                                 New User ?
                                 <a href="#{request.contextPath}/faces/registration.xhtml"> Go and sign up </a>
                             </td>
-                            <td style="text-align: right;">
+                            <td style="text-align: right;" class="input-large">
                                 <h:commandLink class="button_green" style="text-decoration: none;" value="Reset password!" actionListener="#{loginBean.loginAction}">
                                     <f:ajax execute="@form" render="@form" onevent="handleLogin"/>
                                 </h:commandLink>
