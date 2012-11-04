@@ -48,7 +48,7 @@
                     </h:messages>
                     <h:panelGrid id="login_grid" columns="2" width="350px" style="text-align: left">
                         <h:outputLabel id="loginLabel" for="login_email" value="Your email"/> 
-                        <h:inputText id="login_email" class="input-large" type="email" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
+                        <h:inputText id="login_email" class="input-large" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
                         <h:outputLabel id="passwordLabel" value="Your password" for="login_password"/>
                         <h:inputSecret id="login_password" class="input-large" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/>
 
@@ -64,7 +64,7 @@
                         </h:panelGroup>
                     </h:panelGrid>         
 
-                    <h:inputHidden id="login_status" value="hello"/>
+                    <h:inputHidden id="login_status" value="#{loginBean.loginStatus}"/>
                 </h:form>
                 <script>
                     function handleLogin(e) {
@@ -97,7 +97,7 @@
 
 
                             <label for="emailsignup" data-icon="e" >Your email</label>
-                            <h:inputText id="emailsignup" type="email" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/>
+                            <h:inputText id="emailsignup" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/>
 
                             <label for="passwordsignup" data-icon="p">Your password </label>
                             <h:inputSecret id="passwordsignup" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/>

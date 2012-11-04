@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -22,7 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UsersPasswords.findByUserId", query = "SELECT u FROM UsersPasswords u WHERE u.userId = :userId"),
     @NamedQuery(name = "UsersPasswords.findByPassword", query = "SELECT u FROM UsersPasswords u WHERE u.password = :password"),
     @NamedQuery(name = "UsersPasswords.findByLogin", query = "SELECT u FROM UsersPasswords u WHERE u.login = :login"),
-    @NamedQuery(name = "UsersPasswords.findByLoginAndPassword", query="SELECT u FROM UsersPasswords u WHERE u.login = :login AND u.password = :password")
+    @NamedQuery(name = "UsersPasswords.findByLoginAndPassword", query="SELECT u FROM UsersPasswords u WHERE u.login = :login AND u.password = :password"),
+    @NamedQuery(name = "UsersPasswords.findByUserIdAndPassword", query="SELECT u FROM UsersPasswords u WHERE u.userId = :userId AND u.password = :password")
 })
 public class UsersPasswords implements Serializable {
     private static final long serialVersionUID = 1L;

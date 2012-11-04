@@ -19,5 +19,7 @@ public interface UserManagerLocal {
     User getUserById(Long userId);
 
     public Long tryLogin(String login, String pwd);
+    
+    public User getUserByLogin(String login);
 
 }

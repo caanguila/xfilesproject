@@ -3,6 +3,7 @@ package in.xfiles.core.ejb;
 import in.xfiles.core.entity.Types;
 import in.xfiles.core.entity.User;
 import in.xfiles.core.entity.UsersPasswords;
+import in.xfiles.core.helpers.CommonTools;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -90,5 +91,17 @@ public class UserManager implements UserManagerLocal {
             return null;
         }
         return l.get(0).getUserId();
+    }
+    
+    @Override
+    public User getUserByLogin(String login) {
+        UsersPasswords up = CommonTools.getFirstElement(
+                        em.createNamedQuery("UsersPasswords.findByLogin", UsersPasswords.class)
+                                .setParameter("login", login)
+                                .setMaxResults(1)
+                                .getResultList());
+        if(up == null)
+            return null;
+        return getUserById(up.getUserId());
     }
 }

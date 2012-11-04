@@ -61,6 +61,8 @@ public class RegistrationBean implements CommonConstants, Serializable {
         }
         if(!password.equals(passwordConfirmation)) {
             JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Password and Confirmation password don't match.");
+            passwordConfirmation = null;
+            password = null;
             return false;
         }
         if(StringUtils.isEmpty(firstName)) {
@@ -83,12 +85,29 @@ public class RegistrationBean implements CommonConstants, Serializable {
             return;
         }
         String pwd = CryptoHelper.SHA256(password);
-        password = null;
+        password = null; passwordConfirmation = null;
         log.info("password = "+pwd);
         log.info("e-mail = "+email);
         
+        // Check if user exists
+        if(um.getUserByLogin(email) != null) {
+            JSFHelper.addMessage(FacesMessage.SEVERITY_WARN, 
+                    "Information:", 
+                    "This login is taken by existing account.");
+            registrationStatus = "fail";
+            return;
+        }
+        
         User u = um.createUser(ADMINISTRATOR_USER_TYPE, email, firstName, lastName, pwd, info);
         pwd = null;
+        if(u == null) {
+            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, 
+                    "Error:", 
+                    "Unexpected error. See logs for details");
+            registrationStatus = "fail";
+            return;
+        }
+        
         log.info("User has been registered: "+u);
         
         if(u == null) {

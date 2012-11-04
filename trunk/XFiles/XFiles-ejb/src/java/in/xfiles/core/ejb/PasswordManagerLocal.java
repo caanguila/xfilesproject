@@ -9,6 +9,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface PasswordManagerLocal {
-     boolean checkUserPassword(Long userId, String password);
-     boolean checkUserPassword(String login, String password);
+     Long checkUserPassword(Long userId, String password);
+     Long checkUserPassword(String login, String password);
 }
