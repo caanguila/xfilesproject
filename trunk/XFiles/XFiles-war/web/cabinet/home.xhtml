@@ -12,25 +12,58 @@
         <ui:param name="webSiteTitle" value="X Files"/>
 
         <ui:define name="submenu">
+            <h:form id="controll_panel_form" prependId="false">
             <ul>
-                <li><a href="#">Pricing boxes</a></li>
-                <li><a href="#">Pricing table</a></li>
-                <li><a href="#">E-shop</a></li>
-                <li class="selected"><a href="#">Article Example</a></li>
+                <li><h:commandLink id="files_link" value="Files" hreflang="#{request.contextPath}/faces/cabinet/home.xhtml">
+                        <f:ajax render=":files_tree" execute="@form" />
+                    </h:commandLink></li>
+<!--                <li id="1"><a id="files_link" href="#{request.contextPath}/faces/cabinet/home.xhtml">Files</a></li>-->
+                <li id="2"><a id="groups_link" href="#{request.contextPath}/faces/cabinet/home.xhtml">Groups</a></li>
+                <li id="3"><a id="messages_link" href="#{request.contextPath}/faces/cabinet/home.xhtml">Messages</a></li>
+                <li id="4"><a id="article_link" href="#">Article Example</a></li>
             </ul>
+            </h:form>
         </ui:define>
-
+        
         <ui:define name="categories">
             <h3>Categories</h3>
             <ul class="categories">
                 <li><a href="#">Category</a></li>
-                <li class="selected"><a href="#">Category 1</a></li>
+                <li class="selected"><a href="#{request.contextPath}/faces/cabinet/home.xhtml">Category 1</a></li>
                 <li><a href="#">Catogory 2</a></li>
                 <li><a href="#">Category 3</a></li>
             </ul>	
         </ui:define>
-
+        
         <ui:define name="content">
+            
+                <h:panelGroup id ="files_tree" style="display: #{filesBean.treeStatus}"> 
+                <h:panelGrid id="files_tree_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;">
+                <h:outputLabel id ="files_list_label" style="width: 300px;" class ="label label-info" value="Files List" />
+                <h:outputLabel id ="files_info_label" style="width: 300px;" class ="label label-info" value="Info" />
+                <h:panelGroup id="files_list">
+                        <h:form id="files_list_form">
+                             <ui:repeat var="item" value="#{filesBean.tableElements}">
+                                 <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}">
+                                  <f:ajax render=":file_info" execute="@form"/>
+                                 </h:commandLink>
+                                    <br/>
+                                </ui:repeat>
+                             
+                        </h:form>
+                 </h:panelGroup>
+                <h:panelGroup id="file_info" style="">
+                    <h:outputLabel value="ID: #{filesBean.currentFileID}" />
+                    <h:outputLabel id="file_name" value="Name: #{filesBean.currentFileName}" />
+                    <h:outputLabel value="Content type: #{filesBean.currentFileContType} " />
+                    <h:outputLabel value="Size:  #{filesBean.currentFileSize}" />
+                    <h:outputLabel value="CRC:  #{filesBean.currentFileCRC}" />
+                    <h:outputLabel value="access type id:  #{filesBean.currentFileType}" />
+                    <h:outputLabel value="Is folder:  #{filesBean.currentFileIsFolder}" /> 
+                </h:panelGroup>
+            </h:panelGrid>
+            </h:panelGroup>
+           
             <H3>HERE will be the main page of the user cabinet.</H3>
             
             <p><strong>Here is an example of long article.</strong></p>
