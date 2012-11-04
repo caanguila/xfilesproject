@@ -6,8 +6,8 @@
             xmlns:f="http://java.sun.com/jsf/core" 
             xmlns:c="http://java.sun.com/jsp/jstl/core"
             xmlns:ui="http://java.sun.com/jsf/facelets">
-        <!-- Mirrored from creatively.equiet.sk/typography.html by HTTrack Website Copier/3.x [XR&CO'2010], Sun, 14 Oct 2012 11:07:15 GMT -->
         <h:head>
+            <f:event type="preRenderView" listener="#{loginBean.preRenderView}"/>
             <ui:include src="creatively-html-head.xhtml">
                 <ui:param name="pageTitle" value="#{pageTitle}"/>
             </ui:include>
@@ -80,10 +80,12 @@
 
                     <!-- Page title -->
                     <section id="title">
-
                         <!-- Heading -->
-                        <h1 class="grid_12" style="line-height: 20px;"><span>#{pageTitle}</span></h1>
-
+                        <h1 class="grid_10" style="line-height: 20px;"><span>#{pageTitle}</span></h1>
+                        <span style="float: right; dosplay: block; line-height: 20px; width: 160px; text-align: right;">
+<!--                            Hello, <strong>#{loginBean.currentUser.name} #{loginBean.currentUser.surname}</strong>!-->
+                            <h:form><h:commandLink class="button_grey" style="text-decoration: none;" value="Sign out" action="#{loginBean.logOut}"/></h:form>
+                        </span>
                         <!-- Submenu -->
                         <nav class="grid_7" style="display: block; width: 100%;">
                             <ui:insert name="submenu"/>

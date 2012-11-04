@@ -21,7 +21,7 @@ public class CryptoHelper {
 
     private static final Logger log = Logger.getLogger(CryptoHelper.class);
     private static SecretKey secretKey;
-    private final static int pieSize = 1024;
+    private final static int ENCRYPTION_FILE_BUFFER_SIZE = 1024;
 
     public static String encryptString(String s, String algo) {
         try {
@@ -134,14 +134,14 @@ public class CryptoHelper {
                 log.warn(ex.toString());
                 return null;
             }
-            byte[] f = new byte[pieSize];
+            byte[] f = new byte[ENCRYPTION_FILE_BUFFER_SIZE];
 
             File temp = File.createTempFile("tmp", "crypt", directory);
             FileOutputStream fos = new FileOutputStream(temp);
             byte[] crypt = null;
 
             try {
-                while (pieSize < fis.available()) {
+                while (ENCRYPTION_FILE_BUFFER_SIZE < fis.available()) {
                     //     log.debug("file avalable: " + fis.available());
                     fis.read(f);
                     crypt = cipher.doFinal(f);
@@ -150,8 +150,8 @@ public class CryptoHelper {
 
                 //last part of file
                 //  Arrays.fill(f, (byte)0);
-                f = new byte[pieSize + 16];
-                if (pieSize >= fis.available()) {
+                f = new byte[ENCRYPTION_FILE_BUFFER_SIZE + 16];
+                if (ENCRYPTION_FILE_BUFFER_SIZE >= fis.available()) {
                     byte[] sizeBytes = ByteBuffer.allocate(4).putInt(fileSize).array();
                     int last = fis.available();
                     log.debug("Real file size: " + fileSize + "  bytes: " + toHexString(sizeBytes) + " l: " + sizeBytes.length);
@@ -161,10 +161,10 @@ public class CryptoHelper {
                     //f = new byte[fis.available()];
                     fis.read(f);
                     //we will write on last size of the file to the end of pieSize massive
-                    f[pieSize - 4 + 16] = sizeBytes[0];
-                    f[pieSize - 3 + 16] = sizeBytes[1];
-                    f[pieSize - 2 + 16] = sizeBytes[2];
-                    f[pieSize - 1 + 16] = sizeBytes[3];
+                    f[ENCRYPTION_FILE_BUFFER_SIZE - 4 + 16] = sizeBytes[0];
+                    f[ENCRYPTION_FILE_BUFFER_SIZE - 3 + 16] = sizeBytes[1];
+                    f[ENCRYPTION_FILE_BUFFER_SIZE - 2 + 16] = sizeBytes[2];
+                    f[ENCRYPTION_FILE_BUFFER_SIZE - 1 + 16] = sizeBytes[3];
                     crypt = cipher.doFinal(f);
                     fos.write(crypt);
                 }
@@ -224,14 +224,14 @@ public class CryptoHelper {
                 return null;
             }
 
-            log.debug("Decrypt file avalable: " + fis.available() + "  " + pieSize);
-            byte[] f = new byte[pieSize];
+            log.debug("Decrypt file avalable: " + fis.available() + "  " + ENCRYPTION_FILE_BUFFER_SIZE);
+            byte[] f = new byte[ENCRYPTION_FILE_BUFFER_SIZE];
             File temp = File.createTempFile("tmp", "decrypt", directory);
             FileOutputStream fos = new FileOutputStream(temp);
             byte[] crypt = null;
 
             try {
-                while (pieSize + 16 < fis.available()) {
+                while (ENCRYPTION_FILE_BUFFER_SIZE + 16 < fis.available()) {
                     //  log.debug("file avalable: " + fis.available());
                     fis.read(f);
                     crypt = cipher.doFinal(f);
@@ -239,24 +239,24 @@ public class CryptoHelper {
                 }
 
                 //  f = new byte[pieSize+16];           
-                if (pieSize + 16 >= fis.available()) {
+                if (ENCRYPTION_FILE_BUFFER_SIZE + 16 >= fis.available()) {
                     log.debug("file avalable: " + fis.available());
                     byte[] fileSize = new byte[4];
 
-                    f = new byte[pieSize + 16];
+                    f = new byte[ENCRYPTION_FILE_BUFFER_SIZE + 16];
                     fis.read(f);
                     crypt = cipher.doFinal(f);
 
-                    fileSize[0] = crypt[pieSize - 4 + 16];
-                    fileSize[1] = crypt[pieSize - 3 + 16];
-                    fileSize[2] = crypt[pieSize - 2 + 16];
-                    fileSize[3] = crypt[pieSize - 1 + 16];
+                    fileSize[0] = crypt[ENCRYPTION_FILE_BUFFER_SIZE - 4 + 16];
+                    fileSize[1] = crypt[ENCRYPTION_FILE_BUFFER_SIZE - 3 + 16];
+                    fileSize[2] = crypt[ENCRYPTION_FILE_BUFFER_SIZE - 2 + 16];
+                    fileSize[3] = crypt[ENCRYPTION_FILE_BUFFER_SIZE - 1 + 16];
 
                     //    log.debug("decrypt fileSize: "+toHexString(fileSize));
                     int sizeOfFile = Integer.parseInt(toHexString(fileSize), 16);
-                    int lastPart = sizeOfFile % pieSize;
+                    int lastPart = sizeOfFile % ENCRYPTION_FILE_BUFFER_SIZE;
                     if (lastPart == 0) {
-                        lastPart = pieSize;
+                        lastPart = ENCRYPTION_FILE_BUFFER_SIZE;
                     }
                     //     log.debug("real size: "+sizeOfFile+"  pieSize: "+pieSize);
                     //  log.debug("decrypt last part: "+lastPart);
@@ -314,7 +314,7 @@ public class CryptoHelper {
             return null;
         }
         //  log.debug("byte[]"+);
-        byte[] code = fromHexString(CommonConstants.secretKey);
+        byte[] code = fromHexString(CommonConstants.SECRET_KEY);
         byte[] keyByte = convertBiteToHalf(fromHexString(MD5(key)));
         if (code.length == 16) {
 
@@ -344,15 +344,15 @@ public class CryptoHelper {
         FileInputStream fis = new FileInputStream(file);
         CRC32 chSumm = new CRC32();
 
-        byte[] f = new byte[pieSize];
+        byte[] f = new byte[ENCRYPTION_FILE_BUFFER_SIZE];
         try {
-            while (pieSize < fis.available()) {
+            while (ENCRYPTION_FILE_BUFFER_SIZE < fis.available()) {
 
                 fis.read(f);
                 chSumm.update(f);
             }
 
-            if (pieSize >= fis.available()) {
+            if (ENCRYPTION_FILE_BUFFER_SIZE >= fis.available()) {
 
                 f = new byte[fis.available()];
                 fis.read(f);
