@@ -11,38 +11,46 @@
         <ui:param name="pageTitle" value="Home"/>
         <ui:param name="webSiteTitle" value="X Files"/>
 
+        
         <ui:define name="submenu">
             <h:form id="controll_panel_form" prependId="false">
             <ul>
-                <li><h:commandLink id="files_link" value="Files" hreflang="#{request.contextPath}/faces/cabinet/home.xhtml">
-                        <f:ajax render=":files_tree" execute="@form" />
+                <li><h:commandLink id="files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
+                        <f:ajax render=":cabinetContentContainer" execute="@form" />
                     </h:commandLink></li>
-<!--                <li id="1"><a id="files_link" href="#{request.contextPath}/faces/cabinet/home.xhtml">Files</a></li>-->
-                <li id="2"><a id="groups_link" href="#{request.contextPath}/faces/cabinet/home.xhtml">Groups</a></li>
-                <li id="3"><a id="messages_link" href="#{request.contextPath}/faces/cabinet/home.xhtml">Messages</a></li>
-                <li id="4"><a id="profile_link" href="#">Profile</a></li>
+          
+                <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
+                        <f:ajax render=":cabinetContentContainer" execute="@form" />
+                    </h:commandLink></li>
+                <li><h:commandLink id="messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
+                        <f:ajax render=":cabinetContentContainer" execute="@form" />
+                    </h:commandLink></li>
+                <li><h:commandLink id="profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
+                        <f:ajax render=":cabinetContentContainer" execute="@form" />
+                    </h:commandLink></li>
             </ul>
             </h:form>
+        
         </ui:define>
         
         <ui:define name="content">
-            
-                <h:panelGroup id ="files_tree"> 
+            <h:panelGroup id="cabinetContentContainer">
+                
+                <h:panelGroup id ="user_files_tree" rendered="#{cabinetController.tableVisible}" > 
                 <h:panelGrid id="files_tree_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;">
                 <h:outputLabel id ="files_list_label" style="width: 300px;" class ="label label-info" value="Files List" />
                 <h:outputLabel id ="files_info_label" style="width: 300px;" class ="label label-info" value="Info" />
                 <h:panelGroup id="files_list">
-                        <h:form id="files_list_form">
+                 <h:form id="files_list_form" >
                              <ui:repeat var="item" value="#{filesBean.tableElements}">
                                  <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}">
-                                  <f:ajax render=":file_info" execute="@form"/>
+                                     <f:ajax render="@this :file_info" execute=":files_list_form" event="click"/>
                                  </h:commandLink>
                                     <br/>
                                 </ui:repeat>
-                             
-                        </h:form>
+                       </h:form>
                  </h:panelGroup>
-                <h:panelGroup id="file_info" style="">
+                <h:panelGroup id="file_info" >
                     <h:outputLabel value="ID: #{filesBean.currentFileID}" />
                     <h:outputLabel id="file_name" value="Name: #{filesBean.currentFileName}" />
                     <h:outputLabel value="Content type: #{filesBean.currentFileContType} " />
@@ -53,6 +61,18 @@
                 </h:panelGroup>
             </h:panelGrid>
             </h:panelGroup>
+                
+                <h:panelGroup id ="user_groups" rendered="#{cabinetController.groupsVisible}" >
+                     <h1>Groups</h1>
+                 </h:panelGroup>
+                
+                <h:panelGroup id ="user_messages" rendered="#{cabinetController.messagesVisible}" >
+                     <h1>Messages</h1>
+                 </h:panelGroup>
+                
+                <h:panelGroup id ="user_profile" rendered="#{cabinetController.profileVisible}" >
+                     <h1>Profile</h1>
+                 </h:panelGroup>
 <!--           
             <H3>HERE will be the main page of the user cabinet.</H3>
             
@@ -139,8 +159,9 @@
                     </ul>
                 </li>
             </ul>-->
+</h:panelGroup>
         </ui:define>
-
+        
         <ui:define name="toolbar">
             <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
 
