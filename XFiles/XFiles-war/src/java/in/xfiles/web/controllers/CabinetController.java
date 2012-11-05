@@ -15,7 +15,7 @@ import java.io.Serializable;
 @ManagedBean
 @ViewScoped
 public class CabinetController implements Serializable {
-public boolean tableVisible;
+public boolean tableVisible = true;
 public boolean groupsVisible;
 public boolean messagesVisible;
 public boolean profileVisible;
@@ -26,10 +26,7 @@ public boolean profileVisible;
     }
     
     public void filesLinkListener(ActionEvent e){
-         if(tableVisible){
-              flushFlags();
-              return;
-          }
+        
          
          flushFlags();
          System.out.println("Click Files:");
@@ -40,10 +37,7 @@ public boolean profileVisible;
     }
     
      public void groupsLinkListener(ActionEvent e){
-           if(groupsVisible){
-              flushFlags();
-              return;
-          }
+         
          flushFlags();
          System.out.println("Click Groups:");
          if(groupsVisible) groupsVisible = false;
@@ -53,10 +47,7 @@ public boolean profileVisible;
     }
      
      public void messagesLinkListener(ActionEvent e){
-           if(messagesVisible){
-              flushFlags();
-              return;
-          }
+         
          flushFlags();
          System.out.println("Click Messages:");
          if(messagesVisible) messagesVisible = false;
@@ -66,10 +57,7 @@ public boolean profileVisible;
     }
 
       public void profileLinkListener(ActionEvent e){
-           if(profileVisible){
-              flushFlags();
-              return;
-          }
+         
          flushFlags();
          System.out.println("Click Profile:");
          if(profileVisible) profileVisible = false;

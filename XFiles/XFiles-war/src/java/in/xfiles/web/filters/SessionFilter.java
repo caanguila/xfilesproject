@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  * A filter for processing requests, 
@@ -106,7 +106,7 @@ public class SessionFilter implements Filter {
             throws IOException, ServletException {
         
         if (debug) {
-            log("SessionFilter:doFilter()");
+    //        log("SessionFilter:doFilter()");
         }
         
 //        doBeforeProcessing(request, response);
