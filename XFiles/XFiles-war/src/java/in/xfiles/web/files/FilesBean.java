@@ -9,18 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-
+import java.io.Serializable;
 /**
  *
  * @author 7
  */
 @ManagedBean
 @RequestScoped
-public class FilesBean {
+public class FilesBean implements Serializable{
 
-    private Files currentFile;
-    private boolean treeStatus = true;
+    public Files currentFile;
+    public boolean treeStatus = true;
     /**
      * Creates a new instance of FilesBean
      */
