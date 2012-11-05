@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="templates/creatively-article.xhtml">
+
+        <ui:param name="pageTitle" value="Pricing"/>
+        <ui:param name="webSiteTitle" value="X Files"/>
+
+        <ui:define name="submenu">
+        </ui:define>
+
+        <ui:define name="categories">
+            <h3>Categories</h3>
+            <ul class="categories">
+                <li><a href="#">Category</a></li>
+                <li class="selected"><a href="#">Category 1</a></li>
+                <li><a href="#">Catogory 2</a></li>
+                <li><a href="#">Category 3</a></li>
+            </ul>	
+        </ui:define>
+
+        <ui:define name="content">
+            <h2>Pricing</h2>
+            
+            <p><strong>Here is an example of long article.</strong></p>
+            
+            <p>Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipiscing elit. Aenean at vestibulum nunc. Sed augue magna, molestie at varius vitae, aliquam et purus. Quisque lacus enim, cursus a ornare non, ultricies quis nisl. Morbi eget velit dignissim ante sodales fringilla. Vestibulum molestie sagittis neque quis dignissim.</p>
+            <p><strong>Integer congue, erat id lobortis rutrum, libero dolor cursus nibh, vel volutpat lectus sem vulputate nisi.</strong></p>
+            <p>Donec enim ligula, malesuada et elementum non, euismod eu neque. Vivamus lorem elit, malesuada nec egestas eu, congue eget justo. Aliquam laoreet dictum tristique. Duis quam tortor, ultricies sit amet euismod sed, auctor quis mauris. Phasellus ac sollicitudin nisl.</p>
+            <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+            <p>Maecenas ac justo leo. Quisque auctor neque et tortor molestie at porta lorem faucibus. Sed eget nisi quis dolor posuere condimentum. Suspendisse sem justo, lacinia iaculis fermentum in, tempus vel magna. Morbi metus tortor, volutpat vitae posuere non, commodo nec lectus.</p>
+
+            <div class="space"></div>
+            <hr />
+
+            <a href="#" class="button_grey_big">Big grey button</a><h:outputText value="&#160;" />
+            <a href="#" class="button_green_big">Big green button</a><h:outputText value="&#160;" />
+            <a href="#" class="button_grey">Grey button</a><h:outputText value="&#160;" />
+            <a href="#" class="button_green">Green button</a><h:outputText value="&#160;" />
+            <a href="#" class="read_more">Read more</a>
+
+            <div class="space"></div>
+            <hr />
+
+            <h2>Headline &lt;h2&gt;</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h3>Headline &lt;h3&gt;</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h4>Headline &lt;h4&gt;</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h5>Headline &lt;h5&gt;</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h6>Headline &lt;h6&gt;</h6>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <div class="space"></div>
+            <hr />
+
+            <h2><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h2&gt;</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h3><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h3&gt;</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h4><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h4&gt;</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h5><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h5&gt;</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <h6><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h6&gt;</h6>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+
+            <div class="space"></div>
+            <hr />
+
+            <h4 class="small_section">Small section headline</h4>
+            <p>Maecenas non tempor nisl. In hac habitasse platea dictumst. Etiam sagittis viverra cursus.</p>
+
+            <div class="space"></div>
+            <hr />
+
+            <p class="message_good message">This is a good message.</p>
+            <p class="message_bad message">This is a bad message.</p>
+            <p class="message_info message">You should know about this message.</p>
+
+            <div class="space"></div>
+            <hr />
+
+            <ul>
+                <li>Lorem ipsum</li>
+                <li>Praesent metu</li>
+                <li>Integer congue</li>
+                <li>Phasellus</li>
+                <li>
+                    Mentum interdum
+                    <ul>
+                        <li>Lorem ipsum</li>
+                        <li>Praesent metu</li>
+                        <li>Integer congue</li>
+                    </ul>
+                </li>
+            </ul>
+        </ui:define>
+
+        <ui:define name="toolbar">
+            <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
+
+            <div class="options float">
+
+                <section class="header_color clearfix">
+                    <h2>Header pattern</h2>
+                    <div class="header_white">
+                        <a href="#" data-src="light_honeycomb.png"></a>
+                        <a href="#" data-src="little_pluses.png"></a>
+                        <a href="#" data-src="45degreee_fabric.png"></a>
+                        <a href="#" data-src="60degree_gray.png"></a>	
+                        <a href="#" data-src="beige_paper.png"></a>
+                        <a href="#" data-src="bright_squares.png"></a>
+                        <a href="#" data-src="brushed_alu.png"></a>
+                        <a href="#" data-src="concrete_wall_2.png"></a>
+                        <a href="#" data-src="concrete_wall_3.png"></a>
+                        <a href="#" data-src="white_sand.png"></a>
+                        <a href="#" data-src="vichy.png"></a>
+                        <a href="#" data-src="wavecut.png"></a>
+                        <a href="#" data-src="white_carbon.png"></a>
+                        <a href="#" data-src="rockywall.png"></a>
+                        <a href="#" data-src="smooth_wall.png"></a>
+                        <a href="#" data-src="noisy.png"></a>
+                        <a href="#" data-src="old_mathematics.png"></a>
+                        <a href="#" data-src="paper_1.png"></a>
+                        <a href="#" data-src="paper_2.png"></a>
+                        <a href="#" data-src="paper_3.png"></a>
+                        <a href="#" data-src="pinstripe.png"></a>
+                        <a href="#" data-src="leather_1.png"></a>
+                        <a href="#" data-src="cork_1.png"></a>
+                        <a href="#" data-src="double_lined.png"></a>
+                        <a href="#" data-src="exclusive_paper.png"></a>
+                        <a href="#" data-src="fabric_1.png"></a>
+                        <a href="#" data-src="soft_wallpaper.png"></a>
+                        <a href="#" data-src="subtle_freckles.png"></a>
+                        <a href="#" data-src="subtle_orange_emboss.png"></a>
+                        <a href="#" data-src="green_gobbler.png"></a>
+                        <a href="#" data-src="grunge_wall.png"></a>
+                        <a href="#" data-src="handmadepaper.png"></a>
+                    </div>
+                    <div class="header_black">
+                        <a href="#" data-src="always_grey.png"></a>
+                        <a href="#" data-src="brushed_alu_dark.png"></a>
+                        <a href="#" data-src="padded.png"></a>
+                        <a href="#" data-src="gray_sand.png"></a>
+                        <a href="#" data-src="crossed_stripes.png"></a>
+                        <a href="#" data-src="green-fibers.png"></a>
+                        <a href="#" data-src="tactile_noise.png"></a>
+                        <a href="#" data-src="black_denim.png"></a>
+                        <a href="#" data-src="black-Linen.png"></a>
+                        <a href="#" data-src="blackmamba.png"></a>
+                        <a href="#" data-src="carbon_fibre.png"></a>
+                        <a href="#" data-src="dark_stripes.png"></a>
+                        <a href="#" data-src="darth_stripe.png"></a>
+                        <a href="#" data-src="concrete_wall.png"></a>
+                        <a href="#" data-src="black_paper.png"></a>
+                        <a href="#" data-src="micro_carbon.png"></a>
+                        <a href="#" data-src="random_grey_variations.png"></a>
+                        <a href="#" data-src="wood_1.png"></a>
+                    </div>
+                </section>
+
+                <section class="showcase_color clearfix">
+                    <h2>Showcase pattern</h2>
+                    <a href="#" data-src="light_honeycomb.png"></a>
+                    <a href="#" data-src="little_pluses.png"></a>
+                    <a href="#" data-src="45degreee_fabric.png"></a>
+                    <a href="#" data-src="60degree_gray.png"></a>	
+                    <a href="#" data-src="beige_paper.png"></a>
+                    <a href="#" data-src="bright_squares.png"></a>
+                    <a href="#" data-src="brushed_alu.png"></a>
+                    <a href="#" data-src="concrete_wall_2.png"></a>
+                    <a href="#" data-src="concrete_wall_3.png"></a>
+                    <a href="#" data-src="white_sand.png"></a>
+                    <a href="#" data-src="vichy.png"></a>
+                    <a href="#" data-src="wavecut.png"></a>
+                    <a href="#" data-src="white_carbon.png"></a>
+                    <a href="#" data-src="rockywall.png"></a>
+                    <a href="#" data-src="smooth_wall.png"></a>
+                    <a href="#" data-src="noisy.png"></a>
+                    <a href="#" data-src="old_mathematics.png"></a>
+                    <a href="#" data-src="paper_1.png"></a>
+                    <a href="#" data-src="paper_2.png"></a>
+                    <a href="#" data-src="paper_3.png"></a>
+                    <a href="#" data-src="pinstripe.png"></a>
+                    <a href="#" data-src="leather_1.png"></a>
+                    <a href="#" data-src="cork_1.png"></a>
+                    <a href="#" data-src="double_lined.png"></a>
+                    <a href="#" data-src="exclusive_paper.png"></a>
+                    <a href="#" data-src="fabric_1.png"></a>
+                    <a href="#" data-src="soft_wallpaper.png"></a>
+                    <a href="#" data-src="subtle_freckles.png"></a>
+                    <a href="#" data-src="subtle_orange_emboss.png"></a>
+                    <a href="#" data-src="green_gobbler.png"></a>
+                    <a href="#" data-src="grunge_wall.png"></a>
+                    <a href="#" data-src="handmadepaper.png"></a>
+                </section>
+
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>
