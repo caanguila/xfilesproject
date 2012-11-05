@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author 7
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class FilesBean implements Serializable{
 
     public Files currentFile;
@@ -51,6 +51,7 @@ public class FilesBean implements Serializable{
      
       
      public Files getCurrentFile(){
+         System.out.println("ID");
          return currentFile;
      }
      public String getCurrentFileName(){

@@ -13,10 +13,10 @@
 
         
         <ui:define name="submenu">
-            <h:form id="controll_panel_form" prependId="false">
+            <h:form id="controll_panel_form" >
             <ul>
                 <li><h:commandLink id="files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer" execute="@form" />
+                        <f:ajax render=":cabinetContentContainer" execute="@form :files_list_form" />
                     </h:commandLink></li>
           
                 <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
@@ -32,24 +32,26 @@
             </h:form>
         
         </ui:define>
-        
+<!--        <script>
+            var param = true;
+        </script>-->
         <ui:define name="content">
             <h:panelGroup id="cabinetContentContainer">
-                
+<!--                <h:inputHidden value="#{cabinetController.tableVisible}"/>-->
                 <h:panelGroup id ="user_files_tree" rendered="#{cabinetController.tableVisible}" > 
-                <h:panelGrid id="files_tree_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;">
+                <h:panelGrid id="files_tree_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
                 <h:outputLabel id ="files_list_label" style="width: 300px;" class ="label label-info" value="Files List" />
                 <h:outputLabel id ="files_info_label" style="width: 300px;" class ="label label-info" value="Info" />
-                <h:panelGroup id="files_list">
+                
                  <h:form id="files_list_form" >
-                             <ui:repeat var="item" value="#{filesBean.tableElements}">
+                     <ui:repeat var="item" value="#{filesBean.tableElements}" id="for" >
                                  <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}">
-                                     <f:ajax render="@this :file_info" execute=":files_list_form" event="click"/>
+                                     <f:ajax render=":file_info" execute="@form" />
                                  </h:commandLink>
                                     <br/>
                                 </ui:repeat>
                        </h:form>
-                 </h:panelGroup>
+                 
                 <h:panelGroup id="file_info" >
                     <h:outputLabel value="ID: #{filesBean.currentFileID}" />
                     <h:outputLabel id="file_name" value="Name: #{filesBean.currentFileName}" />

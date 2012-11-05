@@ -11,7 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.apache.commons.io.FileUtils;
+
 import org.apache.log4j.Logger;
 
 /**
