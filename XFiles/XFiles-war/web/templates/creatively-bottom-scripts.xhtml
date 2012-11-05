@@ -12,28 +12,28 @@
             <script>
                 $(function () {
                     
-                    $(".options a").each(function () {
-                        $(this).css("background", "url(./img/patterns/" + $(this).attr("data-src") + ")");
-                    });
+//                    $(".options a").each(function () {
+//                        $(this).css("background", "url(./img/patterns/" + $(this).attr("data-src") + ")");
+//                    });
                     
-                    $("#customization section a").click(function () {
-                        $(this).parents('section').find('a').removeClass("selected");
-                        $(this).addClass("selected");
-                    });
+//                    $("#customization section a").click(function () {
+//                        $(this).parents('section').find('a').removeClass("selected");
+//                        $(this).addClass("selected");
+//                    });
                     
-                    $("#customization .header_color a").click(function () {
-                        $("header")
-                        .css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")")
-                        .removeClass("header_black")
-                        .removeClass("header_white")
-                        .addClass($(this).parent().attr("class"))
-                        ;
-                    });
+//                    $("#customization .header_color a").click(function () {
+//                        $("header")
+//                        .css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")")
+//                        .removeClass("header_black")
+//                        .removeClass("header_white")
+//                        .addClass($(this).parent().attr("class"))
+//                        ;
+//                    });
                     
-                    if ($("#showcase").length == 0) $("#customization .showcase_color").css('display', 'none');
-                    $("#customization .showcase_color a").click(function () {
-                        $("#showcase").css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")");
-                    });
+//                    if ($("#showcase").length == 0) $("#customization .showcase_color").css('display', 'none');
+//                    $("#customization .showcase_color a").click(function () {
+//                        $("#showcase").css("background-image", "url(./img/patterns/" + $(this).attr("data-src") + ")");
+//                    });
                     
                     $("#customization .hide").toggle(function () {
                         $("#customization .options").slideUp("slow", function () {

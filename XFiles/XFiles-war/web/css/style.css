@@ -35,7 +35,7 @@ a {
 			color: #333;
 		}
 	.button_green, .button_green:visited, .button_green_big, .button_green_big:visited, .button_grey, .button_grey:visited, .button_grey_big, .button_grey_big:visited {
-		color: #fff;
+                color: #fff;
 		font-weight: bold;
 		text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
 		text-align: center;
@@ -46,30 +46,35 @@ a {
 	}
 		.button_green:hover, .button_green_big:hover, .button_grey:hover, .button_grey_big:hover {
 			-moz-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3); -webkit-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3); box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
+                        text-decoration: none;
 		}
 		.button_green {
 			font-size: 12px;
 			height: 28px;
 			line-height: 28px;
 			background: url("../img/button_green.png") repeat-x;
+                        text-decoration: none;
 		}
 		.button_green_big {
 			font-size: 13px;
 			height: 35px;
 			line-height: 35px;
 			background: url("../img/button_green_big.png") repeat-x;
+                        text-decoration: none;
 		}
 		.button_grey {
 			font-size: 12px;
 			height: 28px;
 			line-height: 28px;
 			background: url("../img/button_grey.png") repeat-x;
+                        text-decoration: none;
 		}
 		.button_grey_big {
 			font-size: 13px;
 			height: 35px;
 			line-height: 35px;
 			background: url("../img/button_grey_big.png") repeat-x;
+                        text-decoration: none;
 		}
 	.read_more {
 		color: #666;
