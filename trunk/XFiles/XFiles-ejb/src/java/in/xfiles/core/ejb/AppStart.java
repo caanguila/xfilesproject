@@ -29,13 +29,6 @@ public class AppStart {
     public void startup()
     {
         log.info("Application Initialized");
-        
-        List rs = entityManager.createQuery("SELECT u FROM User u").getResultList();
-        if(!rs.isEmpty()) {
-            User one = (User)rs.get(0);
-            log.info(""+one.getName()+" "+one.getSurname()+"  "+one.getEmail()+"  "+one.getDateCreation());
-            log.info("Type "+one.getTypeId().getName());
-        }
     }
     
     @PreDestroy
