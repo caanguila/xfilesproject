@@ -4,6 +4,7 @@
  */
 package in.xfiles.core.ejb;
 
+import in.xfiles.core.wrappers.UploadedFileWrapper;
 import javax.ejb.Local;
 
 /**
@@ -12,5 +13,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface FileManagerLocal {
+
+    public void processFile(UploadedFileWrapper ufw);
     
 }

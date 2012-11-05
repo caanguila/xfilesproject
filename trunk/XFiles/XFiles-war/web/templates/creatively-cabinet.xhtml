@@ -82,9 +82,8 @@
                     <section id="title">
                         <!-- Heading -->
                         <h1 class="grid_10" style="line-height: 20px;"><span>#{pageTitle}</span></h1>
-                        <span style="float: right; dosplay: block; line-height: 20px; width: 160px; text-align: right;">
-<!--                            Hello, <strong>#{loginBean.currentUser.name} #{loginBean.currentUser.surname}</strong>!-->
-                            <h:form><h:commandLink class="button_grey" style="text-decoration: none;" value="Sign out" action="#{loginBean.logOut}"/></h:form>
+                        <span style="float: right; dosplay: block; line-height: 20px; height: 20px; width: 140px; text-align: right;">
+                            <h:form><h:commandLink class="button_grey" style="text-decoration: none;" title="End session: #{loginBean.currentUser.name} #{loginBean.currentUser.surname}" value="Sign out" action="#{loginBean.logOut}"/></h:form>
                         </span>
                         <!-- Submenu -->
                         <nav class="grid_7" style="display: block; width: 100%;">

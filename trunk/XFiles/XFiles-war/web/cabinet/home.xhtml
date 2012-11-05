@@ -25,16 +25,6 @@
             </h:form>
         </ui:define>
         
-        <ui:define name="categories">
-            <h3>Categories</h3>
-            <ul class="categories">
-                <li><a href="#">Category</a></li>
-                <li class="selected"><a href="#{request.contextPath}/faces/cabinet/home.xhtml">Category 1</a></li>
-                <li><a href="#">Catogory 2</a></li>
-                <li><a href="#">Category 3</a></li>
-            </ul>	
-        </ui:define>
-        
         <ui:define name="content">
             
                 <h:panelGroup id ="files_tree"> 
@@ -63,7 +53,7 @@
                 </h:panelGroup>
             </h:panelGrid>
             </h:panelGroup>
-           
+<!--           
             <H3>HERE will be the main page of the user cabinet.</H3>
             
             <p><strong>Here is an example of long article.</strong></p>
@@ -148,108 +138,20 @@
                         <li>Integer congue</li>
                     </ul>
                 </li>
-            </ul>
+            </ul>-->
         </ui:define>
 
         <ui:define name="toolbar">
             <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
 
             <div class="options float">
-
                 <section class="header_color clearfix">
-                    <h2>Header pattern</h2>
-                    <div class="header_white">
-                        <a href="#" data-src="light_honeycomb.png"></a>
-                        <a href="#" data-src="little_pluses.png"></a>
-                        <a href="#" data-src="45degreee_fabric.png"></a>
-                        <a href="#" data-src="60degree_gray.png"></a>	
-                        <a href="#" data-src="beige_paper.png"></a>
-                        <a href="#" data-src="bright_squares.png"></a>
-                        <a href="#" data-src="brushed_alu.png"></a>
-                        <a href="#" data-src="concrete_wall_2.png"></a>
-                        <a href="#" data-src="concrete_wall_3.png"></a>
-                        <a href="#" data-src="white_sand.png"></a>
-                        <a href="#" data-src="vichy.png"></a>
-                        <a href="#" data-src="wavecut.png"></a>
-                        <a href="#" data-src="white_carbon.png"></a>
-                        <a href="#" data-src="rockywall.png"></a>
-                        <a href="#" data-src="smooth_wall.png"></a>
-                        <a href="#" data-src="noisy.png"></a>
-                        <a href="#" data-src="old_mathematics.png"></a>
-                        <a href="#" data-src="paper_1.png"></a>
-                        <a href="#" data-src="paper_2.png"></a>
-                        <a href="#" data-src="paper_3.png"></a>
-                        <a href="#" data-src="pinstripe.png"></a>
-                        <a href="#" data-src="leather_1.png"></a>
-                        <a href="#" data-src="cork_1.png"></a>
-                        <a href="#" data-src="double_lined.png"></a>
-                        <a href="#" data-src="exclusive_paper.png"></a>
-                        <a href="#" data-src="fabric_1.png"></a>
-                        <a href="#" data-src="soft_wallpaper.png"></a>
-                        <a href="#" data-src="subtle_freckles.png"></a>
-                        <a href="#" data-src="subtle_orange_emboss.png"></a>
-                        <a href="#" data-src="green_gobbler.png"></a>
-                        <a href="#" data-src="grunge_wall.png"></a>
-                        <a href="#" data-src="handmadepaper.png"></a>
-                    </div>
-                    <div class="header_black">
-                        <a href="#" data-src="always_grey.png"></a>
-                        <a href="#" data-src="brushed_alu_dark.png"></a>
-                        <a href="#" data-src="padded.png"></a>
-                        <a href="#" data-src="gray_sand.png"></a>
-                        <a href="#" data-src="crossed_stripes.png"></a>
-                        <a href="#" data-src="green-fibers.png"></a>
-                        <a href="#" data-src="tactile_noise.png"></a>
-                        <a href="#" data-src="black_denim.png"></a>
-                        <a href="#" data-src="black-Linen.png"></a>
-                        <a href="#" data-src="blackmamba.png"></a>
-                        <a href="#" data-src="carbon_fibre.png"></a>
-                        <a href="#" data-src="dark_stripes.png"></a>
-                        <a href="#" data-src="darth_stripe.png"></a>
-                        <a href="#" data-src="concrete_wall.png"></a>
-                        <a href="#" data-src="black_paper.png"></a>
-                        <a href="#" data-src="micro_carbon.png"></a>
-                        <a href="#" data-src="random_grey_variations.png"></a>
-                        <a href="#" data-src="wood_1.png"></a>
-                    </div>
+                    <h2>Operations:</h2>
+                    <h:link class="button_grey" outcome="/cabinet/operations/upload.xhtml" value="Upload File" style="width: auto; height: auto;">
+                        <f:param name="parent" value="#{param['folder']}"/>
+                    </h:link>
                 </section>
-
-                <section class="showcase_color clearfix">
-                    <h2>Showcase pattern</h2>
-                    <a href="#" data-src="light_honeycomb.png"></a>
-                    <a href="#" data-src="little_pluses.png"></a>
-                    <a href="#" data-src="45degreee_fabric.png"></a>
-                    <a href="#" data-src="60degree_gray.png"></a>	
-                    <a href="#" data-src="beige_paper.png"></a>
-                    <a href="#" data-src="bright_squares.png"></a>
-                    <a href="#" data-src="brushed_alu.png"></a>
-                    <a href="#" data-src="concrete_wall_2.png"></a>
-                    <a href="#" data-src="concrete_wall_3.png"></a>
-                    <a href="#" data-src="white_sand.png"></a>
-                    <a href="#" data-src="vichy.png"></a>
-                    <a href="#" data-src="wavecut.png"></a>
-                    <a href="#" data-src="white_carbon.png"></a>
-                    <a href="#" data-src="rockywall.png"></a>
-                    <a href="#" data-src="smooth_wall.png"></a>
-                    <a href="#" data-src="noisy.png"></a>
-                    <a href="#" data-src="old_mathematics.png"></a>
-                    <a href="#" data-src="paper_1.png"></a>
-                    <a href="#" data-src="paper_2.png"></a>
-                    <a href="#" data-src="paper_3.png"></a>
-                    <a href="#" data-src="pinstripe.png"></a>
-                    <a href="#" data-src="leather_1.png"></a>
-                    <a href="#" data-src="cork_1.png"></a>
-                    <a href="#" data-src="double_lined.png"></a>
-                    <a href="#" data-src="exclusive_paper.png"></a>
-                    <a href="#" data-src="fabric_1.png"></a>
-                    <a href="#" data-src="soft_wallpaper.png"></a>
-                    <a href="#" data-src="subtle_freckles.png"></a>
-                    <a href="#" data-src="subtle_orange_emboss.png"></a>
-                    <a href="#" data-src="green_gobbler.png"></a>
-                    <a href="#" data-src="grunge_wall.png"></a>
-                    <a href="#" data-src="handmadepaper.png"></a>
-                </section>
-
+                
             </div>
         </ui:define>
     </ui:composition>

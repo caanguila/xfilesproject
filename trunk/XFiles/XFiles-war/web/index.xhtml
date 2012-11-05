@@ -92,7 +92,7 @@
             <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none"  >
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="myModalLabel">Modal header</h3>
+                    <h3 id="myModalLabel">Registration Dialog</h3>
                 </div>
                 <div class="modal-body">
                     <h:form id="registration_user_form" prependId="false">
@@ -134,10 +134,10 @@
                     </h:form>
 
                 </div>
-                <div class="modal-footer">
+<!--                <div class="modal-footer">
                     <button class="btn" data-dismiss="modal"  aria-hidden="true">Close</button>
 
-                </div>
+                </div>-->
 
             </div>
 
@@ -147,7 +147,9 @@
                     if(e.status == 'success') {
                         var status = $('#registration_status').val();
                         if(status == 'ok') {
-                            window.location = '#{request.contextPath}/faces/index.xhtml';
+                            window.location = '#{request.contextPath}/faces/login.xhtml';
+                        } else {
+                            $('#myModal').effect("shake", { times:3 }, 300);
                         }
                     }
                 }

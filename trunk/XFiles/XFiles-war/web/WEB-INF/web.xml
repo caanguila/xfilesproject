@@ -8,10 +8,37 @@
         <filter-name>SessionFilter</filter-name>
         <filter-class>in.xfiles.web.filters.SessionFilter</filter-class>
     </filter>
+    <filter>
+        <description>
+            Check for multipart HttpServletRequests and parse the multipart form data so that all
+            regular form fields are available in the parameterMap of the HttpServletRequest and that
+            all form file fields are available as attribute of the HttpServletRequest. The attribute
+            value of a form file field can be an instance of FileItem or FileUploadException.
+        </description>
+        <filter-name>MultipartRequestFilter</filter-name>
+        <filter-class>in.xfiles.web.filters.MultipartRequestFilter</filter-class>
+        <init-param>
+            <description>
+                Sets the maximum file size of the uploaded file in bytes. Set to 0 to indicate an
+                unlimited file size. The example value of 1048576 indicates a maximum file size of
+                1MB. This parameter is not required and can be removed safely.
+            </description>
+            <param-name>maxFileSize</param-name>
+            <param-value>41943040</param-value>
+        </init-param>
+    </filter>
     <filter-mapping>
         <filter-name>SessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>MultipartRequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <servlet-class>in.xfiles.web.servlets.FileUploadServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -20,6 +47,10 @@
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <url-pattern>/operations/fileupload</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
