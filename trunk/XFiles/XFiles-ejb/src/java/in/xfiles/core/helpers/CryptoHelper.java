@@ -1,17 +1,14 @@
 package in.xfiles.core.helpers;
 
-import java.io.File;
-import java.security.MessageDigest;
-import org.apache.log4j.Logger;
-import javax.crypto.*;
-import javax.crypto.spec.*;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.logging.Level;
 import java.util.zip.CRC32;
+import javax.crypto.*;
+import javax.crypto.spec.*;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -344,23 +341,16 @@ public class CryptoHelper {
         FileInputStream fis = new FileInputStream(file);
         CRC32 chSumm = new CRC32();
 
-        byte[] f = new byte[ENCRYPTION_FILE_BUFFER_SIZE];
+        final byte[] buffer = new byte[ENCRYPTION_FILE_BUFFER_SIZE];
         try {
-            while (ENCRYPTION_FILE_BUFFER_SIZE < fis.available()) {
-
-                fis.read(f);
-                chSumm.update(f);
+            int read;
+            while ((read = fis.read(buffer)) > 0) {
+                chSumm.update(buffer, 0, read);
             }
-
-            if (ENCRYPTION_FILE_BUFFER_SIZE >= fis.available()) {
-
-                f = new byte[fis.available()];
-                fis.read(f);
-                chSumm.update(f);
-            }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             log.warn("Can't create CRC32 from input file:");
-            log.warn("Stacktrsce: " + ex);
+            log.warn("Stacktrace: " + ex);
+            throw ex;
         }
         fis.close();
 

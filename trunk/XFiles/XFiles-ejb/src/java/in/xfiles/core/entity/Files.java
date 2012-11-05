@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -58,7 +54,7 @@ public class Files implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "crc")
-    private int crc;
+    private long crc;
     
     @Basic(optional = false)
     @NotNull
@@ -150,11 +146,11 @@ public class Files implements Serializable {
         this.fileSize = size;
     }
 
-    public int getCrc() {
+    public long getCrc() {
         return crc;
     }
 
-    public void setCrc(int crc) {
+    public void setCrc(long crc) {
         this.crc = crc;
     }
 

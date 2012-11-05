@@ -19,6 +19,7 @@ public class UploadedFileWrapper implements Serializable {
     private long size;
     private long checksum;
     private User uploadedBy;
+    private String key;
 
     public File getFile() {
         return file;
@@ -82,6 +83,14 @@ public class UploadedFileWrapper implements Serializable {
 
     public void setUploadedBy(User uploadedBy) {
         this.uploadedBy = uploadedBy;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @Override
