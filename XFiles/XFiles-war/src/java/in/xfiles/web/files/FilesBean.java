@@ -4,7 +4,9 @@
  */
 package in.xfiles.web.files;
 
+import in.xfiles.core.ejb.FileManagerLocal;
 import in.xfiles.core.entity.Files;
+import in.xfiles.web.utils.JSFHelper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -12,6 +14,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import java.io.Serializable;
+import javax.ejb.EJB;
+import java.util.*;
 /**
  *
  * @author 7
@@ -20,6 +24,9 @@ import java.io.Serializable;
 @ViewScoped
 public class FilesBean implements Serializable{
 
+    @EJB
+    FileManagerLocal bean;
+    
     public Files currentFile;
     public boolean treeStatus = true;
     /**
@@ -36,14 +43,28 @@ public class FilesBean implements Serializable{
     }
     
      public List<Files> getTableElements() {
+         System.out.println("User Files size: "+bean.getFilesByUser(JSFHelper.getUserId()).size());
+        Collection<Files> files =  bean.getFilesByUser(JSFHelper.getUserId());
          ArrayList<Files> list = new ArrayList<Files>();
-         list.add(new Files(1L, "File1", "text", 1125468546L, 18626, false));
-         list.add(new Files(2L, "File2", "text", 112546856L, 1259, false));
+        // list.add(new Files(1L, "File1", "text", 1125468546L, 18626, false));
+         if(files == null) return list;
+         Iterator<Files> iter = files.iterator(); 
+         while(iter.hasNext()){
+             Files one = iter.next();
+             list.add(one);
+         }
+         
+       //  list.add(new Files(2L, "File2", "text", 112546856L, 1259, false));
          
          return list;
      }
      
-     
+    public void addNewDefaultFile(){
+        
+        System.out.println("User Files size: "+bean.getFilesByUser(JSFHelper.getUserId()).size());
+        bean.testDatabase(JSFHelper.getUserId());
+        
+    }
 
   
   

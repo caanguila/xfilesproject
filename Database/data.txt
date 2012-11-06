@@ -1,9 +1,59 @@
 insert into Types(type_id, category, name)
-values(1, 'Admin', 'sysadm');
+values(1, 'Users', 'admin');
 
-insert into Users(user_id, name, surname, date_creation, email,type_id)
-values(1000, 'Alexander', 'Kozlovskiy', current_date, 'out31@rambler.ru', 1);
+insert into Types(type_id, category, name)
+values(2, 'file', 'private');
+
+insert into Types(type_id, category, name)
+values(3, 'file', 'public');
+
+insert into Types(type_id, category, name)
+values(4, 'file', 'group');
+
+insert into Types(type_id, category, name)
+values(5, 'Message', 'broadcast');
+
+insert into Types(type_id, category, name)
+values(6, 'Message', 'private');
+
+insert into Types(type_id, category, name)
+values(7, 'groups', 'private');
+
+insert into Types(type_id, category, name)
+values(8, 'Password Storage', 'AES');
+
+insert into Types(type_id, category, name)
+values(9, 'Password Storage', 'plain');
+
+
+
 
 insert into action_types(action_type_id, name, description)
-values(1,'User creation', 'Action should occers when user created');
+values(1,'Regestration of new user', 'Action should occers when user created');
 
+insert into action_types(action_type_id, name, description)
+values(2,'User logout', 'Action should occers when user press log out button');
+
+insert into action_types(action_type_id, name, description)
+values(3,'User login', 'Action should occers when user try to login');
+
+insert into action_types(action_type_id, name, description)
+values(4,'Downloag request', 'Action should occers when user try to download a file');
+
+insert into action_types(action_type_id, name, description)
+values(5,'Upload request', 'Action should occers when user try to upload a file');
+
+insert into action_types(action_type_id, name, description)
+values(6,'Download complete', 'Action should occers when user's download request processed');
+
+insert into action_types(action_type_id, name, description)
+values(7,'Change profile', 'Action should occers when user try to change some parametrs of his profile');
+
+insert into action_types(action_type_id, name, description)
+values(8,'Group creation', 'Action should occers when group of users try to create group for ''group files''');
+
+insert into action_types(action_type_id, name, description)
+values(9,'Partial approve', 'Action should occers when some of group''s user approved downloading of ''group file''');
+
+insert into action_types(action_type_id, name, description)
+values(10,'Success login', 'Action should occers when system approved user''s login and password'); 
