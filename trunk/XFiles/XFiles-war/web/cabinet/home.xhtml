@@ -50,6 +50,9 @@
                                  </h:commandLink>
                                     <br/>
                                 </ui:repeat>
+                     <h:commandLink value="Test Files" actionListener="#{filesBean.addNewDefaultFile()}">
+                      <f:ajax render=":file_info :files_list_form" execute="@form" />
+                     </h:commandLink>
                        </h:form>
                  
                 <h:panelGroup id="file_info" >

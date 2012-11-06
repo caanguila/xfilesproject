@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -21,23 +25,21 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Files.findByName", query = "SELECT f FROM Files f WHERE f.name = :name"),
     @NamedQuery(name = "Files.findByDescription", query = "SELECT f FROM Files f WHERE f.description = :description"),
     @NamedQuery(name = "Files.findByContentType", query = "SELECT f FROM Files f WHERE f.contentType = :contentType"),
-    @NamedQuery(name = "Files.findBySize", query = "SELECT f FROM Files f WHERE f.fileSize = :size"),
+    @NamedQuery(name = "Files.findByFileSize", query = "SELECT f FROM Files f WHERE f.fileSize = :fileSize"),
     @NamedQuery(name = "Files.findByCrc", query = "SELECT f FROM Files f WHERE f.crc = :crc"),
     @NamedQuery(name = "Files.findByIsfolder", query = "SELECT f FROM Files f WHERE f.isfolder = :isfolder")})
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
+     @Id
     @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
-    @Column(name = "file_id",columnDefinition = "BIGSERIAL")
+    @Column(name = "file_id", columnDefinition = "BIGSERIAL")
     private Long fileId;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1000)
     @Column(name = "name")
     private String name;
-    
     @Size(max = 1000)
     @Column(name = "description")
     private String description;
@@ -50,46 +52,110 @@ public class Files implements Serializable {
     @NotNull
     @Column(name = "file_size")
     private long fileSize;
-    
     @Basic(optional = false)
     @NotNull
     @Column(name = "crc")
     private long crc;
-    
     @Basic(optional = false)
     @NotNull
     @Column(name = "isfolder")
     private boolean isfolder;
+    @JoinTable(name = "files_passwords", joinColumns = {
+        @JoinColumn(name = "files_file_id", referencedColumnName = "file_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "password_storage_id", referencedColumnName = "password_storage_id")})
+    @ManyToMany
+    private Collection<PasswordStorage> passwordStorageCollection;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentId")
+    private Collection<Files> filesCollection;
+    
+    @JoinColumn(name = "parent_id", referencedColumnName = "file_id")
+    @ManyToOne
+    private Files parentId;
+
+    @JoinColumn(name = "type_id", referencedColumnName = "type_id")
+    @ManyToOne(optional = false)
+    private Types typeId;
+
+    @JoinColumn(name = "enc_type_id", referencedColumnName = "type_id")
+    @ManyToOne(optional = false)
+    private Types encTypeId;
+
+    public Types getEncTypeId() {
+        return encTypeId;
+    }
+
+    public void setEncTypeId(Types encTypeId) {
+        this.encTypeId = encTypeId;
+    }
+    
+    
+    
     @JoinTable(name = "user_files", joinColumns = {
         @JoinColumn(name = "files_file_id", referencedColumnName = "file_id")}, inverseJoinColumns = {
         @JoinColumn(name = "users_user_id", referencedColumnName = "user_id")})
     @ManyToMany
     private Collection<User> usersCollection;
+    
     @JoinTable(name = "files_groups", joinColumns = {
         @JoinColumn(name = "filesfile_id", referencedColumnName = "file_id")}, inverseJoinColumns = {
         @JoinColumn(name = "groupsgroup_id", referencedColumnName = "group_id")})
     @ManyToMany
     private Collection<Groups> groupsCollection;
+    
     @JoinColumn(name = "created_by", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User createdBy;
-    @JoinColumn(name = "type_id", referencedColumnName = "type_id")
-    @ManyToOne(optional = false)
-    private Types typeId;
-    @JoinColumns({
-        @JoinColumn(name = "user_id_psw", referencedColumnName = "user_id"),
-        @JoinColumn(name = "enc_type_def_id", referencedColumnName = "enc_type_def_id")})
-    @ManyToOne(optional = false)
-    private PasswordStorage passwordStorage;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentId")
-    private Collection<Files> filesCollection;
-    @JoinColumn(name = "parent_id", referencedColumnName = "file_id")
-    @ManyToOne(optional = false)
-    private Files parentId;
+    
+    
+    
     @JoinColumn(name = "en_file_id", referencedColumnName = "en_file_id")
     @ManyToOne(optional = false)
     private Encryptionfiles enFileId;
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Encryptionfiles getEnFileId() {
+        return enFileId;
+    }
+
+    public void setEnFileId(Encryptionfiles enFileId) {
+        this.enFileId = enFileId;
+    }
+
+    public Collection<Groups> getGroupsCollection() {
+        return groupsCollection;
+    }
+
+    public void setGroupsCollection(Collection<Groups> groupsCollection) {
+        this.groupsCollection = groupsCollection;
+    }
+
+    public Collection<User> getUsersCollection() {
+        return usersCollection;
+    }
+
+    public void setUsersCollection(Collection<User> usersCollection) {
+        this.usersCollection = usersCollection;
+    }
+    
+    
+    
+    public Types getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Types typeId) {
+        this.typeId = typeId;
+    }
+    
+    
     public Files() {
     }
 
@@ -97,11 +163,11 @@ public class Files implements Serializable {
         this.fileId = fileId;
     }
 
-    public Files(Long fileId, String name, String contentType, long size, int crc, boolean isfolder) {
+    public Files(Long fileId, String name, String contentType, long fileSize, long crc, boolean isfolder) {
         this.fileId = fileId;
         this.name = name;
         this.contentType = contentType;
-        this.fileSize = size;
+        this.fileSize = fileSize;
         this.crc = crc;
         this.isfolder = isfolder;
     }
@@ -142,8 +208,8 @@ public class Files implements Serializable {
         return fileSize;
     }
 
-    public void setSize(long size) {
-        this.fileSize = size;
+    public void setSize(long fileSize) {
+        this.fileSize = fileSize;
     }
 
     public long getCrc() {
@@ -163,45 +229,12 @@ public class Files implements Serializable {
     }
 
     @XmlTransient
-    public Collection<User> getUsersCollection() {
-        return usersCollection;
+    public Collection<PasswordStorage> getPasswordStorageCollection() {
+        return passwordStorageCollection;
     }
 
-    public void setUsersCollection(Collection<User> usersCollection) {
-        this.usersCollection = usersCollection;
-    }
-
-    @XmlTransient
-    public Collection<Groups> getGroupsCollection() {
-        return groupsCollection;
-    }
-
-    public void setGroupsCollection(Collection<Groups> groupsCollection) {
-        this.groupsCollection = groupsCollection;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Types getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Types typeId) {
-        this.typeId = typeId;
-    }
-
-    public PasswordStorage getPasswordStorage() {
-        return passwordStorage;
-    }
-
-    public void setPasswordStorage(PasswordStorage passwordStorage) {
-        this.passwordStorage = passwordStorage;
+    public void setPasswordStorageCollection(Collection<PasswordStorage> passwordStorageCollection) {
+        this.passwordStorageCollection = passwordStorageCollection;
     }
 
     @XmlTransient
@@ -219,14 +252,6 @@ public class Files implements Serializable {
 
     public void setParentId(Files parentId) {
         this.parentId = parentId;
-    }
-
-    public Encryptionfiles getEnFileId() {
-        return enFileId;
-    }
-
-    public void setEnFileId(Encryptionfiles enFileId) {
-        this.enFileId = enFileId;
     }
 
     @Override

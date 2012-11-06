@@ -42,6 +42,10 @@ public class UserSession implements Serializable {
     @Column(name = "brouser")
     private String brouser;
     
+    @Size(max = 255)
+    @Column(name = "session_name")
+    private String session;
+    
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User userId;
@@ -65,6 +69,15 @@ public class UserSession implements Serializable {
         return sessionId;
     }
 
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
+    
+    
     public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
     }

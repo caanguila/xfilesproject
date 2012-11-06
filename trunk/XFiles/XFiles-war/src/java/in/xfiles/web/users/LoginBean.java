@@ -6,6 +6,7 @@ import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.web.utils.JSFHelper;
+import in.xfiles.web.utils.SessionHelper;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -74,7 +75,7 @@ public class LoginBean implements Serializable {
        if(userId == null)
            return false;
        currentUser = um.getUserById(userId);
-       JSFHelper.setSessionAttribute("userId", userId);
+       JSFHelper.setUserId(userId);
        return currentUser != null;
     }
     
@@ -103,7 +104,7 @@ public class LoginBean implements Serializable {
     
     public String logOut() {
         currentUser = null;
-        JSFHelper.setSessionAttribute("userId", null);
+        JSFHelper.setUserId(null);
         return "login.xhtml?faces-redirect=true";
     }
 
