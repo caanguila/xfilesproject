@@ -15,7 +15,7 @@
     <class>in.xfiles.core.entity.UsersPasswords</class>
     <class>in.xfiles.core.entity.Sequence</class>
     <class>in.xfiles.core.entity.User</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>

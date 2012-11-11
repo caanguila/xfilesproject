@@ -23,21 +23,24 @@
                             <li class="message_bad">Error: Failed to upload file. Try again.</li>
                         </ul>
                     </h:panelGroup>
-                    <table style="width: 500px; vertical-align: central;">
+                    <table style="width: 650px; vertical-align: central;">
                         <tr>
-                            <td>File:</td>
-                            <td><input class="input-large" type="file" name="file" multiple="false"/></td>
+                            <td style="width: 150px;">File:</td>
+                            <td style="width: 450px;"><input class="input-xlarge" type="file" name="file" multiple="false"/></td>
                         </tr>
                         <tr>
                             <td>Encryption Type:</td>
-                            <td><select class="input-large" name="encryption_type">
-                                    <option value="none">No encryption</option>
-                                    <option value="AES">AES</option>
-                                </select></td>
+                            <td>
+                                <select class="input-large" name="encryption_type" id="encription_type" onchange="hidePasswordField();">
+                                        <option value="plain">No encryption</option>
+                                        <option value="AES">AES</option>
+                                </select>
+                                <input id="secret_key" style="display: none;" type="password" placeholder="Password" name="secret_key"/>
+                            </td>
                         </tr>
                         <tr>
                             <td>Access Type:</td>
-                            <td><select class="input-large" name="access_type">
+                            <td><select class="input-xlarge" name="access_type">
                                     <option value="public">Public Access</option>
                                     <option value="private" selected="true">Private Access</option>
                                     <option value="group">Group Access</option>
@@ -45,8 +48,10 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td style="text-align: right;" class="input-large">
-                                <input class="button_green" type="submit" value="Upload"/>
+                            <td style="text-align: right;">
+                                <div class="input-xlarge">
+                                    <input class="button_green" type="submit" value="Upload"/>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -55,6 +60,16 @@
                     <input type="hidden" name="error_redirect" value="#{request.contextPath}/faces/cabinet/operations/upload.xhtml?error=1"/>
                 </form>
             </div>
+            <script type="text/javascript">
+                function hidePasswordField(e) {
+                    if($('#encription_type').val() != 'plain')
+                        $('#secret_key').css('display', 'inline-block');
+                    else {
+                        $('#secret_key').css('display', 'none');
+                        $('#secret_key').val('');
+                    }
+                }
+            </script>
         </ui:define>
 
         <ui:define name="toolbar">

@@ -22,6 +22,7 @@ public class PlainFileEncryptor extends FileEncryptor {
     public void encryptFile(File sourceFile, File targetFile, boolean delete) {
         try {
             if(delete) {
+                FileUtils.forceDelete(targetFile);
                 FileUtils.moveFile(sourceFile, targetFile);
             } else {
                 FileUtils.copyFile(sourceFile, targetFile);
