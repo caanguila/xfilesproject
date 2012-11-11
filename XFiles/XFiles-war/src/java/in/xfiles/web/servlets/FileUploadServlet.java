@@ -2,6 +2,7 @@ package in.xfiles.web.servlets;
 
 import in.xfiles.core.ejb.FileManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
+import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
 import in.xfiles.web.utils.SessionHelper;
@@ -30,6 +31,8 @@ public class FileUploadServlet extends HttpServlet {
     
     private static final Logger log = Logger.getLogger(FileUploadServlet.class);
     
+    private static final String SERVLET_ENCODING = "ISO-8859-1";
+    
     public static final String REDIRECT_PARAM = "redirect";
     public static final String ERROR_REDIRECT_PARAM = "error_redirect";
     public static final String FILE_PARAM = "file";
@@ -37,6 +40,7 @@ public class FileUploadServlet extends HttpServlet {
     public static final String ACCESS_TYPE_PARAM = "access_type";
     public static final String PARENT_FILE_ID_PARAM = "parent_file_id";
     public static final String GROUP_ID_PARAM = "group_id";
+    public static final String SECRET_KEY_PARAM = "secret_key";
     
     private String redirect, errorRedirect;
     
@@ -62,7 +66,7 @@ public class FileUploadServlet extends HttpServlet {
         redirect = getValidParameter(request, REDIRECT_PARAM, request.getContextPath()+"/faces/cabinet/operations/upload.xhtml?success=1");
         errorRedirect = getValidParameter(request, ERROR_REDIRECT_PARAM, request.getContextPath()+"/faces/cabinet/operations/upload.xhtml?error=1");
         
-        Long userId = SessionHelper.getSessionAttribute(Long.class, session, "userId");
+        Long userId = SessionHelper.getUserId(session);
         if(userId == null) {
             log.debug("Permission denied. Log in.");
             redirect(response, errorRedirect);
@@ -73,6 +77,7 @@ public class FileUploadServlet extends HttpServlet {
         String accessType = getValidParameter(request, ACCESS_TYPE_PARAM);
         String parentFileId = getValidParameter(request, PARENT_FILE_ID_PARAM);
         String groupId = getValidParameter(request, GROUP_ID_PARAM);
+        String secretKey = getValidParameter(request, SECRET_KEY_PARAM);
         
         Object o = request.getAttribute(FILE_PARAM);
         if(o == null) {
@@ -87,8 +92,8 @@ public class FileUploadServlet extends HttpServlet {
                 ufw.setName(fi.getName());
                 ufw.setContentType(fi.getContentType());
                 ufw.setSize(fi.getSize());
+                ufw.setKey(CryptoHelper.SHA256(secretKey));
                 File tmpFile = File.createTempFile("xfiles_", ".upload");
-                // TODO: implementation
                 fi.write(tmpFile);
                 log.debug("Temporary file created: "+tmpFile.getAbsolutePath());
                 ufw.setFile(tmpFile);
@@ -118,7 +123,7 @@ public class FileUploadServlet extends HttpServlet {
     
     private String getValidParameter(HttpServletRequest request, String name, String defualtValue) {
         final String param = getValidParameter(request, name);
-        return param.isEmpty() ? defualtValue : param;
+        return param.isEmpty() ? defualtValue : StringUtils.decode(param, SERVLET_ENCODING);
     }
 
     /**

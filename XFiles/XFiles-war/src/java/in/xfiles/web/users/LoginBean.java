@@ -6,7 +6,6 @@ import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.web.utils.JSFHelper;
-import in.xfiles.web.utils.SessionHelper;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;

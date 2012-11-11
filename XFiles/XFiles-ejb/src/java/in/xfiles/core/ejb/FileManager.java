@@ -7,12 +7,14 @@ import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.HashSet;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -20,7 +22,9 @@ import org.apache.log4j.Logger;
  * @author 7
  */
 @Stateless
-public class FileManager implements FileManagerLocal{
+public class FileManager implements FileManagerLocal, CommonConstants {
+    
+    public static final String FILE_UPLOAD_DIRECTORY = "./uploads/";
 
     private Logger log = Logger.getLogger(FileManager.class);
     
@@ -41,21 +45,48 @@ public class FileManager implements FileManagerLocal{
         }
         // TODO: implementation
         try {
-//            FileEncryptor engine = FileEncryptor.getEncryptor(ufw.getEncryptionType());
-//            engine.setKey(ufw.getKey());
-//            File targetFile = File.createTempFile("xfiles_", "."+ufw.getEncryptionType());
-//            engine.encryptFile(ufw.getFile(), targetFile, true);
-//            Files f = new Files();
-//            f.setCrc(ufw.getChecksum());
-//            f.setContentType(ufw.getContentType());
-//            f.setName(ufw.getName());
-//            f.setSize(ufw.getSize());
-//            f.setIsfolder(false);
-//            //f.setTypeId();
-//            //f.setParentId();
-//            f.setCreatedBy(ufw.getUploadedBy());
-//            // owners!!!
-//            em.persist(f);
+            FileEncryptor engine = FileEncryptor.getEncryptor(ufw.getEncryptionType());
+            engine.setKey(ufw.getKey());
+            File targetTmpFile = File.createTempFile("xfiles_", "."+ufw.getEncryptionType());
+            engine.encryptFile(ufw.getFile(), targetTmpFile, true);
+            FileUtils.moveFileToDirectory(targetTmpFile, new File(FILE_UPLOAD_DIRECTORY), true);
+            File targetFile = new File(FILE_UPLOAD_DIRECTORY, targetTmpFile.getName());
+            Files f = new Files();
+            f.setCrc(ufw.getChecksum());
+            f.setContentType(ufw.getContentType());
+            f.setName(ufw.getName());
+            f.setSize(ufw.getSize());
+            f.setIsfolder(false);
+            if("private".equalsIgnoreCase(ufw.getAccessType())) {
+                f.setTypeId(em.find(Types.class, PRIVATE_FILE_TYPE));
+            } else if("public".equalsIgnoreCase(ufw.getAccessType())) {
+                f.setTypeId(em.find(Types.class, PUBLIC_FILE_TYPE));
+            } else if ("group".equalsIgnoreCase(ufw.getAccessType())) {
+                f.setTypeId(em.find(Types.class, GROUP_FILE_TYPE));
+            } else throw new IllegalArgumentException("Incorrect access type provided: "+ufw.getAccessType());
+            //f.setParentId();
+            f.setCreatedBy(ufw.getUploadedBy());
+            Collection<User> owners = new HashSet<User>();
+            owners.add(ufw.getUploadedBy());
+            f.setUsersCollection(owners);
+            Encryptionfiles ef = new Encryptionfiles();
+            ef.setPath(targetFile.getAbsolutePath());
+            f.setEnFileId(ef);
+            PasswordStorage ps = new PasswordStorage();
+            ps.setUserId(ufw.getUploadedBy().getUserId());
+            ps.setPassword(ufw.getKey());
+            Collection psCollection = new HashSet<PasswordStorage>();
+            psCollection.add(ps);
+            if("AES".equals(ufw.getEncryptionType()))
+                f.setEncTypeId(em.find(Types.class, AES_ENCRYPTION_TYPE));
+            else if("plain".equals(ufw.getEncryptionType()))
+                f.setEncTypeId(em.find(Types.class, PLAIN_ENCRYPTION_TYPE));
+            else throw new IllegalArgumentException("Unsupported encryption type: "+ufw.getEncryptionType());
+            // owners!!!
+            em.persist(ef);
+            em.persist(ps);
+            em.persist(f);
+            em.getEntityManagerFactory().getCache().evictAll();
         } catch (Exception ex) {
             log.error("processFile(): operation failed due to Exception", ex);
         }
@@ -113,10 +144,13 @@ public class FileManager implements FileManagerLocal{
 
     @Override
     public Collection<Files> getFilesByUser(Long usertId) {
-      User user = em.find(User.class, usertId);
+        if(usertId == null)
+            return Collections.EMPTY_LIST;
+        User user = em.find(User.class, usertId);
       
-      if(user != null) return user.getFilesCollection();
-      else return null;
+        if(user != null) 
+            return user.getFilesCollection();
+        else return null;
     }
     
 }
