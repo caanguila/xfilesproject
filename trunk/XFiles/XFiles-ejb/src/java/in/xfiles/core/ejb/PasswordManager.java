@@ -1,8 +1,12 @@
 package in.xfiles.core.ejb;
 
+import in.xfiles.core.entity.User;
 import in.xfiles.core.entity.UsersPasswords;
 import in.xfiles.core.helpers.CommonTools;
+import in.xfiles.core.helpers.CryptoHelper;
+import in.xfiles.core.helpers.StringUtils;
 import java.util.Collection;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +24,12 @@ public class PasswordManager implements PasswordManagerLocal{
     
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    EmailManagerLocal emailMan;
+    
+    @EJB
+    UserManagerLocal um;
     
     @Override
     public Long checkUserPassword(Long userId, String password){
@@ -58,5 +68,33 @@ public class PasswordManager implements PasswordManagerLocal{
             return null;
         return c.iterator().next();
     } 
+
+    @Override
+    public boolean recoverPassword(Long userId) {
+        System.err.println("recoverPassword(): userId = "+userId);
+        if(userId == null)
+            return false;
+        UsersPasswords up = em.find(UsersPasswords.class, userId);
+        User u = um.getUserById(userId);
+        if(up == null)
+            return false;
+        try {
+            String newPassword = generatePassword();
+            emailMan.sendSimpleEmail("Password recovery", "Hello, "+u.getName()+" "+u.getSurname()
+                    +".\nYour password has been reset. The new password is: "+newPassword
+                    +"\n\nXFiles.IN", u.getEmail());
+            up.setPassword(CryptoHelper.SHA256(newPassword));
+            newPassword = null;
+            em.persist(up);
+            return true;
+        } catch (Exception ex) {
+            log.error("recoverPassword(): failed to recover password for: userId="+userId, ex);
+        }
+        return false;
+    }
+
+    private String generatePassword() {
+        return StringUtils.generateRandomString(10);
+    }
     
 }

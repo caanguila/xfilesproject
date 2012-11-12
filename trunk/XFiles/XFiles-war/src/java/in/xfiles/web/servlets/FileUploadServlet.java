@@ -92,7 +92,7 @@ public class FileUploadServlet extends HttpServlet {
                 ufw.setName(fi.getName());
                 ufw.setContentType(fi.getContentType());
                 ufw.setSize(fi.getSize());
-                ufw.setKey(CryptoHelper.SHA256(secretKey));
+                ufw.setKey(secretKey);
                 File tmpFile = File.createTempFile("xfiles_", ".upload");
                 fi.write(tmpFile);
                 log.debug("Temporary file created: "+tmpFile.getAbsolutePath());

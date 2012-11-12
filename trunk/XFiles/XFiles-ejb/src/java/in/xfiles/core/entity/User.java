@@ -86,9 +86,6 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Logs> logsCollection;
     
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
-    private UsersPasswords usersPasswords;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipientId")
     private Collection<Messages> messagesCollection;
     
@@ -225,14 +222,6 @@ public class User implements Serializable {
 
     public void setLogsCollection(Collection<Logs> logsCollection) {
         this.logsCollection = logsCollection;
-    }
-
-    public UsersPasswords getUsersPasswords() {
-        return usersPasswords;
-    }
-
-    public void setUsersPasswords(UsersPasswords usersPasswords) {
-        this.usersPasswords = usersPasswords;
     }
 
     @XmlTransient

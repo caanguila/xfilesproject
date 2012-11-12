@@ -1,6 +1,7 @@
 package in.xfiles.core.helpers;
 
 import java.nio.charset.Charset;
+import java.util.Random;
 
 /**
  *
@@ -9,6 +10,7 @@ import java.nio.charset.Charset;
 public class StringUtils {
     
     public static final String EMPTY_STRING = "";
+    public static final String RANDOM_STRING = "G12HIJdefgPQRSTUVWXYZabc56hijklmnopqAB78CDEF0KLMNO3rstu4vwxyz9";
     
     public static String getValidString(Object o, String defaultValue) {
         if(o==null)
@@ -51,5 +53,26 @@ public class StringUtils {
     
     public static String convertEncodings(String value, String srcCharset, String dstCharset) {
         return decode(decode(value, srcCharset), dstCharset);
+    }
+
+    public static String concat(String[] values, String delim) {
+        final StringBuilder sb = new StringBuilder();
+        for(int i=0; i<values.length-1; i++) {
+            sb.append(values[i]);
+            sb.append(delim);
+        }
+        if(values.length > 0)
+            sb.append(values[values.length-1]);
+        return sb.toString();
+    }
+
+    public static String generateRandomString(int length) {
+        final StringBuilder ar = new StringBuilder();
+        final int l = RANDOM_STRING.length();
+        Random r = new Random(System.currentTimeMillis());
+        for (int i = 1; i <= length; i++) {
+            ar.append(RANDOM_STRING.charAt(r.nextInt(l)));
+        }
+        return ar.toString();
     }
 }

@@ -12,5 +12,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface EmailManagerLocal {
+ 
+    void sendSimpleEmail(String subject, String text, String ... recepients);
     
 }

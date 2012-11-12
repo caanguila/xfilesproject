@@ -8,12 +8,12 @@ import in.xfiles.core.wrappers.UploadedFileWrapper;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashSet;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
@@ -74,7 +74,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             f.setEnFileId(ef);
             PasswordStorage ps = new PasswordStorage();
             ps.setUserId(ufw.getUploadedBy().getUserId());
-            ps.setPassword(ufw.getKey());
+            ps.setPassword(CryptoHelper.SHA256(ufw.getKey()));
             Collection psCollection = new HashSet<PasswordStorage>();
             psCollection.add(ps);
             if("AES".equals(ufw.getEncryptionType()))

@@ -38,10 +38,6 @@ public class UsersPasswords implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "login")
     private String login;
-    
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private User users;
 
     public UsersPasswords() {
     }
@@ -78,14 +74,6 @@ public class UsersPasswords implements Serializable {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public User getUsers() {
-        return users;
-    }
-
-    public void setUsers(User users) {
-        this.users = users;
     }
 
     @Override

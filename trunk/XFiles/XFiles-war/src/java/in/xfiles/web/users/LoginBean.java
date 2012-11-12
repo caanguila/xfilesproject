@@ -112,7 +112,10 @@ public class LoginBean implements Serializable {
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        if(login == null)
+            this.login = null;
+        else
+            this.login = login.trim();
     }
 
     public String getPassword() {
