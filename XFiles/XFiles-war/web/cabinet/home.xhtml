@@ -76,7 +76,88 @@
                  </h:panelGroup>
                 
                 <h:panelGroup id ="user_profile" rendered="#{cabinetController.profileVisible}" >
+                    
                      <h1>Profile</h1>
+                     <h:panelGroup id="user_profile_group">
+                         
+                     <h:panelGroup id="user_group_info" style="width: 100%;">
+                         <h:panelGrid id="user_info_grid" columns="2" class="table table-striped">
+                             <h:outputLabel class="profileTableLeft" value="ID: " />
+                             <h:outputLabel value="#{userInfoBean.userId}" />
+                             <h:outputLabel class="profileTableLeft" value="Name: " />
+                             <h:outputLabel value="#{userInfoBean.userName}" />
+                             <h:outputLabel class="profileTableLeft" value="Surname: " />
+                             <h:outputLabel value="#{userInfoBean.surName}" />
+                             <h:outputLabel class="profileTableLeft" value="Date of creation:  " />
+                             <h:outputLabel value="#{userInfoBean.dateCreation}" />
+                             <h:outputLabel class="profileTableLeft" value="Date suspended:  " />
+                             <h:outputLabel value="#{userInfoBean.dateSuspend}" />
+                             <h:outputLabel class="profileTableLeft" value="Email:  " />
+                             <h:outputLabel value="#{userInfoBean.email}" />
+                             <h:outputLabel class="profileTableLeft" value="Information: " /> 
+                             <h:outputLabel value="#{userInfoBean.information}" /> 
+                         </h:panelGrid>
+                         <h:form>
+                         <h:commandLink id="change_button" class="button_green" value="Change" >
+                                 <f:ajax execute="@form" render="@this" onevent="hideUserInfo" />
+                             </h:commandLink>
+                         </h:form>
+                     </h:panelGroup>
+                     
+                     
+                     <h:panelGroup id="user_edit_group" style="width: 100%; display: none;">
+                         <h:form id="change_info">
+                          <h:panelGrid id="change_grid_info" columns="2" class="table table-striped">
+                            <h:outputLabel class="profileTableLeft" value="ID: " />
+                            <h:outputLabel value="#{userInfoBean.userId}" />
+                            <h:outputLabel class="profileTableLeft" value="Name: " />
+                            <h:inputText value="#{userInfoBean.userName}" />
+                            <h:outputLabel class="profileTableLeft" value="Surname: " />
+                            <h:inputText value="#{userInfoBean.surName}" />
+                            <h:outputLabel class="profileTableLeft" value="Date of creation:  " />
+                            <h:outputLabel value="#{userInfoBean.dateCreation}" />
+                            <h:outputLabel class="profileTableLeft" value="Date suspended:  " />
+                            <h:outputLabel value="#{userInfoBean.dateSuspend}" />
+                            <h:outputLabel class="profileTableLeft" value="Email:  " />
+                            <h:inputText value="#{userInfoBean.email}" />
+                            <h:outputLabel class="profileTableLeft" value="Information: " /> 
+                            <h:inputText value="#{userInfoBean.information}" /> 
+                         </h:panelGrid>
+                             <h:commandLink id="save_button" class="button_green" value="Save" >
+                                 <f:ajax execute="@form" render="@this" onevent="hideUserForm" listener="#{userInfoBean.saveParametrsAction(e)}"/>
+                             </h:commandLink>
+                        </h:form>     
+                     </h:panelGroup>
+                     
+<!--                     <form>
+                         <input id="change_button" class="button_green" type="button" value="Change" onclick="hideUserInfo();" />
+                     <input class="button_green" type="button" value="Save" onclick="hideUserForm();"/>
+                     </form>-->
+                      <script type="text/javascript">
+                function hideUserInfo(e) {
+                    $('#user_group_info').css('display', 'none');
+                    $('#user_group_info').css('width', '100%');
+                    $('#user_edit_group').css('display', 'inline-block');
+                    $('#user_edit_group').css('width', '100%');
+                    $('#change_button').css('display', 'none');
+                    $('#save_button').css('display', 'inline-block');
+//                    if($('#encription_type').val() != 'plain')
+//                        $('#secret_key').css('display', 'inline-block');
+//                    else {
+//                        $('#secret_key').css('display', 'none');
+//                        $('#secret_key').val('');
+//                    }
+                }
+                function hideUserForm(e) {
+                 $('#user_group_info').css('display', 'inline-block');
+                 $('#user_group_info').css('width', '100%');
+                 $('#user_edit_group').css('display', 'none');
+                 $('#user_edit_group').css('width', '100%');
+                 $('#change_button').css('display', 'inline-block');
+                 $('#save_button').css('display', 'none');
+            }
+            </script>
+                     </h:panelGroup>  
                  </h:panelGroup>
 <!--           
             <H3>HERE will be the main page of the user cabinet.</H3>

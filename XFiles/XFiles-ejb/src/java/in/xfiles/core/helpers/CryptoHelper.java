@@ -111,8 +111,8 @@ public class CryptoHelper {
      * @throws IOException
      */
     public static File enCryptFile(File file, String type, String key) throws IOException {
-        File directory = new File("./tmp");
-        directory.mkdir();
+      //  File directory = new File("./tmp");
+      //  directory.mkdir();
 
         //   byte[] keyCode = getSecretKeyCode(key); // this key should be stored in database;
         Cipher cipher = getEncryptCipher(key);
@@ -133,7 +133,7 @@ public class CryptoHelper {
             }
             byte[] f = new byte[ENCRYPTION_FILE_BUFFER_SIZE];
 
-            File temp = File.createTempFile("tmp", "crypt", directory);
+            File temp = File.createTempFile("tmp", "crypt");
             FileOutputStream fos = new FileOutputStream(temp);
             byte[] crypt = null;
 
@@ -206,8 +206,8 @@ public class CryptoHelper {
      * @throws IOException
      */
     public static File deCryptFile(File file, String type, String key) throws IOException {
-        File directory = new File("./tmp");
-        directory.mkdir();
+      //  File directory = new File("./tmp");
+      //  directory.mkdir();
 
         // byte[] keyCode = getSecretKeyCode(key); // this key should be stored in database
         Cipher cipher = getDecryptCipher(key);
@@ -223,7 +223,7 @@ public class CryptoHelper {
 
             log.debug("Decrypt file avalable: " + fis.available() + "  " + ENCRYPTION_FILE_BUFFER_SIZE);
             byte[] f = new byte[ENCRYPTION_FILE_BUFFER_SIZE];
-            File temp = File.createTempFile("tmp", "decrypt", directory);
+            File temp = File.createTempFile("tmp", "decrypt");
             FileOutputStream fos = new FileOutputStream(temp);
             byte[] crypt = null;
 

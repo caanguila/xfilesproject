@@ -1822,14 +1822,14 @@ legend + .control-group {
 }
 
 table {
-  max-width: 100%;
+  max-width: 80%;
   background-color: transparent;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
 .table {
-  width: 100%;
+  width: 80%;
   margin-bottom: 20px;
 }
 
@@ -5772,6 +5772,16 @@ a.badge:hover {
   position: fixed;
 }
 
+.profileTableLeft {
+    text-align: left;
+    font-weight:bold;
+    width: 300px;
+}
+.profileTableRight {
+    text-align: left;
+    
+    
+}
 /*.popover-inner {
     width: 350px;
 }
