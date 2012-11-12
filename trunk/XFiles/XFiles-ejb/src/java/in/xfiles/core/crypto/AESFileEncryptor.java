@@ -20,12 +20,13 @@ public class AESFileEncryptor extends FileEncryptor {
             File tmpFile = CryptoHelper.enCryptFile(targetFile, "AES", getKey());
             if(delete)
                 FileUtils.forceDelete(sourceFile);
+            FileUtils.forceDelete(targetFile);
             FileUtils.moveFile(tmpFile, targetFile);
         } catch (Exception ex) {
             log.error("encryptFile(): Failed to encrypt file: source = "
                             + sourceFile.getAbsolutePath()
-                            + ", target = " + sourceFile.getAbsolutePath());
-            throw new RuntimeException("Failed to encrypt file");
+                            + ", target = " + sourceFile.getAbsolutePath(), ex);
+            throw new RuntimeException("Failed to encrypt file", ex);
         }
     }
 
@@ -33,12 +34,13 @@ public class AESFileEncryptor extends FileEncryptor {
     public void decryptFile(File sourceFile, File targetFile) {
         try {
             File tmpFile = CryptoHelper.deCryptFile(targetFile, "AES", getKey());
+            FileUtils.forceDelete(targetFile);
             FileUtils.moveFile(tmpFile, targetFile);
         } catch (Exception ex) {
             log.error("decryptFile(): Failed to decrypt file: source = "
                             + sourceFile.getAbsolutePath()
-                            + ", target = " + sourceFile.getAbsolutePath());
-            throw new RuntimeException("Failed to decrypt file");
+                            + ", target = " + sourceFile.getAbsolutePath(), ex);
+            throw new RuntimeException("Failed to decrypt file", ex);
         }
     }
     

@@ -18,51 +18,14 @@
         </h:head>
         <h:body>
 
-            <!-- Wrapper begin --><div id="wrapper" class="clearfix">
+            <!-- Wrapper begin -->
+            <div id="wrapper" class="clearfix">
 
                 <!-- Header -->
                 <header>
-                    <div class="container_12">
-                        <h1 class="grid_4"><a href="#{request.contextPath}/">#{webSiteTitle}</a></h1>
-                        <nav class="grid_8">
-                            <ul class="right">
-                                <li class="selected">
-                                    <a href="#">Home</a>
-                                </li>
-                                <li>
-                                    <a href="#{request.contextPath}/faces/about.xhtml">About</a>
-                                    <ul>
-                                        <li><a href="#{request.contextPath}/faces/about.xhtml">About XFiles</a></li>
-                                        <li><a href="#{request.contextPath}/faces/contacts.xhtml">Contact</a></li>
-                                        <li><a href="#{request.contextPath}/faces/faq.xhtml">FAQ</a></li>
-                                        <li><a href="#{request.contextPath}/faces/tutorial.xhtml">Tutorial</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#{request.contextPath}/faces/services.xhtml">Services</a>
-                                    <ul>
-                                        <li><a href="#{request.contextPath}/faces/services.xhtml">Services</a></li>
-                                        <li><a href="#{request.contextPath}/faces/contacts.xhtml">Terms of Use</a></li>
-                                        <li><a href="#{request.contextPath}/faces/testimonials.xhtml">Testimonials</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="http://blog.xfiles.in/" target="_blank">Blog</a>
-                                </li>
-                                <li>
-                                    <a href="#{request.contextPath}/faces/pricing.xhtml">Pricing</a>		
-                                </li>
-                                <li>
-                                    <a href="#{request.contextPath}/faces/cabinet/home.xhtml">Cabinet</a>		
-                                    <ul>
-                                        <li><a href="#{request.contextPath}/faces/login.xhtml">Sign In</a></li>
-                                        <li><a href="#{request.contextPath}/faces/registration.xhtml">Register</a></li>
-                                        <li><a href="#{request.contextPath}/faces/recover.xhtml">Recover Password</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <ui:include src="creatively-page-head.xhtml">
+                        <ui:param name="webSiteTitle" value="#{webSiteTitle}"/>
+                    </ui:include>
                 </header>
 
                 <!-- Container begin -->

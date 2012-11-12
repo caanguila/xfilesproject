@@ -38,6 +38,7 @@ public class PlainFileEncryptor extends FileEncryptor {
     @Override
     public void decryptFile(File sourceFile, File targetFile) {
         try {
+            FileUtils.forceDelete(targetFile);
             FileUtils.copyFile(sourceFile, targetFile);
         } catch(Exception ex) {
             log.error("decryptFile(): Failed to copy/move file file: source = "
