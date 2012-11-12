@@ -153,7 +153,9 @@ public class RegistrationBean implements CommonConstants, Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if(email == null)
+            this.email = null;
+        else this.email = email.trim();
     }
 
     public String getInfo() {

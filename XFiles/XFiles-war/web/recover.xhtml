@@ -38,10 +38,10 @@
                                 style="margin-left: 0;" errorClass="message_bad" fatalClass="message_bad"
                                 warnClass="message_info" infoClass="message_good">
                     </h:messages>
-                    <table style="width: 500px; vertical-align: central;">
+                    <table id="recovery_form_body" style="width: 500px; vertical-align: central;">
                         <tr>
                             <td><label for="login_email" data-icon="e" >Your email</label></td>
-                            <td><h:inputText id="recovery_email" class="input-large" placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.email}"/></td> 
+                            <td><h:inputText id="recovery_email" class="input-large" placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.login}"/></td> 
                         </tr>
                         <tr> 
                             <td>  
@@ -49,20 +49,20 @@
                                 <a href="#{request.contextPath}/faces/registration.xhtml"> Go and sign up </a>
                             </td>
                             <td style="text-align: right;" class="input-large">
-                                <h:commandLink class="button_green" style="text-decoration: none;" value="Reset password!" actionListener="#{loginBean.loginAction}">
-                                    <f:ajax execute="@form" render="@form" onevent="handleLogin"/>
+                                <h:commandLink class="button_green" style="text-decoration: none;" value="Reset password!" actionListener="#{passwordRecoveryBean.recoverAction}">
+                                    <f:ajax execute="@form" render="@form" onevent="handleRecover"/>
                                 </h:commandLink>
                             </td>
                         </tr>
                     </table>
-                    <h:inputHidden id="login_status" value="#{loginBean.loginStatus}"/>
+                    <h:inputHidden id="recovery_status" value="#{passwordRecoveryBean.recoveryStatus}"/>
                 </h:form>
                 <script type="text/javascript">
-                        function handleRecoverPassword(e) {
+                        function handleRecover(e) {
                             if(e.status == 'success') {
                                 var status = $('#recovery_status').val();
                                 if(status == 'ok') {
-                                    window.location = '#{request.contextPath}/faces/home.xhtml';
+                                    $('#recovery_form_body').css('display', 'none');
                                 }
                             }
                         }

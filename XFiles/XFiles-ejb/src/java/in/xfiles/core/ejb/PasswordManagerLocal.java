@@ -11,4 +11,6 @@ import javax.ejb.Local;
 public interface PasswordManagerLocal {
      Long checkUserPassword(Long userId, String password);
      Long checkUserPassword(String login, String password);
+
+     public boolean recoverPassword(Long userId);
 }
