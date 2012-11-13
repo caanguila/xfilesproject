@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.ejb;
 
 import javax.ejb.Local;
@@ -14,5 +10,7 @@ import javax.ejb.Local;
 public interface EmailManagerLocal {
  
     void sendSimpleEmail(String subject, String text, String ... recepients);
+    
+    void sendEmail(String subject, String text, String ... recepients);
     
 }

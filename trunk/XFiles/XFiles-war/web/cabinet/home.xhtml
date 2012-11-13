@@ -5,7 +5,6 @@
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-
     <ui:composition template="../templates/creatively-cabinet.xhtml">
 
         <ui:param name="pageTitle" value="Home"/>
@@ -32,9 +31,6 @@
             </h:form>
         
         </ui:define>
-<!--        <script>
-            var param = true;
-        </script>-->
         <ui:define name="content">
             <h:panelGroup id="cabinetContentContainer">
 <!--                <h:inputHidden value="#{cabinetController.tableVisible}"/>-->
@@ -97,16 +93,12 @@
                              <h:outputLabel class="profileTableLeft" value="Information: " /> 
                              <h:outputLabel value="#{userInfoBean.information}" /> 
                          </h:panelGrid>
-                         <h:form>
-                         <h:commandLink id="change_button" class="button_green" value="Change" >
-                                 <f:ajax execute="@form" render="@this" onevent="hideUserInfo" />
-                             </h:commandLink>
-                         </h:form>
+                         <a id="change_button" class="button_green" href="javascript:void(0);" onclick="hideUserInfo();">Change</a>
                      </h:panelGroup>
                      
                      
                      <h:panelGroup id="user_edit_group" style="width: 100%; display: none;">
-                         <h:form id="change_info">
+                         <h:form id="change_info_form">
                           <h:panelGrid id="change_grid_info" columns="2" class="table table-striped">
                             <h:outputLabel class="profileTableLeft" value="ID: " />
                             <h:outputLabel value="#{userInfoBean.userId}" />
@@ -123,8 +115,7 @@
                             <h:outputLabel class="profileTableLeft" value="Information: " /> 
                             <h:inputText value="#{userInfoBean.information}" /> 
                          </h:panelGrid>
-                             <h:commandLink id="save_button" class="button_green" value="Save" >
-                                 <f:ajax execute="@form" render="@this" onevent="hideUserForm" listener="#{userInfoBean.saveParametrsAction(e)}"/>
+                             <h:commandLink onclick="hideUserForm()" id="save_button" class="button_green" value="Save" actionListener="#{userInfoBean.saveParametersAction}">
                              </h:commandLink>
                         </h:form>     
                      </h:panelGroup>
@@ -134,7 +125,7 @@
                      <input class="button_green" type="button" value="Save" onclick="hideUserForm();"/>
                      </form>-->
                       <script type="text/javascript">
-                function hideUserInfo(e) {
+                function hideUserInfo() {
                     $('#user_group_info').css('display', 'none');
                     $('#user_group_info').css('width', '100%');
                     $('#user_edit_group').css('display', 'inline-block');
@@ -148,7 +139,7 @@
 //                        $('#secret_key').val('');
 //                    }
                 }
-                function hideUserForm(e) {
+                function hideUserForm() {
                  $('#user_group_info').css('display', 'inline-block');
                  $('#user_group_info').css('width', '100%');
                  $('#user_edit_group').css('display', 'none');

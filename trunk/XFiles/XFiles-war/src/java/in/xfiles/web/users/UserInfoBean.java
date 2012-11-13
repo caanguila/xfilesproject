@@ -1,32 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.web.users;
 
-import in.xfiles.core.ejb.UserManager;
 import in.xfiles.core.ejb.UserManagerLocal;
 import in.xfiles.core.entity.User;
 import in.xfiles.web.utils.JSFHelper;
 import java.io.Serializable;
+import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import java.util.Date;
-import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+
 /**
  *
  * @author 7
  */
 @ManagedBean
 @ViewScoped
-public class UserInfoBean implements Serializable{
+public class UserInfoBean implements Serializable {
+
     private final Logger log = Logger.getLogger(UserInfoBean.class);
-    
     @EJB
     UserManagerLocal userManager;
-    
     public Long userId;
     public String userName;
     public String surName;
@@ -35,24 +31,25 @@ public class UserInfoBean implements Serializable{
     public String email;
     public String information;
     private User user;
+
     /**
      * Creates a new instance of UserInfoBean
      */
     public UserInfoBean() {
-       userId = JSFHelper.getUserId();
+        userId = JSFHelper.getUserId();
     }
 
-    private void checkUserEntity(){
-        
-        if(userId != null && user == null){
+    @PostConstruct
+    private void init() {
+        if (userId != null && user == null) {
             user = userManager.getUserById(userId);
-            
-        }else{
-           log.warn("User Id is "+userId); 
+
+        } else {
+            log.warn("User Id is " + userId);
         }
     }
-    
-    public void saveParametrsAction(ActionEvent e){
+
+    public void saveParametersAction(ActionEvent e) {
         log.info("Save parametr Action");
         log.info(userName);
         log.info(surName);
@@ -62,9 +59,8 @@ public class UserInfoBean implements Serializable{
         log.info(information);
         log.info(userId);
     }
-    
+
     public Date getDateCreation() {
-        checkUserEntity();
         dateCreation = user.getDateCreation();
         return dateCreation;
     }
@@ -74,7 +70,6 @@ public class UserInfoBean implements Serializable{
     }
 
     public Date getDateSuspend() {
-        checkUserEntity();
         dateSuspend = user.getDateSuspended();
         return dateSuspend;
     }
@@ -84,7 +79,6 @@ public class UserInfoBean implements Serializable{
     }
 
     public String getEmail() {
-        checkUserEntity();
         email = user.getEmail();
         return email;
     }
@@ -94,7 +88,6 @@ public class UserInfoBean implements Serializable{
     }
 
     public String getInformation() {
-        checkUserEntity();
         information = user.getInformation();
         return information;
     }
@@ -104,7 +97,6 @@ public class UserInfoBean implements Serializable{
     }
 
     public String getSurName() {
-        checkUserEntity();
         surName = user.getSurname();
         return surName;
     }
@@ -114,7 +106,6 @@ public class UserInfoBean implements Serializable{
     }
 
     public String getUserName() {
-        checkUserEntity();
         userName = user.getName();
         return userName;
     }
@@ -130,7 +121,4 @@ public class UserInfoBean implements Serializable{
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-    
-    
-    
 }
