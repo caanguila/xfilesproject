@@ -9,6 +9,9 @@
     </h:head>
     <h:body>
         <ui:composition>
+             <script src="js/libs/jquery.ui.touch.js" type="text/javascript"></script>
+             <script src="js/libs/QapTcha.jquery.min.js" type="text/javascript"></script>
+            
             <script>
                 $(function () {
                     
@@ -47,9 +50,19 @@
                         });	
                     });
                    
-                      
-                
                 });
+                
+                $(document).ready(function(){
+                    $('.QapTcha').QapTcha(
+                        {disabledSubmit:false,
+                         autoRevert:true,
+                         autoSubmit:false,
+                         PHPfile:'qaptcha',
+                         txtLock:'You can\'t submit. Please unlock.',
+                         txtUnlock:''
+                        });
+                });
+
             </script>
 
 

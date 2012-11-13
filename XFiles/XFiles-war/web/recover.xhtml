@@ -43,6 +43,11 @@
                             <td><label for="login_email" data-icon="e" >Your email</label></td>
                             <td><h:inputText id="recovery_email" class="input-large" placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.login}"/></td> 
                         </tr>
+                        <tr>
+                            <td>Captcha:</td>
+                            <td class="QapTcha">
+                            </td>
+                        </tr>
                         <tr> 
                             <td>  
                                 New User ?
@@ -50,10 +55,11 @@
                             </td>
                             <td style="text-align: right;" class="input-large">
                                 <h:commandLink class="button_green" style="text-decoration: none;" value="Reset password!" actionListener="#{passwordRecoveryBean.recoverAction}">
-                                    <f:ajax execute="@form" render="@form" onevent="handleRecover"/>
+                                    <f:ajax execute="@form" render="messages recovery_status" onevent="handleRecover"/>
                                 </h:commandLink>
                             </td>
                         </tr>
+                        <div id="recovery_result"></div>
                     </table>
                     <h:inputHidden id="recovery_status" value="#{passwordRecoveryBean.recoveryStatus}"/>
                 </h:form>
@@ -61,8 +67,11 @@
                         function handleRecover(e) {
                             if(e.status == 'success') {
                                 var status = $('#recovery_status').val();
+                                $('#recovery_form_body').css('display', 'none');
                                 if(status == 'ok') {
-                                    $('#recovery_form_body').css('display', 'none');
+                                    $('#recovery_result').html("No you may log in with your new password.");
+                                } else {
+                                    $('#recovery_result').html("Refresh this page and try again.");
                                 }
                             }
                         }
