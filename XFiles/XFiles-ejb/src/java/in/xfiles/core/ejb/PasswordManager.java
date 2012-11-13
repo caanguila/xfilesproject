@@ -5,6 +5,8 @@ import in.xfiles.core.entity.UsersPasswords;
 import in.xfiles.core.helpers.CommonTools;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
+import in.xfiles.core.helpers.email.EmailHelper;
+import in.xfiles.core.helpers.email.EmailObject;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -80,9 +82,8 @@ public class PasswordManager implements PasswordManagerLocal{
             return false;
         try {
             String newPassword = generatePassword();
-            emailMan.sendSimpleEmail("Password recovery", "Hello, "+u.getName()+" "+u.getSurname()
-                    +".\nYour password has been reset. The new password is: "+newPassword
-                    +"\n\nXFiles.IN", u.getEmail());
+            EmailObject email = EmailHelper.createPasswordRecoveryEmail(u.getName()+" "+u.getSurname(), newPassword);
+            emailMan.sendEmail(email.getSubject(), email.getText(), u.getEmail());
             up.setPassword(CryptoHelper.SHA256(newPassword));
             newPassword = null;
             em.persist(up);

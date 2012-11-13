@@ -47,5 +47,28 @@ public class EmailManager implements EmailManagerLocal {
             log.error("sendSimpleEmail(): failed to send message.", ex);
         }
     }
+    
+    /**
+     * Sends text/html email to specified recipients.
+     * @param subject Subject of the message
+     * @param text Body of the message
+     * @param recepients target e-mails
+     */
+    @Asynchronous
+    public void sendEmail(String subject, String text, String ... recepients) {
+        try {
+            Message m = new MimeMessage(noReplySession);
+            
+            Address[] addrs = InternetAddress.parse(StringUtils.concat(recepients, ";"), false);
+            m.setRecipients(Message.RecipientType.TO, addrs);
+            m.setSubject(subject);
+            m.setFrom(InternetAddress.parse("noreply@xfiles.in", false)[0]);
+            m.setContent(text,  "text/html; charset=utf-8");
+            m.setSentDate(new Date());
+            Transport.send(m);
+        } catch (Exception ex) {
+            log.error("sendEmail(): failed to send message.", ex);
+        }
+    }
 
 }
