@@ -32,6 +32,9 @@ public class SessionHelper {
             if (isSessionValid(session)) {
                 synchronized (session) {
                     session.setAttribute(name, value);
+                    if(log.isTraceEnabled()) {
+                        log.trace("setSessionAttribute(): "+name+" is set to "+value);
+                    }
                 }
             }
         } catch (Exception ex) {
