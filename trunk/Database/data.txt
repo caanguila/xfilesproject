@@ -57,3 +57,15 @@ values(9,'Partial approve', 'Action should occers when some of group''s user app
 
 insert into action_types(action_type_id, name, description)
 values(10,'Success login', 'Action should occers when system approved user''s login and password'); 
+
+insert into action_types(action_type_id, name, description)
+values(11,'Session created', 'Action should occers when system creates session to defenite IP'); 
+
+insert into action_types(action_type_id, name, description)
+values(12,'Session destroyed', 'Action should occers when system destroy session to defenite IP');
+
+insert into action_types(action_type_id, name, description)
+values(13,'Session modifyed', 'Action should occers when system modify session');  
+
+insert into action_types(action_type_id, name, description)
+values(14,'Upload complete', 'Uploading complete');

@@ -124,7 +124,7 @@ public class SessionFilter implements Filter {
                 HttpServletRequest r = (HttpServletRequest)request;
              HttpSession session = r.getSession(true); // create session if it doesn't exist
              if(session.isNew())
-             sessionManager.modifySession(session, Long.MIN_VALUE, request.getRemoteAddr(), "TO_DO", session.getId());// creation of session record in database
+             sessionManager.createUserSession(null, r.getRemoteAddr(), "TO_DO", session.getId());// creation of session record in database
              log.debug("IP: "+request.getRemoteAddr());
             }
             

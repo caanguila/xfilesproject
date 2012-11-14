@@ -1,10 +1,13 @@
 package in.xfiles.web.servlets;
 
 import in.xfiles.core.ejb.FileManagerLocal;
+import in.xfiles.core.ejb.LogManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
+import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
+import in.xfiles.web.utils.JSFHelper;
 import in.xfiles.web.utils.SessionHelper;
 import java.io.File;
 import java.io.IOException;
@@ -50,6 +53,8 @@ public class FileUploadServlet extends HttpServlet {
     @EJB
     private UserManagerLocal um;
 
+    @EJB
+    private LogManagerLocal lm;
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -86,6 +91,8 @@ public class FileUploadServlet extends HttpServlet {
             return;
         }
         if(o instanceof FileItem) {
+            
+            lm.addRecord(userId, CommonConstants.UPLOAD_REQUEST, "Upload Start", ""+new java.util.Date(), session.getId());
             try {
                 FileItem fi = (FileItem)o;
                 UploadedFileWrapper ufw = new UploadedFileWrapper();

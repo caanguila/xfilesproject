@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-
+import java.util.*;
 /**
  *
  * @author 7
@@ -87,11 +87,28 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             em.persist(ps);
             em.persist(f);
             em.getEntityManagerFactory().getCache().evictAll();
+            
+            String session = getCurrentUserSession(ufw.getUploadedBy());
+            lm.addRecord(ufw.getUploadedBy().getUserId(), CommonConstants.UPLOAD_COMPLETE, "Upload Complete", ""+new java.util.Date(), session);
+            
         } catch (Exception ex) {
             log.error("processFile(): operation failed due to Exception", ex);
         }
     }
 
+    private String getCurrentUserSession(User u){
+        String session = ""; 
+        Iterator iter = u.getUserSessionCollection().iterator();
+        UserSession ses = null; 
+        while(iter.hasNext()){
+            UserSession one = (UserSession) iter.next();
+            if(ses == null) ses = one;
+            else if(one.getSessionId() > ses.getSessionId()) ses = one;
+        }
+        if(ses!=null) session = ses.getSession();
+        
+        return session;
+    }
     @Override
     public void testDatabase(Long userId) {
         log.debug(em);
