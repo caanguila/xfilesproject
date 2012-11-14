@@ -24,17 +24,14 @@ import org.apache.log4j.Logger;
 @LocalBean
 public class UserManager implements UserManagerLocal {
 
-  
     private final Logger log = Logger.getLogger(UserManager.class);
     @PersistenceContext
     private EntityManager em;
-
     @EJB
     private LogManagerLocal lm;
-    
     @EJB
     private SessionManagerLocal sm;
-    
+
     @Override
     public User createUser(Map<String, Object> params) {
         User user = null;
@@ -57,17 +54,17 @@ public class UserManager implements UserManagerLocal {
             user.setTypeId(otype);
 
             em.persist(user);
-            
+
             UsersPasswords up = new UsersPasswords(user.getUserId());
             up.setLogin(email);
             up.setPassword(password);
             em.persist(up);
-            
+
             log.info("createUser: User created: " + user);
 
             return user;
         } else {
-            log.warn("createUser(): TypeID not found: "+typeID);
+            log.warn("createUser(): TypeID not found: " + typeID);
             return null;
         }
     }
@@ -99,32 +96,31 @@ public class UserManager implements UserManagerLocal {
         }
         return l.get(0).getUserId();
     }
-    
+
     @Override
     public User getUserByLogin(String login) {
         UsersPasswords up = CommonTools.getFirstElement(
-                        em.createNamedQuery("UsersPasswords.findByLogin", UsersPasswords.class)
-                                .setParameter("login", login)
-                                .setMaxResults(1)
-                                .getResultList());
-        if(up == null)
+                em.createNamedQuery("UsersPasswords.findByLogin", UsersPasswords.class).setParameter("login", login).setMaxResults(1).getResultList());
+        if (up == null) {
             return null;
+        }
         return getUserById(up.getUserId());
     }
 
     @Override
     public User modifyUserInfo(Long userId, String name, String surname, String information) {
-        if(userId == null) return null;
-        else{
+        if (userId == null) {
+            return null;
+        } else {
             User user = em.find(User.class, userId);
-            if(user != null){
+            if (user != null) {
                 user.setName(name);
                 user.setSurname(surname);
                 user.setInformation(information);
                 em.merge(user);
-                log.info("User information modyfyed: "+user);
+                log.info("User information modyfyed: " + user);
                 String session = sm.getUserSession(userId).getSession();
-                lm.addRecord(userId, CommonConstants.CHANGE_PROFILE, "",""+new java.util.Date() , session);//TO-DO
+                lm.addRecord(userId, CommonConstants.CHANGE_PROFILE, "", "" + new java.util.Date(), session);//TO-DO
             }
             return user;
         }

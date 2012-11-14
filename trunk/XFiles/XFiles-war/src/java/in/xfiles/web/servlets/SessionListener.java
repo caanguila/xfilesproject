@@ -17,19 +17,19 @@ import javax.servlet.http.*;
 import javax.servlet.http.HttpSessionListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.*;
- 
+
 public class SessionListener implements HttpSessionListener {
+
     private int sessionCount = 0;
- 
     @EJB
     private SessionManagerLocal sessionManager;
-        
+
     @Override
     public void sessionCreated(HttpSessionEvent event) {
         synchronized (this) {
             sessionCount++;
         }
-       HttpSession session = event.getSession();
+        HttpSession session = event.getSession();
 //        User user = JSFHelper.getCurrentUser();
 //      
 //        if(user == null)
@@ -40,18 +40,15 @@ public class SessionListener implements HttpSessionListener {
         System.out.println("Session Created: " + session.getId());
         System.out.println("Total Sessions: " + sessionCount);
     }
- 
+
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
         synchronized (this) {
             sessionCount--;
         }
-          HttpSession session = event.getSession();
-          sessionManager.deleteSession(session);
+        HttpSession session = event.getSession();
+        sessionManager.deleteSession(session);
         System.out.println("Session Destroyed: " + event.getSession().getId());
         System.out.println("Total Sessions: " + sessionCount);
     }
-    
-   
-    
 }
