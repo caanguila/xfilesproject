@@ -122,6 +122,8 @@ public class LoginBean implements Serializable {
     }
     
     public String logOut() {
+        HttpSession session =  JSFHelper.getSession(true); 
+        lm.addRecord(currentUser.getUserId(), CommonConstants.USER_LOGOUT, "LogOut", ""+new java.util.Date(), session.getId());
         currentUser = null;
         JSFHelper.setUserId(null);
         return "login.xhtml?faces-redirect=true";

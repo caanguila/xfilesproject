@@ -29,5 +29,6 @@ public interface CommonConstants {
     Long SESSION_CREATED            = 11L;
     Long SESSION_DESTROYED          = 12L;
     Long SESSION_MODIFYED           = 13L;
+    Long UPLOAD_COMPLETE            = 14L;
     String SECRET_KEY = "78f6b8cbd16dc2158fffeb96ead43c36";
 }

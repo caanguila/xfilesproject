@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Logs.findByIpAdress", query = "SELECT l FROM Logs l WHERE l.ipAdress = :ipAdress"),
     @NamedQuery(name = "Logs.findByOptions", query = "SELECT l FROM Logs l WHERE l.options = :options"),
     @NamedQuery(name = "Logs.findByMessage", query = "SELECT l FROM Logs l WHERE l.message = :message")})
-public class Logs implements Serializable {
+public class Logs implements Serializable, Comparable<Logs> {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
@@ -147,6 +147,15 @@ public class Logs implements Serializable {
     @Override
     public String toString() {
         return "in.xfiles.core.entity.Logs[ logId=" + logId + " ]";
+    }
+
+    
+    @Override
+    public int compareTo(Logs o) {
+      
+        if(this.logId > o.getLogId()) return -1;
+        else if(this.logId < o.getLogId()) return 1;
+        else return 0;
     }
     
 }

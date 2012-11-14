@@ -42,18 +42,18 @@ public class SessionManager implements SessionManagerLocal{
     @Override
     public UserSession createUserSession(Long userId, String ip) {
         
-        User user = entityManager.find(User.class, userId);
-        if(user instanceof User && ip instanceof String){
+        User user = null;
+        if(userId != null){
+             user = entityManager.find(User.class, userId);
+        }
             UserSession userSession = new UserSession();
             userSession.setUserId(user);
             userSession.setIpAdress(ip);
             
             entityManager.persist(userSession);
             log.info("Session "+userSession+"  created for user: "+user);
-            
-        }else{
-            log.warn("User or Ip is null; Can't create Session");
-        }
+            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", ""+new Date(), "");
+
         
         return null;
                 
@@ -73,7 +73,7 @@ public class SessionManager implements SessionManagerLocal{
             userSession.setSession(session);
             entityManager.persist(userSession);
             log.info("Session "+userSession+"  created for user: "+user);
-            
+            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", ""+new Date(), session);
        
               
         

@@ -81,6 +81,8 @@ public class UserInfoBean implements Serializable {
              Logs one = iter.next();
              list.add(one);
          }
+         Collections.sort(list);
+         
          
          
          return list;
