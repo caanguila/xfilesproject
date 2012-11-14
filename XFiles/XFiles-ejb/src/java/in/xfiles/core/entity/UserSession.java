@@ -32,8 +32,7 @@ public class UserSession implements Serializable {
     @Column(name = "session_id",columnDefinition = "BIGSERIAL")
     private Long sessionId;
     
-    @Basic(optional = false)
-    @NotNull
+   
     @Size(min = 1, max = 255)
     @Column(name = "ip_adress")
     private String ipAdress;
@@ -47,12 +46,9 @@ public class UserSession implements Serializable {
     private String session;
     
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User userId;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sessionId")
-    private Collection<Logs> logsCollection;
-
     public UserSession() {
     }
 
@@ -106,15 +102,7 @@ public class UserSession implements Serializable {
         this.userId = userId;
     }
 
-    @XmlTransient
-    public Collection<Logs> getLogsCollection() {
-        return logsCollection;
-    }
-
-    public void setLogsCollection(Collection<Logs> logsCollection) {
-        this.logsCollection = logsCollection;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -1,10 +1,13 @@
 package in.xfiles.web.users;
 
+import in.xfiles.core.ejb.LogManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
+import in.xfiles.core.entity.Files;
+import in.xfiles.core.entity.Logs;
 import in.xfiles.core.entity.User;
 import in.xfiles.web.utils.JSFHelper;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +26,10 @@ public class UserInfoBean implements Serializable {
     private final Logger log = Logger.getLogger(UserInfoBean.class);
     @EJB
     UserManagerLocal userManager;
+    
+    @EJB
+    LogManagerLocal lm;
+    
     public Long userId;
     public String userName;
     public String surName;
@@ -58,8 +65,28 @@ public class UserInfoBean implements Serializable {
         log.info(email);
         log.info(information);
         log.info(userId);
+        user = userManager.modifyUserInfo(userId, userName, surName, information);
+        
+        
     }
-
+    
+    public List<Logs> getHistoryElements() {
+         System.out.println("User Logs size: "+lm.getRecordsByUser(user));
+        Collection<Logs> logs =  lm.getRecordsByUser(user);
+         ArrayList<Logs> list = new ArrayList<Logs>();
+        // list.add(new Files(1L, "File1", "text", 1125468546L, 18626, false));
+         if(logs == null) return list;
+         Iterator<Logs> iter = logs.iterator(); 
+         while(iter.hasNext()){
+             Logs one = iter.next();
+             list.add(one);
+         }
+         
+         
+         return list;
+    }
+    
+    
     public Date getDateCreation() {
         dateCreation = user.getDateCreation();
         return dateCreation;

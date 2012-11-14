@@ -1,9 +1,11 @@
 package in.xfiles.web.filters;
 
+import in.xfiles.core.ejb.SessionManagerLocal;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 /**
@@ -25,6 +28,9 @@ import org.apache.log4j.Logger;
 public class SessionFilter implements Filter {
     
     private static final Logger log = Logger.getLogger(SessionFilter.class);
+    
+    @EJB
+    private SessionManagerLocal sessionManager;
     
     private static final boolean debug = true;
     // The filter configuration object we are associated with.  If
@@ -116,7 +122,10 @@ public class SessionFilter implements Filter {
             
             if(request instanceof HttpServletRequest) {
                 HttpServletRequest r = (HttpServletRequest)request;
-                r.getSession(true); // create session if it doesn't exist
+             HttpSession session = r.getSession(true); // create session if it doesn't exist
+             if(session.isNew())
+             sessionManager.modifySession(session, Long.MIN_VALUE, request.getRemoteAddr(), "TO_DO", session.getId());// creation of session record in database
+             log.debug("IP: "+request.getRemoteAddr());
             }
             
             chain.doFilter(request, response);

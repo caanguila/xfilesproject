@@ -32,8 +32,8 @@ public class PasswordStorage implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
     @Column(name = "password_storage_id", columnDefinition = "BIGSERIAL")
     private Long passwordStorageId;
-    @Basic(optional = false)
-    @NotNull
+   
+    
     @Column(name = "user_id")
     private long userId;
     @Size(max = 500)

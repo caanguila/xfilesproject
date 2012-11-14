@@ -3,10 +3,12 @@ package in.xfiles.core.ejb;
 import in.xfiles.core.entity.Types;
 import in.xfiles.core.entity.User;
 import in.xfiles.core.entity.UsersPasswords;
+import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CommonTools;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,12 +24,17 @@ import org.apache.log4j.Logger;
 @LocalBean
 public class UserManager implements UserManagerLocal {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+  
     private final Logger log = Logger.getLogger(UserManager.class);
     @PersistenceContext
     private EntityManager em;
 
+    @EJB
+    private LogManagerLocal lm;
+    
+    @EJB
+    private SessionManagerLocal sm;
+    
     @Override
     public User createUser(Map<String, Object> params) {
         User user = null;
@@ -37,7 +44,7 @@ public class UserManager implements UserManagerLocal {
 
     @Override
     public User createUser(Long typeID, String email, String name, String surname, String password, String information) {
-        Types otype = entityManager.find(Types.class, typeID);
+        Types otype = em.find(Types.class, typeID);
 
         if (otype != null) {
 
@@ -49,12 +56,12 @@ public class UserManager implements UserManagerLocal {
             user.setInformation(information);
             user.setTypeId(otype);
 
-            entityManager.persist(user);
+            em.persist(user);
             
             UsersPasswords up = new UsersPasswords(user.getUserId());
             up.setLogin(email);
             up.setPassword(password);
-            entityManager.persist(up);
+            em.persist(up);
             
             log.info("createUser: User created: " + user);
 
@@ -103,5 +110,23 @@ public class UserManager implements UserManagerLocal {
         if(up == null)
             return null;
         return getUserById(up.getUserId());
+    }
+
+    @Override
+    public User modifyUserInfo(Long userId, String name, String surname, String information) {
+        if(userId == null) return null;
+        else{
+            User user = em.find(User.class, userId);
+            if(user != null){
+                user.setName(name);
+                user.setSurname(surname);
+                user.setInformation(information);
+                em.merge(user);
+                log.info("User information modyfyed: "+user);
+                String session = sm.getUserSession(userId).getSession();
+                lm.addRecord(userId, CommonConstants.CHANGE_PROFILE, "",""+new java.util.Date() , session);//TO-DO
+            }
+            return user;
+        }
     }
 }

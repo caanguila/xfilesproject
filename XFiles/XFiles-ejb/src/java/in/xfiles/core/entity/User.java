@@ -77,7 +77,7 @@ public class User implements Serializable {
     private Collection<Files> filesCollection1;
     
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Types typeId;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")

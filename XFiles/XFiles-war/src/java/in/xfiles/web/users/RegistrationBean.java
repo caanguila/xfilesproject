@@ -13,7 +13,10 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 /**
@@ -108,11 +111,20 @@ public class RegistrationBean implements CommonConstants, Serializable {
             return;
         }
         
-        log.info("User has been registered: "+u);
+        
         
         if(u == null) {
             registrationStatus = "fail";
-        } else registrationStatus = "ok";
+        } else {
+            registrationStatus = "ok";
+            HttpSession session =  JSFHelper.getSession(true); 
+            HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            lm.addRecord(u.getUserId(), CommonConstants.REGESTRATION_OF_USER, "user registered", ""+new java.util.Date(), session.getId());
+            sm.modifySession(session, u.getUserId(), httpServletRequest.getRemoteAddr(), "TO_DO", session.getId());
+            log.info("User has been registered: "+u);
+        }
+        
+        
     }
 
 

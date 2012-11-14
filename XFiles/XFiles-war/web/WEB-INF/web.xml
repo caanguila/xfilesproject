@@ -35,6 +35,10 @@
         <filter-name>MultipartRequestFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <listener>
+    <description>sessionListener</description>
+    <listener-class>in.xfiles.web.servlets.SessionListener</listener-class>
+   </listener>
     <servlet>
         <servlet-name>FileUploadServlet</servlet-name>
         <servlet-class>in.xfiles.web.servlets.FileUploadServlet</servlet-class>

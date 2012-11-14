@@ -37,8 +37,7 @@ public class Messages implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateSend;
     
-    @Basic(optional = false)
-    @NotNull
+    
     @Column(name = "group_id")
     private long groupId;
     
@@ -51,15 +50,15 @@ public class Messages implements Serializable {
     private Date dateRecieved;
     
     @JoinColumn(name = "recipient_id", referencedColumnName = "user_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User recipientId;
     
     @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User senderId;
     
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Types typeId;
 
     public Messages() {

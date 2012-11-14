@@ -44,7 +44,7 @@ insert into action_types(action_type_id, name, description)
 values(5,'Upload request', 'Action should occers when user try to upload a file');
 
 insert into action_types(action_type_id, name, description)
-values(6,'Download complete', 'Action should occers when user's download request processed');
+values(6,'Download complete', 'Action should occers when user''s download request processed');
 
 insert into action_types(action_type_id, name, description)
 values(7,'Change profile', 'Action should occers when user try to change some parametrs of his profile');

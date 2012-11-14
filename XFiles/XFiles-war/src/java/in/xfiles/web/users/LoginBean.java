@@ -1,8 +1,11 @@
 package in.xfiles.web.users;
 
+import in.xfiles.core.ejb.LogManagerLocal;
 import in.xfiles.core.ejb.PasswordManagerLocal;
+import in.xfiles.core.ejb.SessionManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
 import in.xfiles.core.entity.User;
+import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.web.utils.JSFHelper;
@@ -11,11 +14,13 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
-
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 /**
  * Session scoped managed bean for log in and log out.
  * You can also use it to check if current user is logged.
@@ -33,6 +38,12 @@ public class LoginBean implements Serializable {
     
     @EJB
     private PasswordManagerLocal pm;
+    
+    @EJB
+    LogManagerLocal lm;
+    
+    @EJB
+    SessionManagerLocal sm;
     
     private String login;
     private String password;
@@ -70,10 +81,19 @@ public class LoginBean implements Serializable {
     }
     
     private boolean tryLogin(String login, String pwd) {
+       
+       HttpSession session =  JSFHelper.getSession(true); 
+       HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
        Long userId = pm.checkUserPassword(login, pwd);
+      // sm.modifySession(session, userId, httpServletRequest.getRemoteAddr() , "TO_DO", session.getId());
+       lm.addRecord(userId, CommonConstants.USER_LOGIN, "try to login", ""+new java.util.Date(), session.getId());
+       
        if(userId == null)
            return false;
        currentUser = um.getUserById(userId);
+       
+       sm.modifySession(session, userId, httpServletRequest.getRemoteAddr() , "TO_DO", session.getId());
+       lm.addRecord(userId, CommonConstants.SUCCESS_LOGIN, "success", ""+new java.util.Date(), session.getId());
        JSFHelper.setUserId(userId);
        return currentUser != null;
     }
