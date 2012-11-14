@@ -17,37 +17,35 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import java.util.*;
+import javax.persistence.Query;
+
 /**
  *
  * @author 7
  */
 @Stateless
 public class FileManager implements FileManagerLocal, CommonConstants {
-    
-    public static final String FILE_UPLOAD_DIRECTORY = "./uploads/";
 
+    public static final String FILE_UPLOAD_DIRECTORY = "./uploads/";
     private Logger log = Logger.getLogger(FileManager.class);
-    
     @PersistenceContext
     private EntityManager em;
-    
     @EJB
     private LogManagerLocal lm;
-    
-    
-    
-    @Override @Asynchronous
+
+    @Override
+    @Asynchronous
     public void processFile(UploadedFileWrapper ufw) {
-        log.debug("Started asynchronous processing of uploaded file: "+ufw);
-        if(!FileEncryptor.getSupportedEngines().contains(ufw.getEncryptionType())) {
-            log.debug("processFile(): Usupported encryption engine: "+ufw.getEncryptionType());
+        log.debug("Started asynchronous processing of uploaded file: " + ufw);
+        if (!FileEncryptor.getSupportedEngines().contains(ufw.getEncryptionType())) {
+            log.debug("processFile(): Usupported encryption engine: " + ufw.getEncryptionType());
             return;
         }
         // TODO: implementation
         try {
             FileEncryptor engine = FileEncryptor.getEncryptor(ufw.getEncryptionType());
             engine.setKey(ufw.getKey());
-            File targetTmpFile = File.createTempFile("xfiles_", "."+ufw.getEncryptionType());
+            File targetTmpFile = File.createTempFile("xfiles_", "." + ufw.getEncryptionType());
             engine.encryptFile(ufw.getFile(), targetTmpFile, true);
             FileUtils.moveFileToDirectory(targetTmpFile, new File(FILE_UPLOAD_DIRECTORY), true);
             File targetFile = new File(FILE_UPLOAD_DIRECTORY, targetTmpFile.getName());
@@ -57,13 +55,15 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             f.setName(ufw.getName());
             f.setSize(ufw.getSize());
             f.setIsfolder(false);
-            if("private".equalsIgnoreCase(ufw.getAccessType())) {
+            if ("private".equalsIgnoreCase(ufw.getAccessType())) {
                 f.setTypeId(em.find(Types.class, PRIVATE_FILE_TYPE));
-            } else if("public".equalsIgnoreCase(ufw.getAccessType())) {
+            } else if ("public".equalsIgnoreCase(ufw.getAccessType())) {
                 f.setTypeId(em.find(Types.class, PUBLIC_FILE_TYPE));
             } else if ("group".equalsIgnoreCase(ufw.getAccessType())) {
                 f.setTypeId(em.find(Types.class, GROUP_FILE_TYPE));
-            } else throw new IllegalArgumentException("Incorrect access type provided: "+ufw.getAccessType());
+            } else {
+                throw new IllegalArgumentException("Incorrect access type provided: " + ufw.getAccessType());
+            }
             //f.setParentId();
             f.setCreatedBy(ufw.getUploadedBy());
             Collection<User> owners = new HashSet<User>();
@@ -77,63 +77,77 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             ps.setPassword(CryptoHelper.SHA256(ufw.getKey()));
             Collection psCollection = new HashSet<PasswordStorage>();
             psCollection.add(ps);
-            if("AES".equals(ufw.getEncryptionType()))
+            if ("AES".equals(ufw.getEncryptionType())) {
                 f.setEncTypeId(em.find(Types.class, AES_ENCRYPTION_TYPE));
-            else if("plain".equals(ufw.getEncryptionType()))
+            } else if ("plain".equals(ufw.getEncryptionType())) {
                 f.setEncTypeId(em.find(Types.class, PLAIN_ENCRYPTION_TYPE));
-            else throw new IllegalArgumentException("Unsupported encryption type: "+ufw.getEncryptionType());
+            } else {
+                throw new IllegalArgumentException("Unsupported encryption type: " + ufw.getEncryptionType());
+            }
             // owners!!!
             em.persist(ef);
             em.persist(ps);
             em.persist(f);
             em.getEntityManagerFactory().getCache().evictAll();
-            
+
             String session = getCurrentUserSession(ufw.getUploadedBy());
-            lm.addRecord(ufw.getUploadedBy().getUserId(), CommonConstants.UPLOAD_COMPLETE, "Upload Complete", ""+new java.util.Date(), session);
-            
+            lm.addRecord(ufw.getUploadedBy().getUserId(), CommonConstants.UPLOAD_COMPLETE, "Upload Complete", "" + new java.util.Date(), session);
+
         } catch (Exception ex) {
             log.error("processFile(): operation failed due to Exception", ex);
         }
     }
 
-    private String getCurrentUserSession(User u){
-        String session = ""; 
-        Iterator iter = u.getUserSessionCollection().iterator();
-        UserSession ses = null; 
-        while(iter.hasNext()){
+    private String getCurrentUserSession(User u) {
+        String session = "";
+
+        Query q = em.createQuery("select u from UserSession u where u.userId =:userID");
+        q.setParameter("userID", u);
+        List result = q.getResultList();
+        Iterator iter = result.iterator();
+        UserSession ses = null;
+        while (iter.hasNext()) {
+
             UserSession one = (UserSession) iter.next();
-            if(ses == null) ses = one;
-            else if(one.getSessionId() > ses.getSessionId()) ses = one;
+            log.info("One: " + one.getSessionId() + " session: " + one.getSession());
+            if (ses == null) {
+                ses = one;
+            } else if (one.getSessionId().compareTo(ses.getSessionId()) > 0) {
+                ses = one;
+            }
         }
-        if(ses!=null) session = ses.getSession();
-        
+        if (ses != null) {
+            session = ses.getSession();
+        }
+        log.info("Session: " + ses.getSessionId() + "   user: " + ses.getUserId() + " session: " + ses.getSession());
         return session;
     }
+
     @Override
     public void testDatabase(Long userId) {
         log.debug(em);
-        
+
         log.debug("Creation of password storage");
         Types t = em.find(Types.class, 9L);
-        log.debug("PSW type: "+t.getName());
-        
+        log.debug("PSW type: " + t.getName());
+
         PasswordStorage ps = new PasswordStorage();
         ps.setPassword("qwerty");
-       
+
         ps.setUserId(1036);
-        
+
         log.debug("Creation of enc files");
-        
+
         Encryptionfiles ef = new Encryptionfiles();
         ef.setPath("SomePath");
-        
+
         log.debug("Persisting of passwords and encfyle");
         em.persist(ef);
         em.persist(ps);
-        log.debug("ID of encfiles: "+ef.getEnFileId());
-        log.debug("ID of pasw_Stor "+ps.getPasswordStorageId());
+        log.debug("ID of encfiles: " + ef.getEnFileId());
+        log.debug("ID of pasw_Stor " + ps.getPasswordStorageId());
         log.debug("Creation of file");
-        
+
         Files file = new Files();
         file.setContentType("Contenttype");
         file.setName("nyfile");
@@ -152,22 +166,24 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         h1.add(em.find(User.class, userId));
         file.setUsersCollection(h1);
         file.setCreatedBy(em.find(User.class, userId));
-        log.debug("Persisting of file for user "+userId);
+        log.debug("Persisting of file for user " + userId);
         em.persist(file);
         em.getEntityManagerFactory().getCache().evictAll();
-        
-        
+
+
     }
 
     @Override
     public Collection<Files> getFilesByUser(Long usertId) {
-        if(usertId == null)
+        if (usertId == null) {
             return Collections.EMPTY_LIST;
+        }
         User user = em.find(User.class, usertId);
-      
-        if(user != null) 
+
+        if (user != null) {
             return user.getFilesCollection();
-        else return null;
+        } else {
+            return null;
+        }
     }
-    
 }
