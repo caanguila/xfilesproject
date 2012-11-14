@@ -15,17 +15,20 @@
             <h:form id="controll_panel_form" >
             <ul>
                 <li><h:commandLink id="files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer" execute="@form :files_list_form" />
+                        <f:ajax render=":cabinetContentContainer :files_list_form" />
                     </h:commandLink></li>
           
                 <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer" execute="@form" />
+                        <f:ajax render=":cabinetContentContainer"  />
                     </h:commandLink></li>
                 <li><h:commandLink id="messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer" execute="@form" />
+                        <f:ajax render=":cabinetContentContainer"  />
                     </h:commandLink></li>
                 <li><h:commandLink id="profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer" execute="@form" />
+                        <f:ajax render=":cabinetContentContainer :change_info_form"  />
+                    </h:commandLink></li>
+                <li><h:commandLink id="history_link" value="History" actionListener="#{cabinetController.historyLinkListener(e)}">
+                        <f:ajax render=":cabinetContentContainer"  />
                     </h:commandLink></li>
             </ul>
             </h:form>
@@ -111,19 +114,16 @@
                             <h:outputLabel class="profileTableLeft" value="Date suspended:  " />
                             <h:outputLabel value="#{userInfoBean.dateSuspend}" />
                             <h:outputLabel class="profileTableLeft" value="Email:  " />
-                            <h:inputText value="#{userInfoBean.email}" />
+                            <h:outputLabel value="#{userInfoBean.email}" />
                             <h:outputLabel class="profileTableLeft" value="Information: " /> 
                             <h:inputText value="#{userInfoBean.information}" /> 
                          </h:panelGrid>
                              <h:commandLink onclick="hideUserForm()" id="save_button" class="button_green" value="Save" actionListener="#{userInfoBean.saveParametersAction}">
+                                 <f:ajax render=":user_profile_group :change_info_form" execute=":change_info_form"/>
                              </h:commandLink>
                         </h:form>     
                      </h:panelGroup>
                      
-<!--                     <form>
-                         <input id="change_button" class="button_green" type="button" value="Change" onclick="hideUserInfo();" />
-                     <input class="button_green" type="button" value="Save" onclick="hideUserForm();"/>
-                     </form>-->
                       <script type="text/javascript">
                 function hideUserInfo() {
                     $('#user_group_info').css('display', 'none');
@@ -150,6 +150,31 @@
             </script>
                      </h:panelGroup>  
                  </h:panelGroup>
+                <h:panelGroup id ="user_history" rendered="#{cabinetController.historyVisible}" >
+                     <h1>History</h1>
+                                           
+                             <h:form> 
+                                 <table class="table table-striped">
+                                     <tr>
+                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Log Id"/></td>
+                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Ip"/></td>
+                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Options"/></td>
+                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Message"/></td>
+                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Action Name"/></td>
+                                     </tr>
+                                    <ui:repeat var="item" value="#{userInfoBean.historyElements}" id="for_history" >
+                                    <tr>
+                                        <td><h:outputLabel style="width: 150px;" value="#{item.logId}"/></td>
+                                        <td><h:outputLabel style="width: 150px;" value="#{item.ipAdress}"/></td>
+                                        <td><h:outputLabel style="width: 150px;" value="#{item.options}"/></td>
+                                        <td><h:outputLabel style="width: 150px;" value="#{item.message}"/></td>
+                                        <td><h:outputLabel style="width: 150px;" value="#{item.typeActionId.name}"/></td>
+                                    </tr> 
+                                    </ui:repeat>
+                                 </table>
+                             </h:form>    
+                          
+                </h:panelGroup>
 <!--           
             <H3>HERE will be the main page of the user cabinet.</H3>
             

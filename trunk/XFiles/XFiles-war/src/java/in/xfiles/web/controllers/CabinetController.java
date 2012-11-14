@@ -19,6 +19,7 @@ public boolean tableVisible = true;
 public boolean groupsVisible;
 public boolean messagesVisible;
 public boolean profileVisible;
+public boolean historyVisible;
     /**
      * Creates a new instance of CabinetController
      */
@@ -33,6 +34,17 @@ public boolean profileVisible;
          if(tableVisible) tableVisible = false;
          else tableVisible = true;
          System.out.println("Visible: "+tableVisible);
+         
+    }
+    
+    public void historyLinkListener(ActionEvent e){
+        
+         
+         flushFlags();
+         System.out.println("Click History:");
+         if(historyVisible) historyVisible = false;
+         else historyVisible = true;
+         System.out.println("Visible: "+historyVisible);
          
     }
     
@@ -78,8 +90,17 @@ public boolean profileVisible;
         return profileVisible;
     }
 
+    
     public void setProfileVisible(boolean profileVisible) {
         this.profileVisible = profileVisible;
+    }
+
+    public boolean isHistoryVisible() {
+        return historyVisible;
+    }
+
+    public void setHistoryVisible(boolean historyVisible) {
+        this.historyVisible = historyVisible;
     }
       
       
@@ -97,6 +118,7 @@ public boolean profileVisible;
         tableVisible = false;
         messagesVisible = false;
         profileVisible = false;
+        historyVisible = false;
     }
      
     

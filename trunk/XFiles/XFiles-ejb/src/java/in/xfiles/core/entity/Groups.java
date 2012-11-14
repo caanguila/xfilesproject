@@ -52,7 +52,7 @@ public class Groups implements Serializable {
     private Collection<User> usersCollection;
     
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Types typeId;
 
     public Groups() {

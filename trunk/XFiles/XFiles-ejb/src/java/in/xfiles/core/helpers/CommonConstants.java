@@ -16,5 +16,18 @@ public interface CommonConstants {
     Long AES_ENCRYPTION_TYPE        = 8L;
     Long PLAIN_ENCRYPTION_TYPE      = 9L;
     
+    Long REGESTRATION_OF_USER       = 1L;
+    Long USER_LOGOUT                = 2L;
+    Long USER_LOGIN                 = 3L;
+    Long DOWNLOAD_REQUEST           = 4L;
+    Long UPLOAD_REQUEST             = 5L;
+    Long DOWNLOAD_COMPLETE          = 6L;
+    Long CHANGE_PROFILE             = 7L;
+    Long GROUP_CREATION             = 8L;
+    Long PARTIAL_APPROVE            = 9L;
+    Long SUCCESS_LOGIN              = 10L;
+    Long SESSION_CREATED            = 11L;
+    Long SESSION_DESTROYED          = 12L;
+    Long SESSION_MODIFYED           = 13L;
     String SECRET_KEY = "78f6b8cbd16dc2158fffeb96ead43c36";
 }

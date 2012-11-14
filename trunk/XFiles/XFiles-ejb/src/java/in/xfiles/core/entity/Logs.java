@@ -31,8 +31,8 @@ public class Logs implements Serializable {
     @Column(name = "log_id",columnDefinition = "BIGSERIAL")
     private Long logId;
     
-    @Basic(optional = false)
-    @NotNull
+    
+    
     @Size(min = 1, max = 255)
     @Column(name = "ip_adress")
     private String ipAdress;
@@ -46,15 +46,14 @@ public class Logs implements Serializable {
     private String message;
     
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User userId;
     
-    @JoinColumn(name = "session_id", referencedColumnName = "session_id")
-    @ManyToOne(optional = false)
-    private UserSession sessionId;
+    @Column(name="session_name")
+    private String session;
     
     @JoinColumn(name = "type_action_id", referencedColumnName = "action_type_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ActionTypes typeActionId;
 
     public Logs() {
@@ -109,12 +108,12 @@ public class Logs implements Serializable {
         this.userId = userId;
     }
 
-    public UserSession getSessionId() {
-        return sessionId;
+    public String getSessionName() {
+        return session;
     }
 
-    public void setSessionId(UserSession sessionId) {
-        this.sessionId = sessionId;
+    public void setSessionName(String session) {
+        this.session = session;
     }
 
     public ActionTypes getTypeActionId() {

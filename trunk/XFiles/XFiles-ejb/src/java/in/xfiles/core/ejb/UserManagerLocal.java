@@ -21,5 +21,7 @@ public interface UserManagerLocal {
     public Long tryLogin(String login, String pwd);
     
     public User getUserByLogin(String login);
+    
+    public User modifyUserInfo(Long userId, String name, String surname, String information);
 
 }

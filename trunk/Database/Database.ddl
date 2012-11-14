@@ -1,6 +1,6 @@
 ALTER TABLE Users DROP CONSTRAINT FKUsers864709;
-ALTER TABLE Messages DROP CONSTRAINT "User Messages";
-ALTER TABLE Messages DROP CONSTRAINT "Type of Messages";
+ALTER TABLE Messages DROP CONSTRAINT FKUser_Messages;
+ALTER TABLE Messages DROP CONSTRAINT FKMessagesTypes;
 ALTER TABLE Groups DROP CONSTRAINT FKGroups485329;
 ALTER TABLE Users_Groups DROP CONSTRAINT FKUsers_Grou503233;
 ALTER TABLE Users_Groups DROP CONSTRAINT FKUsers_Grou640674;
@@ -17,15 +17,13 @@ ALTER TABLE User_Session DROP CONSTRAINT FKUser_Sessi406376;
 ALTER TABLE Files DROP CONSTRAINT FKFiles770503;
 ALTER TABLE Files_Passwords DROP CONSTRAINT FKFiles_Passwords575887; 
 ALTER TABLE Files_Passwords DROP CONSTRAINT FKFiles_Passwords865345; 
-ALTER TABLE FKFiles DROP CONSTRAINT FKFilesTypes;
+ALTER TABLE Files DROP CONSTRAINT FKFilesTypes;
 ALTER TABLE Logs DROP CONSTRAINT FKLogs733636;
 ALTER TABLE Logs DROP CONSTRAINT FKLogs865980;
-ALTER TABLE Logs DROP CONSTRAINT FKLogs759364;
 ALTER TABLE Files_Groups DROP CONSTRAINT FKFiles_Grou569633;
 ALTER TABLE Files_Groups DROP CONSTRAINT FKFiles_Grou941164;
 ALTER TABLE Messages DROP CONSTRAINT FKMessages902981;
 DROP TABLE Users;
-DROP TABLE Types;
 DROP TABLE Messages;
 DROP TABLE Groups;
 DROP TABLE Users_Groups;
@@ -39,6 +37,7 @@ DROP TABLE Files_Passwords;
 DROP TABLE Logs;
 DROP TABLE Action_types;
 DROP TABLE Files_Groups;
+DROP TABLE Types;
 
 CREATE TABLE Users (
   user_id         BIGSERIAL NOT NULL, 
@@ -49,7 +48,7 @@ CREATE TABLE Users (
   email          varchar(255) NOT NULL, 
   information    varchar(2000), 
   photo          bytea, 
-  type_id        int8 NOT NULL, 
+  type_id        int8 , 
   PRIMARY KEY (user_id));
 
 CREATE TABLE Types (
@@ -63,10 +62,10 @@ CREATE TABLE Types (
 CREATE TABLE Messages (
   message_id     BIGSERIAL NOT NULL, 
   date_send     date, 
-  group_id      int8 NOT NULL, 
-  type_id       int8 NOT NULL, 
-  sender_id     int8 NOT NULL, 
-  recipient_id  int8 NOT NULL, 
+  group_id      int8, 
+  type_id       int8, 
+  sender_id     int8, 
+  recipient_id  int8, 
   message       varchar(5000), 
   date_recieved date, 
   PRIMARY KEY (message_id));
@@ -75,7 +74,7 @@ CREATE TABLE Groups (
   group_id     BIGSERIAL NOT NULL, 
   name        varchar(500) NOT NULL, 
   Description varchar(5000), 
-  type_id     int8 NOT NULL, 
+  type_id     int8, 
   PRIMARY KEY (group_id));
 
 CREATE TABLE Users_Groups (
@@ -97,12 +96,12 @@ CREATE TABLE Files (
   content_type    varchar(255) NOT NULL, 
   file_size       int8 NOT NULL, 
   crc             int8 NOT NULL, 
-  en_file_id      int8 NOT NULL, 
+  en_file_id      int8, 
   parent_id       int8, 
-  type_id         int8 NOT NULL, 
-  created_by      int8 NOT NULL, 
+  type_id         int8, 
+  created_by      int8, 
   isFolder        bool NOT NULL, 
-  enc_type_id	  int8 NOT NULL,
+  enc_type_id	  int8,
   PRIMARY KEY (file_id));
 
 CREATE TABLE User_Files (
@@ -115,13 +114,15 @@ CREATE TABLE Files_Passwords (
   Password_Storage_id int8 NOT NULL,   
   PRIMARY KEY (Password_Storage_id, 
   Files_file_id));
+
 CREATE TABLE User_Session (
   session_id  BIGSERIAL NOT NULL, 
-  user_id    int8 NOT NULL, 
-  ip_adress  varchar(255) NOT NULL, 
+  user_id    int8, 
+  ip_adress  varchar(255), 
   brouser    varchar(255), 
   session_name	  varchar(500),
   PRIMARY KEY (session_id));
+
 CREATE TABLE EncryptionFiles (
   en_file_id  BIGSERIAL NOT NULL, 
   path       varchar(2000) NOT NULL, 
@@ -130,33 +131,36 @@ CREATE TABLE EncryptionFiles (
 
 CREATE TABLE Password_Storage(
   password_storage_id BIGSERIAL NOT NULL,
-  user_id         int8 NOT NULL, 
+  user_id         int8, 
   password        varchar(500),
   options		  varchar(500), 
   PRIMARY KEY (password_storage_id));
 
 CREATE TABLE Logs (
   log_id          BIGSERIAL NOT NULL, 
-  user_id        int8 NOT NULL, 
-  type_action_id int8 NOT NULL, 
-  ip_adress      varchar(255) NOT NULL, 
+  user_id        int8, 
+  type_action_id int8, 
+  ip_adress      varchar(255), 
   options        varchar(255), 
-  session_id     int8 NOT NULL, 
+  session_name   varchar(300), 
   message        varchar(1000), 
   PRIMARY KEY (log_id));
+
 CREATE TABLE Action_types (
   Action_type_id  BIGSERIAL NOT NULL, 
   name           varchar(255) NOT NULL, 
   description    varchar(2000), 
   PRIMARY KEY (Action_type_id));
+
 CREATE TABLE Files_Groups (
   Filesfile_id   int8 NOT NULL, 
   Groupsgroup_id int8 NOT NULL, 
   PRIMARY KEY (Filesfile_id, 
   Groupsgroup_id));
+
 ALTER TABLE Users ADD CONSTRAINT FKUsers864709 FOREIGN KEY (type_id) REFERENCES Types (type_id);
 ALTER TABLE Messages ADD CONSTRAINT FKUser_Messages FOREIGN KEY (sender_id) REFERENCES Users (user_id);
-ALTER TABLE Messages ADD CONSTRAINT "Type of Messages" FOREIGN KEY (type_id) REFERENCES Types (type_id);
+ALTER TABLE Messages ADD CONSTRAINT FKMessagesTypes FOREIGN KEY (type_id) REFERENCES Types (type_id);
 ALTER TABLE Groups ADD CONSTRAINT FKGroups485329 FOREIGN KEY (type_id) REFERENCES Types (type_id);
 ALTER TABLE Users_Groups ADD CONSTRAINT FKUsers_Grou503233 FOREIGN KEY (Users_user_id) REFERENCES Users (user_id);
 ALTER TABLE Users_Groups ADD CONSTRAINT FKUsers_Grou640674 FOREIGN KEY (Groups_group_id) REFERENCES Groups (group_id);
@@ -176,7 +180,6 @@ ALTER TABLE User_Session ADD CONSTRAINT FKUser_Sessi406376 FOREIGN KEY (user_id)
 ALTER TABLE Files ADD CONSTRAINT FKFiles770503 FOREIGN KEY (en_file_id) REFERENCES EncryptionFiles (en_file_id);
 ALTER TABLE Logs ADD CONSTRAINT FKLogs733636 FOREIGN KEY (type_action_id) REFERENCES Action_types (Action_type_id);
 ALTER TABLE Logs ADD CONSTRAINT FKLogs865980 FOREIGN KEY (user_id) REFERENCES Users (user_id);
-ALTER TABLE Logs ADD CONSTRAINT FKLogs759364 FOREIGN KEY (session_id) REFERENCES User_Session (session_id);
 ALTER TABLE Files_Groups ADD CONSTRAINT FKFiles_Grou569633 FOREIGN KEY (Filesfile_id) REFERENCES Files (file_id);
 ALTER TABLE Files_Groups ADD CONSTRAINT FKFiles_Grou941164 FOREIGN KEY (Groupsgroup_id) REFERENCES Groups (group_id);
 ALTER TABLE Messages ADD CONSTRAINT FKMessages902981 FOREIGN KEY (recipient_id) REFERENCES Users (user_id);

@@ -2,6 +2,7 @@ package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.User;
 import in.xfiles.core.entity.UsersPasswords;
+import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CommonTools;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
@@ -33,8 +34,13 @@ public class PasswordManager implements PasswordManagerLocal{
     @EJB
     UserManagerLocal um;
     
+    
+    
     @Override
     public Long checkUserPassword(Long userId, String password){
+        
+        
+        
         UsersPasswords up = CommonTools.getSingleElement(
                                 em.createNamedQuery("UsersPasswords.findByUserIdAndPassword", UsersPasswords.class)
                                     .setParameter("userId", userId)

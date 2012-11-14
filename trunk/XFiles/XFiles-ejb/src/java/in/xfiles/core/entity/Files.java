@@ -74,11 +74,11 @@ public class Files implements Serializable {
     private Files parentId;
 
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Types typeId;
 
     @JoinColumn(name = "enc_type_id", referencedColumnName = "type_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Types encTypeId;
 
     public Types getEncTypeId() {

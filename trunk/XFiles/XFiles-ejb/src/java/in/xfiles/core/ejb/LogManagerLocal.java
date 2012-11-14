@@ -15,10 +15,10 @@ import java.util.Collection;
  */
 @Local
 public interface LogManagerLocal {
-    Logs addRecord(Long userId, Long typeActionId, String message,String options);
-    Logs addRecord(User user, ActionTypes type, String message,String options);
-    Logs addRecord(User user, String typeName, String message,String options);
-    Logs addRecord(Long userId, String typeName, String message,String options);
+    Logs addRecord(Long userId, Long typeActionId, String message,String options, String sessionId);
+    Logs addRecord(User user, ActionTypes type, String message,String options, String sessionId);
+    Logs addRecord(User user, String typeName, String message,String options, String sessionId);
+    Logs addRecord(Long userId, String typeName, String message,String options, String sessionId);
     Collection<ActionTypes> getAllActionTypes();
     Collection<ActionTypes> getActionTypesByName(String name);
     Collection<Logs> getRecordsByUser(User user);
