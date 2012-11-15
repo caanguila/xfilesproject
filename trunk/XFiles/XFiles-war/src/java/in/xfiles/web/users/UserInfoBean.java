@@ -36,7 +36,11 @@ public class UserInfoBean implements Serializable {
     public String email;
     public String information;
     private User user;
-
+    
+    public int step;
+    public int currentHistoryIndex;
+    public int historyPage;
+    public int historyPageCount;
     /**
      * Creates a new instance of UserInfoBean
      */
@@ -52,6 +56,10 @@ public class UserInfoBean implements Serializable {
         } else {
             log.warn("User Id is " + userId);
         }
+        
+        step = 10;
+        currentHistoryIndex = 0;
+        historyPage = 1;
     }
     
     public void saveParametersAction(ActionEvent e) {
@@ -84,8 +92,57 @@ public class UserInfoBean implements Serializable {
         Collections.sort(list);
         
         
+        historyPageCount = logs.size()/step;
+        if(logs.size()%step >0) historyPageCount++;
         
         return list;
+    }
+    
+    public List<Logs> getNextHistoryElements() {
+        List<Logs> out = new ArrayList<Logs>();
+        List<Logs> part = getHistoryElements();
+        
+        int length = part.size();
+        if(currentHistoryIndex >= length) currentHistoryIndex -= step;
+        
+       // historyPage = currentHistoryIndex/step + 1;
+       // if(historyPage>historyPageCount) historyPage = historyPageCount;
+        
+        for(int i = currentHistoryIndex; i<currentHistoryIndex+step && i<length; i++){
+           // log.info(""+part.get(i));
+        out.add(part.get(i));
+        }
+        
+        
+        return out;
+    }
+    
+    public int getHistoryPagesCount(){
+        return historyPageCount;
+    }
+    
+    public void setStepAction(int i){
+        step = i;
+        log.info("Step: "+step);
+        historyPageCount = getHistoryElements().size()/step;
+        if(getHistoryElements().size()%step >0) historyPageCount++;
+        currentHistoryIndex = 0;
+        historyPage = 1;
+    }
+    
+    public void nextAction(){
+        currentHistoryIndex +=step;
+        historyPage++;
+        if(historyPage > historyPageCount) historyPage = historyPageCount;
+        log.info("Next: "+currentHistoryIndex);
+    } 
+    
+    public void previousAction(){
+        currentHistoryIndex -=step;
+        historyPage--;
+        if(historyPage < 1) historyPage = 1;
+        if(currentHistoryIndex<0) currentHistoryIndex = 0;
+        log.info("Previous: "+currentHistoryIndex);
     }
     
     public Date getDateCreation() {
@@ -114,6 +171,15 @@ public class UserInfoBean implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public int getHistoryPage() {
+        return historyPage;
+    }
+
+    public void setHistoryPage(int historyPage) {
+        this.historyPage = historyPage;
+    }
+    
     
     public String getInformation() {
         information = user.getInformation();
@@ -149,4 +215,22 @@ public class UserInfoBean implements Serializable {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public int getCurrentHistoryIndex() {
+        return currentHistoryIndex;
+    }
+
+    public void setCurrentHistoryIndex(int currentHistoryIndex) {
+        this.currentHistoryIndex = currentHistoryIndex;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+    
+    
 }
