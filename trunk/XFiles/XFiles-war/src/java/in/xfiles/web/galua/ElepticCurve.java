@@ -21,9 +21,9 @@ public class ElepticCurve {
     if(a[0] == b[0] && a[1] ==b[1]){
          s = ((3*a[0]*a[0] + paramA) * (UsefulAlgo.ReverseElement(2*a[1], n)))%n;
          
-        if(s<0) s +=n;
+        while(s<0) s +=n;
         c[0] = (s*s - a[0] - b[0])%n;
-        c[1] = (a[1] -s*(a[0] - c[0]))%n;
+        c[1] = (s*(a[0] - c[0]) -a[1])%n;
         if(c[0]<0) c[0]+=n;
         if(c[1]<0) c[1]+=n;
         System.out.println("s:"+s);
@@ -31,17 +31,19 @@ public class ElepticCurve {
         System.out.println("y3:"+c[1]);
         return c;
     }
-    if(a[0] != b[0] && a[1]!=b[1]){
-        s = ((b[1] - a[1]) * (UsefulAlgo.ReverseElement(b[0]-a[0], n)))%n;
-        if(s<0) s +=n;
+    else if(a[0] != b[0] && a[1]!=b[1]){
+        long k = b[0]-a[0];
+        while(k<0) k+=n;
+        s = ((b[1] - a[1]) * (UsefulAlgo.ReverseElement(k, n)))%n;
+        while(s<0) s +=n;
         c[0] = (s*s - a[0] - b[0])%n;
-        c[1] = (a[1] -s*(a[0] - c[0]))%n;
+        c[1] = (s*(a[0] - c[0]) -a[1])%n;
         if(c[0]<0) c[0]+=n;
         if(c[1]<0) c[1]+=n;
         
-      //  System.out.println("s:"+s);
-      //  System.out.println("x3:"+c[0]);
-      //  System.out.println("y3:"+c[1]);
+        System.out.println("s:"+s);
+        System.out.println("x3:"+c[0]);
+        System.out.println("y3:"+c[1]);
         return c;
     }
     return c;

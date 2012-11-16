@@ -17,7 +17,7 @@ and open the template in the editor.
     <h:body>
         <h:panelGroup>   
                     <h:form>
-                        <h:panelGrid columns="2" width="800px" border="1">
+                        <h:panelGrid columns="1" width="100%" border="1">
                   <h:panelGroup>
                       <h:outputLabel value="Reverse element" />
                 <h:panelGrid columns="2">
@@ -43,6 +43,32 @@ and open the template in the editor.
                  <h:outputLabel value="#{galuaHelper.powerResult}" style="color: blue"/>
                 </h:panelGrid>
                 <h:commandButton value="Calculate"/>
+                        </h:panelGroup>
+                            <h:panelGroup>
+                       <h:outputLabel value="elliptic curves Values: Y^2 = X^3 +a*X + b" />
+                       <h:panelGrid columns="2">
+                <h:outputLabel value="Curve params:" />
+                <h:panelGroup>
+                     <h:outputLabel value="a:" />
+                     <h:inputText value="#{galuaHelper.param1A}" />
+                     <h:outputLabel value="b:" />
+                     <h:inputText value="#{galuaHelper.param1B}"/>
+                
+                </h:panelGroup>
+                 
+                 <h:outputLabel value="N:" />
+                 <h:inputText value="#{galuaHelper.curve1N}"/>
+                 <h:outputLabel value="Result:" />
+                 <h:outputLabel value="#{galuaHelper.curveValues}" style="color: blue"/>
+                </h:panelGrid>
+                <h:commandButton value="Calculate"/>
+                     <h:outputLabel value="Get point subgroup" />
+                     <h:outputLabel value="x:" />
+                     <h:inputText value="#{galuaHelper.elemX}" />
+                     <h:outputLabel value="y:" />
+                     <h:inputText value="#{galuaHelper.elemY}" />
+                     <h:outputLabel style="float: left;" value="Result: #{galuaHelper.subGroups}" />
+                     
                         </h:panelGroup>
                    <h:panelGroup>
                        <h:outputLabel value="elliptic curves" />

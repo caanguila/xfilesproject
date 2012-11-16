@@ -84,7 +84,7 @@ public class UsefulAlgo {
     return 1;
   } else {
     result = ((Long) list.get(1)).longValue();
-    if(result<0) result = N +result;
+    while(result<0) result = N +result;
     
     return result;
   }
