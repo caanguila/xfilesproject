@@ -108,7 +108,7 @@ public class FilesBean implements Serializable{
      }
      public String getCurrentFileType(){
          if(currentFile == null) return null;
-         else return currentFile.getTypeId()+"";   
+         else return currentFile.getTypeId().getName()+"";   
          
      }
 }

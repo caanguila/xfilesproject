@@ -91,7 +91,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             em.getEntityManagerFactory().getCache().evictAll();
 
             String session = getCurrentUserSession(ufw.getUploadedBy());
-            lm.addRecord(ufw.getUploadedBy().getUserId(), CommonConstants.UPLOAD_COMPLETE, "Upload Complete", "" + new java.util.Date(), session);
+            lm.addRecord(ufw.getUploadedBy().getUserId(), CommonConstants.UPLOAD_COMPLETE, "Upload Complete", "", session);
 
         } catch (Exception ex) {
             log.error("processFile(): operation failed due to Exception", ex);
@@ -181,6 +181,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         User user = em.find(User.class, usertId);
 
         if (user != null) {
+            em.getEntityManagerFactory().getCache().evictAll();
             return user.getFilesCollection();
         } else {
             return null;

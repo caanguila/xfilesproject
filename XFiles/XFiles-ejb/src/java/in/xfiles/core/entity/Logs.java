@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import java.util.Date;
 /**
  *
  * @author 7
@@ -40,6 +40,9 @@ public class Logs implements Serializable, Comparable<Logs> {
     @Size(max = 255)
     @Column(name = "options")
     private String options;
+    
+    @Column(name = "date_creation")
+    private java.sql.Date dateCreation;
     
     @Size(max = 1000)
     @Column(name = "message")
@@ -108,6 +111,16 @@ public class Logs implements Serializable, Comparable<Logs> {
         this.userId = userId;
     }
 
+    public java.sql.Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(java.sql.Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    
+    
     public String getSessionName() {
         return session;
     }
