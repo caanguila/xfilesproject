@@ -48,7 +48,7 @@ public class UserManager implements UserManagerLocal {
             User user = new User();
             user.setName(name);
             user.setSurname(surname);
-            user.setDateCreation(new Date());
+            user.setDateCreation(new java.sql.Date(new Date().getTime()));
             user.setEmail(email);
             user.setInformation(information);
             user.setTypeId(otype);
@@ -120,7 +120,7 @@ public class UserManager implements UserManagerLocal {
                 em.merge(user);
                 log.info("User information modyfyed: " + user);
                 String session = sm.getUserSession(userId).getSession();
-                lm.addRecord(userId, CommonConstants.CHANGE_PROFILE, "", "" + new java.util.Date(), session);//TO-DO
+                lm.addRecord(userId, CommonConstants.CHANGE_PROFILE, "", "" , session);//TO-DO
             }
             return user;
         }

@@ -92,7 +92,7 @@ public class FileUploadServlet extends HttpServlet {
         }
         if(o instanceof FileItem) {
             
-            lm.addRecord(userId, CommonConstants.UPLOAD_REQUEST, "Upload Start", ""+new java.util.Date(), session.getId());
+            lm.addRecord(userId, CommonConstants.UPLOAD_REQUEST, "Upload Start", "", session.getId());
             try {
                 FileItem fi = (FileItem)o;
                 UploadedFileWrapper ufw = new UploadedFileWrapper();

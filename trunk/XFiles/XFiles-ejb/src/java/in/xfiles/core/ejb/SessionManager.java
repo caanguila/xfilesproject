@@ -52,7 +52,7 @@ public class SessionManager implements SessionManagerLocal{
             
             entityManager.persist(userSession);
             log.info("Session "+userSession+"  created for user: "+user);
-            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", ""+new Date(), "");
+            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", "", "");
 
         
         return null;
@@ -73,7 +73,7 @@ public class SessionManager implements SessionManagerLocal{
             userSession.setSession(session);
             entityManager.persist(userSession);
             log.info("Session "+userSession+"  created for user: "+user);
-            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", ""+new Date(), session);
+            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", "", session);
        
               
         
@@ -121,7 +121,7 @@ public class SessionManager implements SessionManagerLocal{
            log.info("Session is null in database");
            createUserSession(userId, ip, brouser, sessionId);
            
-            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", ""+new Date(), sessionId);
+            logManager.addRecord(userId, CommonConstants.SESSION_CREATED, "", "", sessionId);
        }else{
            log.info("Session already created: merge");
            UserSession userSession = (UserSession) result.iterator().next();
@@ -133,7 +133,7 @@ public class SessionManager implements SessionManagerLocal{
                userSession.setSession(sessionName);
                entityManager.merge(userSession);
                
-               logManager.addRecord(userId, CommonConstants.SESSION_MODIFYED, "", ""+new Date(), sessionId);
+               logManager.addRecord(userId, CommonConstants.SESSION_MODIFYED, "", "", sessionId);
               
                  
     }
@@ -157,9 +157,9 @@ public class SessionManager implements SessionManagerLocal{
            log.info("Session succesfuly removed from database");
           
            if(user != null)
-           logManager.addRecord(user.getUserId(), CommonConstants.SESSION_DESTROYED, "", ""+new Date(), sessionId);
+           logManager.addRecord(user.getUserId(), CommonConstants.SESSION_DESTROYED, "", "", sessionId);
            else{
-           logManager.addRecord(null, CommonConstants.SESSION_DESTROYED, "", ""+new Date(), sessionId);     
+           logManager.addRecord(null, CommonConstants.SESSION_DESTROYED, "", "", sessionId);     
            }
            //logManager.addRecord(userId, CommonConstants.SESSION_CREATED, sessionId, sessionId);
        }

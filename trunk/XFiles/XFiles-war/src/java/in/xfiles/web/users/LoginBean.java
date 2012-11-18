@@ -84,22 +84,26 @@ public class LoginBean implements Serializable {
        
        HttpSession session =  JSFHelper.getSession(true); 
        HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+      
        Long userId = pm.checkUserPassword(login, pwd);
+        lm.addRecord(userId, CommonConstants.USER_LOGIN, "try to login", ""+login+"  "+pwd, session.getId());
       // sm.modifySession(session, userId, httpServletRequest.getRemoteAddr() , "TO_DO", session.getId());
-       lm.addRecord(userId, CommonConstants.USER_LOGIN, "try to login", ""+new java.util.Date(), session.getId());
+       
        
        if(userId == null)
            return false;
        currentUser = um.getUserById(userId);
        
        sm.modifySession(session, userId, httpServletRequest.getRemoteAddr() , "TO_DO", session.getId());
-       lm.addRecord(userId, CommonConstants.SUCCESS_LOGIN, "success", ""+new java.util.Date(), session.getId());
+       lm.addRecord(userId, CommonConstants.SUCCESS_LOGIN, "success", ""+login, session.getId());
        JSFHelper.setUserId(userId);
        return currentUser != null;
     }
     
     public void loginAction(ActionEvent evt) {
         currentUser = null;
+        
+        
         
         if(!validateUserInput()) {
             JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "Check your input and try again.");
@@ -123,7 +127,7 @@ public class LoginBean implements Serializable {
     
     public String logOut() {
         HttpSession session =  JSFHelper.getSession(true); 
-        lm.addRecord(currentUser.getUserId(), CommonConstants.USER_LOGOUT, "LogOut", ""+new java.util.Date(), session.getId());
+        lm.addRecord(currentUser.getUserId(), CommonConstants.USER_LOGOUT, "LogOut", "", session.getId());
         currentUser = null;
         JSFHelper.setUserId(null);
         return "login.xhtml?faces-redirect=true";

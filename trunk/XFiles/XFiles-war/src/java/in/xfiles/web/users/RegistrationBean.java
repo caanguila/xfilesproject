@@ -119,7 +119,7 @@ public class RegistrationBean implements CommonConstants, Serializable {
             registrationStatus = "ok";
             HttpSession session =  JSFHelper.getSession(true); 
             HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            lm.addRecord(u.getUserId(), CommonConstants.REGESTRATION_OF_USER, "user registered", ""+new java.util.Date(), session.getId());
+            lm.addRecord(u.getUserId(), CommonConstants.REGESTRATION_OF_USER, "user registered", "", session.getId());
             //sm.modifySession(session, u.getUserId(), httpServletRequest.getRemoteAddr(), "TO_DO", session.getId());
             log.info("User has been registered: "+u);
         }
