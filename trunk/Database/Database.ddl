@@ -142,7 +142,7 @@ CREATE TABLE Logs (
   type_action_id int8, 
   ip_adress      varchar(255), 
   options        varchar(255),
-  date_createion date,  
+  date_creation date,  
   session_name   varchar(300), 
   message        varchar(1000), 
   PRIMARY KEY (log_id));
