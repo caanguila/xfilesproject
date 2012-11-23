@@ -16,8 +16,9 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <h:panelGroup>   
-                    <h:form>
+                    
                         <h:panelGrid columns="1" width="100%" border="1">
+                            <h:form id="reverse_form">
                   <h:panelGroup>
                       <h:outputLabel value="Reverse element" />
                 <h:panelGrid columns="2">
@@ -28,8 +29,12 @@ and open the template in the editor.
                 <h:outputLabel value="Result:" />
                 <h:outputLabel value="#{galuaHelper.reverseElement}" style="color: blue" />
                 </h:panelGrid>
-                <h:commandButton value="Calculate"/>
+                      <h:commandButton value="Calculate">
+                          <f:ajax execute=":reverse_form" render=":reverse_form" />
+                      </h:commandButton>
                 </h:panelGroup>
+                            </h:form>
+                             <h:form id="power_form">
                         <h:panelGroup>
                             <h:outputLabel value="Power" />
                             <h:panelGrid columns="2">
@@ -42,8 +47,12 @@ and open the template in the editor.
                  <h:outputLabel value="Result:" />
                  <h:outputLabel value="#{galuaHelper.powerResult}" style="color: blue"/>
                 </h:panelGrid>
-                <h:commandButton value="Calculate"/>
+                <h:commandButton value="Calculate">
+                          <f:ajax execute=":power_form" render=":power_form" />
+                      </h:commandButton>
                         </h:panelGroup>
+                                  </h:form>
+                            <h:form id="eleptic_curve">
                             <h:panelGroup>
                        <h:outputLabel value="elliptic curves Values: Y^2 = X^3 +a*X + b" />
                        <h:panelGrid columns="2">
@@ -61,7 +70,9 @@ and open the template in the editor.
                  <h:outputLabel value="Result:" />
                  <h:outputLabel value="#{galuaHelper.curveValues}" style="color: blue"/>
                 </h:panelGrid>
-                <h:commandButton value="Calculate"/>
+                <h:commandButton value="Calculate">
+                          <f:ajax execute=":eleptic_curve" render=":eleptic_curve" />
+                      </h:commandButton>
                      <h:outputLabel value="Get point subgroup" />
                      <h:outputLabel value="x:" />
                      <h:inputText value="#{galuaHelper.elemX}" />
@@ -70,6 +81,8 @@ and open the template in the editor.
                      <h:outputLabel style="float: left;" value="Result: #{galuaHelper.subGroups}" />
                      
                         </h:panelGroup>
+                                  </h:form> 
+                            <h:form id="el_curve_summ">
                    <h:panelGroup>
                        <h:outputLabel value="elliptic curves" />
                             <h:panelGrid columns="2">
@@ -102,11 +115,14 @@ and open the template in the editor.
                  <h:outputLabel value="Result:" />
                  <h:outputLabel value="#{galuaHelper.summOfCurve}" style="color: blue"/>
                 </h:panelGrid>
-                <h:commandButton value="Calculate"/>
+                <h:commandButton value="Calculate">
+                          <f:ajax execute=":el_curve_summ" render=":el_curve_summ" />
+                      </h:commandButton>
                         </h:panelGroup>
+                                 </h:form>
                             
                         </h:panelGrid>
-                   </h:form>
+                  
                 </h:panelGroup>
     </h:body>
      </f:view>
