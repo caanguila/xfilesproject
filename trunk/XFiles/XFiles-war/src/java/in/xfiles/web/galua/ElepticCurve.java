@@ -31,7 +31,7 @@ public class ElepticCurve {
         System.out.println("y3:"+c[1]);
         return c;
     }
-    else if(a[0] != b[0] && a[1]!=b[1]){
+    else if(a[0] != b[0] && a[1]!=b[1] || a[0] != b[0] && a[1]==b[1]){
         long k = b[0]-a[0];
         while(k<0) k+=n;
         s = ((b[1] - a[1]) * (UsefulAlgo.ReverseElement(k, n)))%n;

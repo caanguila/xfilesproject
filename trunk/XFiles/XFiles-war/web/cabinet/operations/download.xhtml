@@ -20,10 +20,11 @@
                     <h:panelGrid columns="2">
                         <h:outputText value="Password" rendered="#{downloadRequestBean.passwordNeeded}"/>
                         <h:inputSecret value="#{downloadRequestBean.key}" rendered="#{downloadRequestBean.passwordNeeded}"/>
-                    </h:panelGrid>
-                    <h:commandLink actionListener="#{downloadRequestBean.createRequest}" immediate="true" class="button_green" value="Request Download">
-                        <f:ajax execute="@form" render="requests"/>
+                    
+                    <h:commandLink actionListener="#{downloadRequestBean.createRequest}" class="button_green" value="Request Download">
+                        <f:ajax execute=":create_request_form" />
                     </h:commandLink>
+                    </h:panelGrid>
                 </h:panelGroup>
                 <p></p>
                 <h:panelGroup id="requests">

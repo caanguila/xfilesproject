@@ -26,7 +26,7 @@ import javax.persistence.Query;
 @Stateless
 public class FileManager implements FileManagerLocal, CommonConstants {
 
-    public static final String FILE_UPLOAD_DIRECTORY = "./uploads/";
+    public static final String FILE_UPLOAD_DIRECTORY = "uploads/";
     public static final String REQUESTED_DOWNLOADS_DIRECTORY = "./uploads/downloads/";
     private Logger log = Logger.getLogger(FileManager.class);
     
@@ -85,8 +85,8 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             
             PasswordStorage ps = new PasswordStorage();
             ps.setUserId(ufw.getUploadedBy().getUserId());
-            ps.setPassword(CryptoHelper.SHA256(ufw.getKey()));
-            
+            ps.setPassword(ufw.getKey());
+            log.debug("File upload key: "+ufw.getKey());
             Collection psCollection = new HashSet<PasswordStorage>();
             psCollection.add(ps);
             if ("AES".equals(ufw.getEncryptionType())) {
@@ -172,6 +172,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             
             FileEncryptor engine = FileEncryptor.getEncryptor(file.getEncTypeId().getName());
             engine.setKey(key);
+            log.debug("FIle download key: "+key+" encrypt path: "+file.getEnFileId().getPath());
             File downloadDirectory = new File(REQUESTED_DOWNLOADS_DIRECTORY);
             downloadDirectory.mkdirs();
             File targetFile = File.createTempFile("download_", ".tmp", downloadDirectory);

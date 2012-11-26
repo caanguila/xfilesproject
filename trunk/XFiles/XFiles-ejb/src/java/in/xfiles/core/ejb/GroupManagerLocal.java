@@ -5,6 +5,7 @@
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.Files;
+import in.xfiles.core.entity.Groups;
 import in.xfiles.core.entity.User;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -16,9 +17,11 @@ import javax.ejb.Local;
  */
 @Local
 interface GroupManagerLocal {
-     Collection<User> getUsers(BigInteger groupId);
+     Collection<User> getUsers(Long groupId);
     
-     Collection<User> getUsersByType(BigInteger typeId);
+     Collection<User> getUsersByType(Long typeId);
     
-     Collection<Files> getGroupFilesById(BigInteger groupId);
+     Collection<Files> getGroupFilesById(Long groupId);
+     
+     Groups createGroup(Collection<User> users, String name, String description, Long typeId);
 }
