@@ -7,7 +7,6 @@ import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
-import in.xfiles.web.utils.JSFHelper;
 import in.xfiles.web.utils.SessionHelper;
 import java.io.File;
 import java.io.IOException;
@@ -99,7 +98,9 @@ public class FileUploadServlet extends HttpServlet {
                 ufw.setName(fi.getName());
                 ufw.setContentType(fi.getContentType());
                 ufw.setSize(fi.getSize());
-                ufw.setKey(secretKey);
+                if(!StringUtils.isEmpty(secretKey))
+                    ufw.setKey(CryptoHelper.SHA256(secretKey));
+                else ufw.setKey(null);
                 File tmpFile = File.createTempFile("xfiles_", ".upload");
                 fi.write(tmpFile);
                 log.debug("Temporary file created: "+tmpFile.getAbsolutePath());
@@ -125,12 +126,12 @@ public class FileUploadServlet extends HttpServlet {
     }
     
     private String getValidParameter(HttpServletRequest request, String name) {
-        return StringUtils.getValidString(request.getParameter(name));
+        return StringUtils.decode(StringUtils.getValidString(request.getParameter(name)), SERVLET_ENCODING);
     }
     
     private String getValidParameter(HttpServletRequest request, String name, String defualtValue) {
         final String param = getValidParameter(request, name);
-        return param.isEmpty() ? defualtValue : StringUtils.decode(param, SERVLET_ENCODING);
+        return param.isEmpty() ? defualtValue : param; 
     }
 
     /**

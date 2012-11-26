@@ -3,6 +3,7 @@ package in.xfiles.core.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -71,24 +72,12 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "usersCollection")
     private Collection<Groups> groupsCollection;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdBy")
-    private Collection<Files> filesCollection1;
-    
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne
     private Types typeId;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserSession> userSessionCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<Logs> logsCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipientId")
-    private Collection<Messages> messagesCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "senderId")
-    private Collection<Messages> messagesCollection1;
+    private Set<UserSession> userSessionCollection;
 
     public User() {
     }
@@ -169,7 +158,6 @@ public class User implements Serializable {
         this.photo = photo;
     }
 
-    @XmlTransient
     public Collection<Files> getFilesCollection() {
         return filesCollection;
     }
@@ -178,22 +166,12 @@ public class User implements Serializable {
         this.filesCollection = filesCollection;
     }
 
-    @XmlTransient
     public Collection<Groups> getGroupsCollection() {
         return groupsCollection;
     }
 
     public void setGroupsCollection(Collection<Groups> groupsCollection) {
         this.groupsCollection = groupsCollection;
-    }
-
-    @XmlTransient
-    public Collection<Files> getFilesCollection1() {
-        return filesCollection1;
-    }
-
-    public void setFilesCollection1(Collection<Files> filesCollection1) {
-        this.filesCollection1 = filesCollection1;
     }
 
     public Types getTypeId() {
@@ -207,37 +185,6 @@ public class User implements Serializable {
     @XmlTransient
     public Collection<UserSession> getUserSessionCollection() {
         return userSessionCollection;
-    }
-
-    public void setUserSessionCollection(Collection<UserSession> userSessionCollection) {
-        this.userSessionCollection = userSessionCollection;
-    }
-
-    @XmlTransient
-    public Collection<Logs> getLogsCollection() {
-        return logsCollection;
-    }
-
-    public void setLogsCollection(Collection<Logs> logsCollection) {
-        this.logsCollection = logsCollection;
-    }
-
-    @XmlTransient
-    public Collection<Messages> getMessagesCollection() {
-        return messagesCollection;
-    }
-
-    public void setMessagesCollection(Collection<Messages> messagesCollection) {
-        this.messagesCollection = messagesCollection;
-    }
-
-    @XmlTransient
-    public Collection<Messages> getMessagesCollection1() {
-        return messagesCollection1;
-    }
-
-    public void setMessagesCollection1(Collection<Messages> messagesCollection1) {
-        this.messagesCollection1 = messagesCollection1;
     }
 
     @Override

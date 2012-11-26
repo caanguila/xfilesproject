@@ -1,7 +1,7 @@
 package in.xfiles.web.shit;
 
 import in.xfiles.core.ejb.*;
-import in.xfiles.core.entity.Logs;
+import in.xfiles.core.entity.Log;
 import in.xfiles.core.entity.User;
 import in.xfiles.core.entity.UserSession;
 import in.xfiles.core.helpers.EJBHelper;
@@ -83,7 +83,7 @@ private String login;
 //        Collection<Logs> rec = logManager.getRecordsByUser(user);
 //        Iterator<Logs> iter = rec.iterator();
 //        while(iter.hasNext()){
-//            Logs one = iter.next();
+//            Log one = iter.next();
 //        System.out.printf("User records: "+one.getMessage());
 //        }
         

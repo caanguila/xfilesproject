@@ -42,8 +42,6 @@ public class PasswordStorage implements Serializable {
     @Size(max = 500)
     @Column(name = "options")
     private String options;
-    @ManyToMany(mappedBy = "passwordStorageCollection")
-    private Collection<Files> filesCollection;
   
     
     
@@ -89,15 +87,6 @@ public class PasswordStorage implements Serializable {
 
     public void setOptions(String options) {
         this.options = options;
-    }
-
-    @XmlTransient
-    public Collection<Files> getFilesCollection() {
-        return filesCollection;
-    }
-
-    public void setFilesCollection(Collection<Files> filesCollection) {
-        this.filesCollection = filesCollection;
     }
 
     @Override

@@ -1,16 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,9 +35,6 @@ public class Encryptionfiles implements Serializable {
     @Size(max = 255)
     @Column(name = "attributes")
     private String attributes;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "enFileId")
-    private Collection<Files> filesCollection;
 
     public Encryptionfiles() {
     }
@@ -79,15 +70,6 @@ public class Encryptionfiles implements Serializable {
 
     public void setAttributes(String attributes) {
         this.attributes = attributes;
-    }
-
-    @XmlTransient
-    public Collection<Files> getFilesCollection() {
-        return filesCollection;
-    }
-
-    public void setFilesCollection(Collection<Files> filesCollection) {
-        this.filesCollection = filesCollection;
     }
 
     @Override

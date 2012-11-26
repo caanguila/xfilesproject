@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -53,18 +49,6 @@ public class Types implements Serializable {
     @Size(max = 2000)
     @Column(name = "options")
     private String options;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
-    private Collection<Files> filesCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
-    private Collection<User> usersCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
-    private Collection<Groups> groupsCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
-    private Collection<Messages> messagesCollection;
 
     public Types() {
     }
@@ -117,42 +101,6 @@ public class Types implements Serializable {
 
     public void setOptions(String options) {
         this.options = options;
-    }
-
-    @XmlTransient
-    public Collection<Files> getFilesCollection() {
-        return filesCollection;
-    }
-
-    public void setFilesCollection(Collection<Files> filesCollection) {
-        this.filesCollection = filesCollection;
-    }
-
-    @XmlTransient
-    public Collection<User> getUsersCollection() {
-        return usersCollection;
-    }
-
-    public void setUsersCollection(Collection<User> usersCollection) {
-        this.usersCollection = usersCollection;
-    }
-
-    @XmlTransient
-    public Collection<Groups> getGroupsCollection() {
-        return groupsCollection;
-    }
-
-    public void setGroupsCollection(Collection<Groups> groupsCollection) {
-        this.groupsCollection = groupsCollection;
-    }
-
-    @XmlTransient
-    public Collection<Messages> getMessagesCollection() {
-        return messagesCollection;
-    }
-
-    public void setMessagesCollection(Collection<Messages> messagesCollection) {
-        this.messagesCollection = messagesCollection;
     }
 
     @Override

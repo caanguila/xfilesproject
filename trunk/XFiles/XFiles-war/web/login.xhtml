@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://java.sun.com/jsf/passthrough">
 
     <ui:composition template="templates/creatively-form.xhtml">
 
@@ -41,11 +42,11 @@
                     <table style="width: 500px; vertical-align: central;">
                         <tr>
                             <td><label for="emailsignup" data-icon="e" >Your email</label></td>
-                            <td><h:inputText id="login_email" class="input-large" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/></td> 
+                            <td><h:inputText id="login_email" class="input-large" p:placeholder="mysupermail@mail.com" value="#{loginBean.login}"/></td> 
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup" data-icon="p">Your password </label></td>
-                            <td><h:inputSecret id="login_password" class="input-large" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/></td>
+                            <td><h:inputSecret id="login_password" class="input-large" p:placeholder="eg. X8df!90EO" value="#{loginBean.password}"/></td>
                         </tr>
                         <tr> 
                             <td>  

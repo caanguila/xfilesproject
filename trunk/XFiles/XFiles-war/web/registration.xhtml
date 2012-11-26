@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://java.sun.com/jsf/passthrough">
 
     <ui:composition template="templates/creatively-form.xhtml">
 
@@ -40,27 +41,27 @@
                     <table style="width: 500px; vertical-align: central;">
                         <tr>
                             <td><label for="emailsignup" data-icon="e" >Your email</label></td>
-                            <td><h:inputText id="emailsignup" class="input-large" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/></td> 
+                            <td><h:inputText id="emailsignup" class="input-large" p:placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/></td> 
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup" data-icon="p">Your password </label></td>
-                            <td><h:inputSecret id="passwordsignup" class="input-large" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/></td>
+                            <td><h:inputSecret id="passwordsignup" class="input-large" p:placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/></td>
                         </tr>
                         <tr> 
                             <td><label for="passwordsignup_confirm" data-icon="p">Please confirm your password </label></td>
-                            <td><h:inputSecret id="passwordsignup_confirm" class="input-large" placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/></td>
+                            <td><h:inputSecret id="passwordsignup_confirm" class="input-large" p:placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/></td>
                         </tr>
                         <tr>
                             <td><label for="first_name" data-icon="e" >First Name</label></td>
-                            <td><h:inputText id="first_name" class="input-large" placeholder="John" value="#{registrationBean.firstName}"/></td> 
+                            <td><h:inputText id="first_name" class="input-large" p:placeholder="John" value="#{registrationBean.firstName}"/></td> 
                         </tr>
                         <tr>
                             <td><label for="last_name" data-icon="e" >Last Name</label></td>
-                            <td><h:inputText id="last_name" class="input-large" placeholder="Doe" value="#{registrationBean.lastName}"/></td> 
+                            <td><h:inputText id="last_name" class="input-large" p:placeholder="Doe" value="#{registrationBean.lastName}"/></td> 
                         </tr>
                         <tr>
                             <td><label for="info" data-icon="e" >Extra Info</label></td>
-                            <td><h:inputText id="info" class="input-large" value="#{registrationBean.info}" placeholder="Personal info we have to know about you"/></td> 
+                            <td><h:inputText id="info" class="input-large" value="#{registrationBean.info}" p:placeholder="Personal info we have to know about you"/></td> 
                         </tr>
                         <tr> 
                             <td>  

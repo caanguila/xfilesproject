@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://java.sun.com/jsf/passthrough">
 
     <ui:composition template="templates/creatively-index.xhtml">
 
@@ -19,8 +20,8 @@
                 <div id="my">
                     <a href="#" id="log_in" class="button_green_big" rel="popover" 
                        data-placement="top"
-                       onclick="insidePopover = true"                     
-                       onmouseout="insidePopover = false">Sign In</a>
+                       onclick="insidePopover = true;"                     
+                       onmouseout="insidePopover = false;">Sign In</a>
                     <span>or</span>
                     <a href="#myModal" id="buy" 
                        data-toggle="modal"
@@ -46,9 +47,9 @@
                     </h:messages>
                     <h:panelGrid id="login_grid" columns="2" width="350px" style="text-align: left">
                         <h:outputLabel id="loginLabel" for="login_email" value="Your email"/> 
-                        <h:inputText id="login_email" class="input-large" placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
+                        <h:inputText id="login_email" class="input-large" p:placeholder="mysupermail@mail.com" value="#{loginBean.login}"/>
                         <h:outputLabel id="passwordLabel" value="Your password" for="login_password"/>
-                        <h:inputSecret id="login_password" class="input-large" placeholder="eg. X8df!90EO" value="#{loginBean.password}"/>
+                        <h:inputSecret id="login_password" class="input-large" p:placeholder="eg. X8df!90EO" value="#{loginBean.password}"/>
 
 
                         <a href="#myModal" data-toggle="modal" class="button_grey">Register</a>
@@ -96,19 +97,19 @@
 
 
                             <label for="emailsignup" data-icon="e" >Your email</label>
-                            <h:inputText id="emailsignup" placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/>
+                            <h:inputText id="emailsignup" p:placeholder="mysupermail@mail.com" value="#{registrationBean.email}"/>
 
                             <label for="passwordsignup" data-icon="p">Your password </label>
-                            <h:inputSecret id="passwordsignup" placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/>
+                            <h:inputSecret id="passwordsignup" p:placeholder="eg. X8df!90EO" value="#{registrationBean.password}"/>
 
                             <label for="passwordsignup_confirm" data-icon="p">Please confirm your password </label>
-                            <h:inputSecret id="passwordsignup_confirm" placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/>
+                            <h:inputSecret id="passwordsignup_confirm" p:placeholder="eg. X8df!90EO" value="#{registrationBean.passwordConfirmation}"/>
 
                             <label for="first_name" data-icon="e" >First Name</label>
-                            <h:inputText id="first_name" placeholder="John" value="#{registrationBean.firstName}"/>
+                            <h:inputText id="first_name" p:placeholder="John" value="#{registrationBean.firstName}"/>
 
                             <label for="last_name" data-icon="e" >Last Name</label>
-                            <h:inputText id="last_name" placeholder="Doe" value="#{registrationBean.lastName}"/>
+                            <h:inputText id="last_name" p:placeholder="Doe" value="#{registrationBean.lastName}"/>
 
 
                             <label for="info" data-icon="e" >Extra Info</label>

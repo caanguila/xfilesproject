@@ -7,7 +7,6 @@
     <class>in.xfiles.core.entity.Encryptionfiles</class>
     <class>in.xfiles.core.entity.Files</class>
     <class>in.xfiles.core.entity.Groups</class>
-    <class>in.xfiles.core.entity.Logs</class>
     <class>in.xfiles.core.entity.Messages</class>
     <class>in.xfiles.core.entity.PasswordStorage</class>
     <class>in.xfiles.core.entity.Types</class>
@@ -15,6 +14,7 @@
     <class>in.xfiles.core.entity.UsersPasswords</class>
     <class>in.xfiles.core.entity.Sequence</class>
     <class>in.xfiles.core.entity.User</class>
+    <class>in.xfiles.core.entity.Log</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>

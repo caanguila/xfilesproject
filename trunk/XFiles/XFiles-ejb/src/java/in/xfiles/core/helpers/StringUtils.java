@@ -2,12 +2,14 @@ package in.xfiles.core.helpers;
 
 import java.nio.charset.Charset;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author danon
  */
-public class StringUtils {
+    public class StringUtils {
     
     public static final String EMPTY_STRING = "";
     public static final String RANDOM_STRING = "G12HIJdefgPQRSTUVWXYZabc56hijklmnopqAB78CDEF0KLMNO3rstu4vwxyz9";
@@ -74,5 +76,22 @@ public class StringUtils {
             ar.append(RANDOM_STRING.charAt(r.nextInt(l)));
         }
         return ar.toString();
+    }
+    
+    public static boolean isValidInteger(String s) {
+        if(s == null)
+            return false;
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(s);
+        if (matcher.matches()){
+          return true; 
+        } 
+        return false;
+    } 
+    
+    public static int getValidInt(String s) {
+        if(!isValidInteger(s))
+            return 0;
+        else return Integer.parseInt(s);
     }
 }

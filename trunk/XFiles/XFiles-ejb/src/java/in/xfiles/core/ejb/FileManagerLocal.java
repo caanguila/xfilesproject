@@ -1,13 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.ejb;
 
+import in.xfiles.core.entity.DownloadRequest;
 import in.xfiles.core.entity.Files;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
 import javax.ejb.Local;
 import java.util.Collection;
+import java.util.List;
 /**
  *
  * @author 7
@@ -15,10 +13,20 @@ import java.util.Collection;
 @Local
 public interface FileManagerLocal {
 
-    public void processFile(UploadedFileWrapper ufw);
+    void processFile(UploadedFileWrapper ufw);
     
-    public void testDatabase(Long usertId);
+    void testDatabase(Long usertId);
     
-    public Collection<Files> getFilesByUser(Long usertId); 
+    Collection<Files> getFilesByUser(Long usertId); 
+
+    boolean fileExists(Long userId, long fileId);
+    
+    void requestDownload(long userId, long fileId, String key);
+
+    public Files getFileById(Long userId, long fileId);
+
+    public List<DownloadRequest> getRequestsByUserId(Long userId);
+
+    public DownloadRequest getRequestsById(Long reqiestId);
    
 }

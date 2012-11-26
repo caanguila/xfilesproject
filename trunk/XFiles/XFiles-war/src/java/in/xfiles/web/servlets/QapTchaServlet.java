@@ -88,6 +88,6 @@ public class QapTchaServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet for QapTcha";
     }// </editor-fold>
 }
