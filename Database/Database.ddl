@@ -133,7 +133,7 @@ CREATE TABLE Password_Storage(
   password_storage_id BIGSERIAL NOT NULL,
   user_id         int8, 
   password        varchar(500),
-  options		  varchar(500), 
+  options         varchar(500), 
   PRIMARY KEY (password_storage_id));
 
 CREATE TABLE Logs (

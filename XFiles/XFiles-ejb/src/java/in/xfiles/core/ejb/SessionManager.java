@@ -89,10 +89,13 @@ public class SessionManager implements SessionManagerLocal{
         }        
         query.setParameter("userId", user);
         List<UserSession> list = query.getResultList();
+        UserSession current = null;
         if(!list.isEmpty()){
-            UserSession session = list.get(0);
-            
-            return session;
+            for(UserSession elem: list){
+                if(current == null) current = elem;
+                if(elem.getSessionId().compareTo(current.getSessionId())>0) current = elem;
+            }
+            return current;
             
         }else{
             log.warn("User id not found in user session table!");

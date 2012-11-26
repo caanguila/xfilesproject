@@ -17,9 +17,9 @@ public class AESFileEncryptor extends FileEncryptor {
     @Override
     public void encryptFile(File sourceFile, File targetFile, boolean delete) {
         try {
-            File tmpFile = CryptoHelper.enCryptFile(targetFile, "AES", getKey());
-            if(delete)
-                FileUtils.forceDelete(sourceFile);
+            log.debug("Encryption info: "+sourceFile.getPath()+"  size: "+sourceFile.length());
+            File tmpFile = CryptoHelper.enCryptFile(sourceFile, "AES", getKey());
+            if(delete) FileUtils.forceDelete(sourceFile);
             FileUtils.forceDelete(targetFile);
             FileUtils.moveFile(tmpFile, targetFile);
         } catch (Exception ex) {
@@ -33,7 +33,7 @@ public class AESFileEncryptor extends FileEncryptor {
     @Override
     public void decryptFile(File sourceFile, File targetFile) {
         try {
-            File tmpFile = CryptoHelper.deCryptFile(targetFile, "AES", getKey());
+            File tmpFile = CryptoHelper.deCryptFile(sourceFile, "AES", getKey());
             FileUtils.forceDelete(targetFile);
             FileUtils.moveFile(tmpFile, targetFile);
         } catch (Exception ex) {

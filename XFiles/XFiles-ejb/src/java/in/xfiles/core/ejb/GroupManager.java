@@ -4,28 +4,72 @@
  */
 package in.xfiles.core.ejb;
 
-import in.xfiles.core.entity.Files;
-import in.xfiles.core.entity.User;
+import in.xfiles.core.entity.*;
+import in.xfiles.core.helpers.CommonConstants;
 import java.math.BigInteger;
 import java.util.Collection;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.apache.log4j.Logger;
 
-/**
- *
- * @author 7
- */
 @Stateless
 public class GroupManager implements GroupManagerLocal {
-    
-    public Collection<User> getUsers(BigInteger groupId){
+
+    private static final Logger log = Logger.getLogger(GroupManager.class);
+    @PersistenceContext
+    private EntityManager entityManager;
+    @EJB
+    private LogManagerLocal logManager;
+    @EJB
+    private SessionManagerLocal sessionManager;
+
+    public Collection<User> getUsers(Long groupId) {
+        Groups group = entityManager.find(Groups.class, groupId);
+        if (group != null) {
+            entityManager.getEntityManagerFactory().getCache().evictAll();
+            return group.getUsersCollection();
+        } else {
+            log.warn("Group with id: " + groupId + " does not exist");
+            return null;
+        }
+    }
+
+    public Collection<User> getUsersByType(Long typeId) {
+        log.warn("Not supported yet");
         return null;
     }
-    
-    public Collection<User> getUsersByType(BigInteger typeId){
+
+    public Collection<Files> getGroupFilesById(Long groupId) {
+        log.warn("Not supported yet");
         return null;
     }
-    
-    public Collection<Files> getGroupFilesById(BigInteger groupId){
-     return null;  
+
+    @Override
+    public Groups createGroup(Collection<User> users, String name, String description, Long typeId) {
+        Types type =  entityManager.find(Types.class, typeId);
+        if(users.isEmpty()) {
+            log.warn("Users collection should not be empty");
+            return null;
+        }
+        if(type != null){
+            Groups group = new Groups();
+            group.setName(name);
+            group.setDescription(description);
+            group.setTypeId(type);
+            group.setUsersCollection(users);
+            entityManager.persist(group);
+            entityManager.getEntityManagerFactory().getCache().evictAll();
+            ActionTypes action =  entityManager.find(ActionTypes.class, CommonConstants.GROUP_CREATION);
+        for(User u: users){
+            logManager.addRecord(u.getUserId(), action.getActionTypeId(), "group created"+group.getName(), "", sessionManager.getUserSession(u.getUserId()).getSession());
+        }
+        
+             return group;
+        }else{
+            log.warn("Can't find type " + typeId);
+            return null;
+        }
     }
 }
