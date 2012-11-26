@@ -19,7 +19,7 @@
                     </h:commandLink></li>
           
                 <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer"  />
+                        <f:ajax render=":cabinetContentContainer :test_group_creation"  />
                     </h:commandLink></li>
                 <li><h:commandLink id="messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
                         <f:ajax render=":cabinetContentContainer"  />
@@ -71,6 +71,11 @@
                 
                 <h:panelGroup id ="user_groups" rendered="#{cabinetController.groupsVisible}" >
                      <h1>Groups</h1>
+                     <h:form id="test_group_creation">
+                         <h:commandLink value="Test" actionListener="#{userInfoBean.createTestGroup()}" >
+                             <f:ajax render="@form"/>
+                         </h:commandLink>
+                     </h:form>
                  </h:panelGroup>
                 
                 <h:panelGroup id ="user_messages" rendered="#{cabinetController.messagesVisible}" >
