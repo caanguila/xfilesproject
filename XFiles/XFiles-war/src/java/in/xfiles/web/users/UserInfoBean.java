@@ -2,9 +2,13 @@ package in.xfiles.web.users;
 
 import in.xfiles.core.ejb.LogManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
+import in.xfiles.core.ejb.GroupManagerLocal;
+import in.xfiles.core.ejb.SequreManagerLocal;
 import in.xfiles.core.entity.Files;
 import in.xfiles.core.entity.Log;
 import in.xfiles.core.entity.User;
+import in.xfiles.core.helpers.CommonConstants;
+import in.xfiles.core.helpers.ShamirSchema;
 import in.xfiles.web.utils.JSFHelper;
 import java.io.Serializable;
 import java.util.*;
@@ -25,9 +29,14 @@ public class UserInfoBean implements Serializable {
     
     private static final Logger log = Logger.getLogger(UserInfoBean.class);
     @EJB
-    UserManagerLocal userManager;
+    private UserManagerLocal userManager;
     @EJB
-    LogManagerLocal lm;
+    private LogManagerLocal lm;
+    @EJB
+    private GroupManagerLocal gml;
+    @EJB
+    private SequreManagerLocal sml;
+    
     public Long userId;
     public String userName;
     public String surName;
@@ -75,6 +84,20 @@ public class UserInfoBean implements Serializable {
         
         
     }
+    
+    public void createTestGroup(){
+        
+        if(user == null) return;
+        else{
+            ArrayList<User> list = new ArrayList<User>();
+            list.add(user);
+            gml.createGroup(list, "Test Group", "FUCK!", CommonConstants.PRIVATE_GROUP);
+        }
+        ShamirSchema.splitShare("egwegwe", 6, 3);
+        
+    }
+    
+    
     
     public List<Log> getHistoryElements() {
         System.out.println("User Logs size: " + lm.getRecordsByUser(user));
