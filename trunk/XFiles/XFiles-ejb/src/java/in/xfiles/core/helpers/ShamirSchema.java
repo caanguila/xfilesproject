@@ -39,7 +39,7 @@ public class ShamirSchema {
          * @param args
          */
         public static HashMap<Integer, String> splitShare(String secret, int n, int k) {
-            String param[] = new String[7];
+            String param[] = new String[8];
             param[0] = null;
             param[1] = "-k";
             param[2] = "" + k;
@@ -47,7 +47,9 @@ public class ShamirSchema {
             param[4] = "" + n;
             param[5] = "-sS";
             param[6] = secret;
-
+            param[7] = "-primeNone";
+           // param[8] = "3123569295293750215491253041250381204385210485120845701274501257408512047532048154082735104812504625305423";
+            
             try {
                 SplitInput input = SplitInput.parse(param);
                 SplitOutput output = input.output();
@@ -448,7 +450,7 @@ public class ShamirSchema {
             Set<Integer> keys = parts.keySet();
             int len = keys.size();
 
-            String param[] = new String[3 + len * 2];
+            String param[] = new String[4 + len * 2];
             param[0] = null;
             param[1] = "-k";
             param[2] = "" + len;
@@ -461,6 +463,8 @@ public class ShamirSchema {
                 param[i + 1] = parts.get(key);
                 i += 2;
             }
+                param[i] = "-primeNone";
+            //    param[i+1] ="3123569295293750215491253041250381204385210485120845701274501257408512047532048154082735104812504625305423";
 
             try {
                 CombineInput input = CombineInput.parse(param);

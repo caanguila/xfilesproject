@@ -5,6 +5,7 @@ import in.xfiles.core.ejb.UserManagerLocal;
 import in.xfiles.core.ejb.GroupManagerLocal;
 import in.xfiles.core.ejb.SequreManagerLocal;
 import in.xfiles.core.entity.Files;
+import in.xfiles.core.entity.Groups;
 import in.xfiles.core.entity.Log;
 import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.CommonConstants;
@@ -91,11 +92,17 @@ public class UserInfoBean implements Serializable {
         else{
             ArrayList<User> list = new ArrayList<User>();
             list.add(user);
-            gml.createGroup(list, "Test Group", "FUCK!", CommonConstants.PRIVATE_GROUP);
+           Groups g =  gml.createGroup(list, "Test Group", "FUCK!", CommonConstants.PRIVATE_GROUP);
         }
-        ShamirSchema.splitShare("egwegwe", 6, 3);
-        
-    }
+       HashMap<Integer, String> result =  ShamirSchema.splitShare("bda2e18e9c4f23dfbcbade3caf9d5e86ba36bd53a29344b94407e44326a0507a", 6, 3);
+       for(Integer key: result.keySet()){
+            System.out.println("Key: "+key+"  val: "+result.get(key));              
+           }
+       String cobmine = ShamirSchema.combineSecret(result);
+       System.out.println("combine: "+cobmine);   
+       } 
+       
+    
     
     
     
