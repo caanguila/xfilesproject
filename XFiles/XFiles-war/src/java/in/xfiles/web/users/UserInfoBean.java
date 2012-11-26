@@ -3,7 +3,7 @@ package in.xfiles.web.users;
 import in.xfiles.core.ejb.LogManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
 import in.xfiles.core.entity.Files;
-import in.xfiles.core.entity.Logs;
+import in.xfiles.core.entity.Log;
 import in.xfiles.core.entity.User;
 import in.xfiles.web.utils.JSFHelper;
 import java.io.Serializable;
@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 @ViewScoped
 public class UserInfoBean implements Serializable {
     
-    private final Logger log = Logger.getLogger(UserInfoBean.class);
+    private static final Logger log = Logger.getLogger(UserInfoBean.class);
     @EJB
     UserManagerLocal userManager;
     @EJB
@@ -62,7 +62,7 @@ public class UserInfoBean implements Serializable {
         historyPage = 1;
     }
     
-    public void saveParametersAction(ActionEvent e) {
+    public void saveParametersAction(ActionEvent evt) {
         log.info("Save parametr Action");
         log.info(userName);
         log.info(surName);
@@ -76,17 +76,17 @@ public class UserInfoBean implements Serializable {
         
     }
     
-    public List<Logs> getHistoryElements() {
+    public List<Log> getHistoryElements() {
         System.out.println("User Logs size: " + lm.getRecordsByUser(user));
-        Collection<Logs> logs = lm.getRecordsByUser(user);
-        ArrayList<Logs> list = new ArrayList<Logs>();
+        Collection<Log> logs = lm.getRecordsByUser(user);
+        ArrayList<Log> list = new ArrayList<Log>();
         // list.add(new Files(1L, "File1", "text", 1125468546L, 18626, false));
         if (logs == null) {
             return list;
         }
-        Iterator<Logs> iter = logs.iterator();        
+        Iterator<Log> iter = logs.iterator();        
         while (iter.hasNext()) {
-            Logs one = iter.next();
+            Log one = iter.next();
             list.add(one);
         }
         Collections.sort(list);
@@ -98,9 +98,9 @@ public class UserInfoBean implements Serializable {
         return list;
     }
     
-    public List<Logs> getNextHistoryElements() {
-        List<Logs> out = new ArrayList<Logs>();
-        List<Logs> part = getHistoryElements();
+    public List<Log> getNextHistoryElements() {
+        List<Log> out = new ArrayList<Log>();
+        List<Log> part = getHistoryElements();
         
         int length = part.size();
         if(currentHistoryIndex >= length) currentHistoryIndex -= step;

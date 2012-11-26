@@ -42,7 +42,7 @@ public class PasswordRecoveryBean implements Serializable {
     private boolean validateUserInput() {
         if(StringUtils.isEmpty(login))
             return false;
-        // TODO: validate login
+        // TODO: validate login (regexp)
         return true;
     }
     

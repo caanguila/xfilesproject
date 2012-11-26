@@ -1,7 +1,7 @@
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.ActionTypes;
-import in.xfiles.core.entity.Logs;
+import in.xfiles.core.entity.Log;
 import in.xfiles.core.entity.UserSession;
 import in.xfiles.core.entity.User;
 import java.util.Collection;
@@ -26,7 +26,7 @@ public class LogManager implements LogManagerLocal {
     private EntityManager entityManager;
 
     @Override
-    public Logs addRecord(Long userId, Long typeActionId, String message, String options, String sessionId) {
+    public Log addRecord(Long userId, Long typeActionId, String message, String options, String sessionId) {
         User user;
         if(userId != null){
         user = entityManager.find(User.class, userId);
@@ -35,17 +35,17 @@ public class LogManager implements LogManagerLocal {
         }
         ActionTypes type = entityManager.find(ActionTypes.class, typeActionId);
         log.info("User: "+user+"  ActType: "+type);
-        Logs logRecord = addRecord(user, type, message, options, sessionId);
+        Log logRecord = addRecord(user, type, message, options, sessionId);
 
         return logRecord;
     }
 
     @Override
-    public Logs addRecord(User user, ActionTypes type, String message, String options, String sessionId) {
+    public Log addRecord(User user, ActionTypes type, String message, String options, String sessionId) {
 
         if (user != null) {
             UserSession session = getCurrentUserSession(user.getUserId());
-            Logs logRecord = new Logs();
+            Log logRecord = new Log();
             if(session != null){ 
                 logRecord.setIpAdress(session.getIpAdress());
             }else{
@@ -57,14 +57,14 @@ public class LogManager implements LogManagerLocal {
             logRecord.setSessionName(sessionId);
             logRecord.setMessage(message);
             logRecord.setOptions(options);
-            logRecord.setDateCreation(new java.sql.Date(new Date().getTime()));
-            log.info("Time: "+logRecord.getDateCreation().getTime());
+            //ogRecord.setDateCreation(new Date());
+            //log.info("Time: "+logRecord.getDateCreation().getTime());
             entityManager.persist(logRecord);
             log.info("Log Record added successfuly: " + logRecord);
             return logRecord;
         }else{
             UserSession session = getSessionBySessionName(sessionId);
-            Logs logRecord = new Logs();
+            Log logRecord = new Log();
             if(session != null) 
                 logRecord.setIpAdress(session.getIpAdress());
             logRecord.setUserId(user);
@@ -72,8 +72,8 @@ public class LogManager implements LogManagerLocal {
             logRecord.setSessionName(sessionId);
             logRecord.setMessage(message);
             logRecord.setOptions(options);
-            logRecord.setDateCreation(new java.sql.Date(new Date().getTime()));
-            log.info("Time: "+logRecord.getDateCreation().getTime());
+            //logRecord.setDateCreation(new java.sql.Date(new Date().getTime()));
+            //log.info("Time: "+logRecord.getDateCreation().getTime());
             entityManager.persist(logRecord);
             log.info("Log Record added successfuly: " + logRecord);
             return logRecord;
@@ -98,20 +98,20 @@ public class LogManager implements LogManagerLocal {
     }
 
     @Override
-    public Logs addRecord(User user, String typeName, String message, String options, String sessionId) {
+    public Log addRecord(User user, String typeName, String message, String options, String sessionId) {
 
         ActionTypes type = getActionTypeByName(typeName);
-        Logs logRecord = addRecord(user, type, message, options, sessionId);
+        Log logRecord = addRecord(user, type, message, options, sessionId);
 
         return logRecord;
     }
 
     @Override
-    public Logs addRecord(Long userId, String typeName, String message, String options, String sessionId) {
+    public Log addRecord(Long userId, String typeName, String message, String options, String sessionId) {
 
         User user = entityManager.find(User.class, userId);
         ActionTypes type = getActionTypeByName(typeName);
-        Logs logRecord = addRecord(user, type, message, options, sessionId);
+        Log logRecord = addRecord(user, type, message, options, sessionId);
 
         return logRecord;
     }
@@ -165,8 +165,8 @@ public class LogManager implements LogManagerLocal {
     }
 
     @Override
-    public List<Logs> getRecordsByUser(User user) {
-        Query query = entityManager.createQuery("select q from Logs q where q.userId=:name");
+    public List<Log> getRecordsByUser(User user) {
+        Query query = entityManager.createQuery("select q from Log q where q.userId=:name");
         query.setParameter("name", user);
 
         return query.getResultList();

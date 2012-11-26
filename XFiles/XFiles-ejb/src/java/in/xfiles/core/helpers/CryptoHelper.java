@@ -21,6 +21,8 @@ public class CryptoHelper {
     private final static int ENCRYPTION_FILE_BUFFER_SIZE = 1024;
 
     public static String encryptString(String s, String algo) {
+        if(s == null)
+            return null;
         try {
             MessageDigest md = MessageDigest.getInstance(algo);
             md.update(s.getBytes());
@@ -33,6 +35,8 @@ public class CryptoHelper {
     }
 
     private static String toHexString(byte[] byteData) {
+        if(byteData == null)
+            return StringUtils.EMPTY_STRING;
         StringBuilder hexString = new StringBuilder();
         for (int i = 0; i < byteData.length; i++) {
             String hex = Integer.toHexString(0xff & byteData[i]);

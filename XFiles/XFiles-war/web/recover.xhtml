@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://java.sun.com/jsf/passthrough">
 
     <ui:composition template="templates/creatively-form.xhtml">
 
@@ -41,7 +42,7 @@
                     <table id="recovery_form_body" style="width: 500px; vertical-align: central;">
                         <tr>
                             <td><label for="login_email" data-icon="e" >Your email</label></td>
-                            <td><h:inputText id="recovery_email" class="input-large" placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.login}"/></td> 
+                            <td><h:inputText id="recovery_email" class="input-large" p:placeholder="mysupermail@mail.com" value="#{passwordRecoveryBean.login}"/></td> 
                         </tr>
                         <tr>
                             <td>Captcha:</td>

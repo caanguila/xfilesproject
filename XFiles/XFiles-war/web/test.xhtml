@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+    </h:head>
+    <h:body>
+        <h:form id="navigation_form">
+            <ul>
+                <li><h:commandLink actionListener="#{testController.setRendered1}" value="Form1"><f:ajax render=":container" execute=":navigation_form"/></h:commandLink></li>
+            <li><h:commandLink actionListener="#{testController.setRendered2}" value="Form2"> <f:ajax render=":container" execute=":navigation_form"/></h:commandLink></li></ul>
+        </h:form>
+
+        <h:panelGroup id="container">
+            <h:panelGroup id="group1" rendered="#{testController.rendered == 1}">
+                <h:form id="form1">
+                    <h:commandLink actionListener="#{testBean1.testAction}" value="Test 1">
+                         <f:ajax execute="form1"/>
+                    </h:commandLink>
+                </h:form>
+
+            </h:panelGroup>
+
+            <h:panelGroup id="group2" rendered="#{testController.rendered == 2}">
+                <h:form id="form2">
+                    <h:commandLink immediate="true" actionListener="#{testBean2.testAction}" value="Test 2">
+                        <f:ajax execute=":form2"/>
+                    </h:commandLink>
+                </h:form>
+
+            </h:panelGroup>
+
+        </h:panelGroup>
+    </h:body>
+</html>

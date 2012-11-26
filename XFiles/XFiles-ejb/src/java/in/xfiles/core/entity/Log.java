@@ -1,15 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
+
 /**
  *
  * @author 7
@@ -18,12 +15,12 @@ import java.util.Date;
 @Table(name = "logs")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Logs.findAll", query = "SELECT l FROM Logs l"),
-    @NamedQuery(name = "Logs.findByLogId", query = "SELECT l FROM Logs l WHERE l.logId = :logId"),
-    @NamedQuery(name = "Logs.findByIpAdress", query = "SELECT l FROM Logs l WHERE l.ipAdress = :ipAdress"),
-    @NamedQuery(name = "Logs.findByOptions", query = "SELECT l FROM Logs l WHERE l.options = :options"),
-    @NamedQuery(name = "Logs.findByMessage", query = "SELECT l FROM Logs l WHERE l.message = :message")})
-public class Logs implements Serializable, Comparable<Logs> {
+    @NamedQuery(name = "Log.findAll", query = "SELECT l FROM Log l"),
+    @NamedQuery(name = "Log.findByLogId", query = "SELECT l FROM Log l WHERE l.logId = :logId"),
+    @NamedQuery(name = "Log.findByIpAdress", query = "SELECT l FROM Log l WHERE l.ipAdress = :ipAdress"),
+    @NamedQuery(name = "Log.findByOptions", query = "SELECT l FROM Log l WHERE l.options = :options"),
+    @NamedQuery(name = "Log.findByMessage", query = "SELECT l FROM Log l WHERE l.message = :message")})
+public class Log implements Serializable, Comparable<Log> {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
@@ -41,9 +38,6 @@ public class Logs implements Serializable, Comparable<Logs> {
     @Column(name = "options")
     private String options;
     
-    @Column(name = "date_creation")
-    private java.sql.Date dateCreation;
-    
     @Size(max = 1000)
     @Column(name = "message")
     private String message;
@@ -58,18 +52,19 @@ public class Logs implements Serializable, Comparable<Logs> {
     @JoinColumn(name = "type_action_id", referencedColumnName = "action_type_id")
     @ManyToOne
     private ActionTypes typeActionId;
-
-    public Logs() {
+   
+    public Log() {
     }
 
-    public Logs(Long logId) {
+    public Log(Long logId) {
         this.logId = logId;
     }
 
-    public Logs(Long logId, String ipAdress) {
+    public Log(Long logId, String ipAdress) {
         this.logId = logId;
         this.ipAdress = ipAdress;
     }
+    
 
     public Long getLogId() {
         return logId;
@@ -111,16 +106,6 @@ public class Logs implements Serializable, Comparable<Logs> {
         this.userId = userId;
     }
 
-    public java.sql.Date getDateCreation() {
-        return dateCreation;
-    }
-
-    public void setDateCreation(java.sql.Date dateCreation) {
-        this.dateCreation = dateCreation;
-    }
-
-    
-    
     public String getSessionName() {
         return session;
     }
@@ -147,10 +132,10 @@ public class Logs implements Serializable, Comparable<Logs> {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Logs)) {
+        if (!(object instanceof Log)) {
             return false;
         }
-        Logs other = (Logs) object;
+        Log other = (Log) object;
         if ((this.logId == null && other.logId != null) || (this.logId != null && !this.logId.equals(other.logId))) {
             return false;
         }
@@ -164,7 +149,7 @@ public class Logs implements Serializable, Comparable<Logs> {
 
     
     @Override
-    public int compareTo(Logs o) {
+    public int compareTo(Log o) {
       
         if(this.logId > o.getLogId()) return -1;
         else if(this.logId < o.getLogId()) return 1;

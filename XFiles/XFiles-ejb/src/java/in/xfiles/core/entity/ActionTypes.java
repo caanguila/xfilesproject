@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
@@ -9,9 +5,7 @@ import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.math.BigInteger;
 /**
  *
  * @author 7
@@ -40,9 +34,6 @@ public class ActionTypes implements Serializable {
     @Size(max = 2000)
     @Column(name = "description")
     private String description;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeActionId")
-    private Collection<Logs> logsCollection;
 
     public ActionTypes() {
     }
@@ -78,15 +69,6 @@ public class ActionTypes implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @XmlTransient
-    public Collection<Logs> getLogsCollection() {
-        return logsCollection;
-    }
-
-    public void setLogsCollection(Collection<Logs> logsCollection) {
-        this.logsCollection = logsCollection;
     }
 
     @Override
