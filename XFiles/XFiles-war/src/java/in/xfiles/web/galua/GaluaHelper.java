@@ -219,6 +219,11 @@ public class GaluaHelper {
           sqmap.put(i, (i*i)%curve1N);
           sqymap.put(i, sqy);
         }
+        System.out.println("Table:");
+        
+        printMap(sqymap);
+        System.out.println("Table:");
+        printMap(sqmap);
       //  System.out.println(getCurveMapElements(sqmap));
        // System.out.println(getCurveMapElements(sqymap));
         
@@ -227,6 +232,11 @@ public class GaluaHelper {
 //        if(!yval.isEmpty())
 //        getSubGroup((Long)yval.get(0), (Long)yval.get(1));
         return getCurveMapElements(yval);
+    }
+    private void printMap(Map m){
+        for(Object o: m.keySet()){
+            System.out.println("key: "+o+" value: "+m.get(o));
+        }
     }
     
     public String getSubGroups(){

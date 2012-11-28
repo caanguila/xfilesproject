@@ -13,7 +13,7 @@ public class ElepticCurve {
     public static long[] summ(long[] a, long[] b, long n, long paramA, long paramB){
     long[] c = new long[2];
     long s=0;
-    if(a[0] == b[0] && a[1]!=b[1]){
+    if(a[0] == b[0] && a[1]!=b[1] || (a[1]==0 && b[1]==0 && a[0]==b[0])){
         c[0] = Long.MAX_VALUE;
         c[1] = Long.MAX_VALUE;
         return c;
