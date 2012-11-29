@@ -57,7 +57,7 @@ public class LogManager implements LogManagerLocal {
             logRecord.setSessionName(sessionId);
             logRecord.setMessage(message);
             logRecord.setOptions(options);
-            //ogRecord.setDateCreation(new Date());
+            logRecord.setDateCreation(new Date());
             //log.info("Time: "+logRecord.getDateCreation().getTime());
             entityManager.persist(logRecord);
             log.info("Log Record added successfuly: " + logRecord);
@@ -72,7 +72,7 @@ public class LogManager implements LogManagerLocal {
             logRecord.setSessionName(sessionId);
             logRecord.setMessage(message);
             logRecord.setOptions(options);
-            //logRecord.setDateCreation(new java.sql.Date(new Date().getTime()));
+            logRecord.setDateCreation(new Date());
             //log.info("Time: "+logRecord.getDateCreation().getTime());
             entityManager.persist(logRecord);
             log.info("Log Record added successfuly: " + logRecord);

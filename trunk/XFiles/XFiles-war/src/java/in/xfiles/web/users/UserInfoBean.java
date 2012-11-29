@@ -146,6 +146,41 @@ public class UserInfoBean implements Serializable {
         
         return out;
     }
+   
+    public Groups currentGroup;
+    
+    public void processGroupNode(Groups item){
+        currentGroup = item;
+    }
+
+    public Groups getCurrentGroup() {
+        return currentGroup;
+    }
+
+    public void setCurrentGroup(Groups currentGroup) {
+        this.currentGroup = currentGroup;
+    }
+    
+    public List<Groups> getUserGroups(){
+        List<Groups> out = new ArrayList<Groups>();
+        Collection<Groups> groups = gml.getGruopsByUser(userId);
+        if(user!=null){
+            for(Groups gr: groups){
+                 out.add(gr);
+            }
+        }
+        return out;
+    }
+    public  List<User> getGroupsUsers(){
+         List<User> out = new ArrayList<User>();
+         if(currentGroup!=null){
+             for(User u: currentGroup.getUsersCollection()){
+                 out.add(u);
+            }
+             log.info("Group files: "+currentGroup.getFilesCollection().size());
+         }
+         return out;
+    }
     
     public int getHistoryPagesCount(){
         return historyPageCount;

@@ -53,6 +53,19 @@ public class Log implements Serializable, Comparable<Log> {
     @ManyToOne
     private ActionTypes typeActionId;
    
+    @Column(name="date_creation")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreation;
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date date_creation) {
+        this.dateCreation = date_creation;
+    }
+    
+    
     public Log() {
     }
 

@@ -69,7 +69,10 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "usersCollection")
     private Collection<Files> filesCollection;
     
-    @ManyToMany(mappedBy = "usersCollection")
+     @JoinTable(name = "users_groups", joinColumns = {
+        @JoinColumn(name = "users_user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "groups_group_id", referencedColumnName = "group_id")})
+    @ManyToMany
     private Collection<Groups> groupsCollection;
     
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
