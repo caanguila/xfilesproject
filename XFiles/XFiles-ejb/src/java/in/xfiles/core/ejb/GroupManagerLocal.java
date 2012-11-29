@@ -18,5 +18,7 @@ public interface GroupManagerLocal {
     
      Collection<Files> getGroupFilesById(Long groupId);
      
+     Collection<Groups> getGruopsByUser(Long userId);
+     
      Groups createGroup(Collection<User> users, String name, String description, Long typeId);
 }

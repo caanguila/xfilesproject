@@ -8,6 +8,7 @@ import in.xfiles.core.entity.*;
 import in.xfiles.core.helpers.CommonConstants;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Collections;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,6 +33,20 @@ public class GroupManager implements GroupManagerLocal {
             return group.getUsersCollection();
         } else {
             log.warn("Group with id: " + groupId + " does not exist");
+            return null;
+        }
+    }
+    
+    public Collection<Groups> getGruopsByUser(Long userId) {
+        if (userId == null) {
+            return Collections.EMPTY_LIST;
+        }
+        User user = entityManager.find(User.class, userId);
+
+        if (user != null) {
+            entityManager.getEntityManagerFactory().getCache().evictAll();
+            return user.getGroupsCollection();
+        } else {
             return null;
         }
     }
@@ -63,7 +78,12 @@ public class GroupManager implements GroupManagerLocal {
             entityManager.getEntityManagerFactory().getCache().evictAll();
             ActionTypes action =  entityManager.find(ActionTypes.class, CommonConstants.GROUP_CREATION);
         for(User u: users){
-            logManager.addRecord(u.getUserId(), action.getActionTypeId(), "group created"+group.getName(), "", sessionManager.getUserSession(u.getUserId()).getSession());
+            UserSession us = sessionManager.getUserSession(u.getUserId());
+            if(us!=null){
+                logManager.addRecord(u.getUserId(), action.getActionTypeId(), "group created"+group.getName(), "", us.getSession());
+            }else{
+                logManager.addRecord(u.getUserId(), action.getActionTypeId(), "group created"+group.getName(), "", "");   
+            }
         }
         
              return group;

@@ -38,7 +38,10 @@ public class Groups implements Serializable {
     @Column(name = "description")
     private String description;
     
-    @ManyToMany(mappedBy = "groupsCollection")
+    @JoinTable(name = "files_groups", joinColumns = {
+        @JoinColumn(name = "groupsgroup_id", referencedColumnName = "group_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "filesfile_id", referencedColumnName = "file_id")})
+    @ManyToMany
     private Collection<Files> filesCollection;
     
     @JoinTable(name = "users_groups", joinColumns = {

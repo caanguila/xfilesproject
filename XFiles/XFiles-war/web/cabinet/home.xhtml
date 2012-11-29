@@ -19,7 +19,7 @@
                     </h:commandLink></li>
           
                 <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer :test_group_creation"  />
+                        <f:ajax render=":cabinetContentContainer :refresh_groups :groups_list_form "  />
                     </h:commandLink></li>
                 <li><h:commandLink id="messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
                         <f:ajax render=":cabinetContentContainer"  />
@@ -36,8 +36,9 @@
         </ui:define>
         <ui:define name="content">
             <h:panelGroup id="cabinetContentContainer">
-<!--                <h:inputHidden value="#{cabinetController.tableVisible}"/>-->
+                    
                 <h:panelGroup id ="user_files_tree" rendered="#{cabinetController.tableVisible}" > 
+                    <h1>Files</h1>
                     <h:form id="refresh_files_tree">
                         <h:commandLink value="refresh" class="btn btn-small" style="margin-left: 60%;" >
                             <i class="icon-refresh"></i>
@@ -71,12 +72,40 @@
                 
                 <h:panelGroup id ="user_groups" rendered="#{cabinetController.groupsVisible}" >
                      <h1>Groups</h1>
-                     <h:form id="test_group_creation">
-                         <h:commandLink value="Test" actionListener="#{userInfoBean.createTestGroup()}" >
-                             <f:ajax render="@form"/>
-                         </h:commandLink>
-                     </h:form>
-                 </h:panelGroup>
+                    
+                    <h:form id="refresh_groups">
+                        <h:commandLink value="refresh" class="btn btn-small" style="margin-left: 60%;" >
+                            <i class="icon-refresh"></i>
+                            <f:ajax render=":groups_list_form :refresh_groups :cabinetContentContainer" />
+                        </h:commandLink>
+                    </h:form>
+                <h:panelGrid id="groups_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
+                <h:outputLabel id ="groups_list_label" style="width: 300px;" class ="label label-info" value="Groups List" />
+                <h:outputLabel id ="groups_info_label" style="width: 300px;" class ="label label-info" value="Info" />
+                
+                 <h:form id="groups_list_form" >
+                     <ui:repeat var="item" value="#{userInfoBean.userGroups}" id="for_group" >
+                         <h:commandLink value="#{item.name}" actionListener="#{userInfoBean.processGroupNode(item)}">
+                                     <f:ajax render=":group_info" execute="@form" />
+                                 </h:commandLink>
+                                    <br/>
+                                </ui:repeat>
+                 </h:form>
+                 
+                <h:panelGroup id="group_info" >
+                    <h:outputLabel value="ID: #{userInfoBean.currentGroup.groupId}" />
+                    <h:outputLabel value="Name: #{userInfoBean.currentGroup.name}" />
+                    <h:outputLabel value="Description:  #{userInfoBean.currentGroup.description}" /> 
+                    <h:outputLabel value="Type:  #{userInfoBean.currentGroup.typeId.name}" /> 
+                    <h:outputLabel value="Users info:" /> 
+                    <ui:repeat var="item" value="#{userInfoBean.groupsUsers}" id="for_group_users" >
+                        <h:outputLabel value="ID: #{item.userId}  Name: #{item.name} " />
+                                   
+                                </ui:repeat>
+                </h:panelGroup>
+            </h:panelGrid>
+                     </h:panelGroup>
+                
                 
                 <h:panelGroup id ="user_messages" rendered="#{cabinetController.messagesVisible}" >
                      <h1>Messages</h1>
@@ -213,7 +242,7 @@
                                     <tr>
                                         <td><h:outputLabel style="width: 150px;" value="#{item.logId}"/></td>
                                         <td><h:outputLabel style="width: 150px;" value="#{item.ipAdress}"/></td>
-                                        <td><h:outputLabel style="width: 150px;" value=""/></td>
+                                        <td><h:outputLabel style="width: 150px;" value="#{item.dateCreation}"/></td>
                                         <td><h:outputLabel style="width: 150px;" value="#{item.message}"/></td>
                                         <td><h:outputLabel style="width: 150px;" value="#{item.typeActionId.name}"/></td>
                                     </tr> 
