@@ -5,6 +5,7 @@
 package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.Groups;
+import in.xfiles.core.entity.Messages;
 import in.xfiles.core.entity.User;
 import java.util.HashMap;
 import java.util.Collection;
@@ -21,4 +22,5 @@ public interface SequreManagerLocal {
   HashMap<Integer, String> splitShare(String secret, int n, int k);
   String combineSecret(HashMap<Integer, String> parts);
   String combineSecret(Collection<User> users);
+  void acceptRequestByUser(Messages message);
 }

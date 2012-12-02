@@ -82,6 +82,11 @@ public class DownloadRequestBean implements Serializable {
         Files f = getFile();
         if (f == null)
             return false;
-        return f.getEncTypeId().getTypeId() != CommonConstants.PLAIN_ENCRYPTION_TYPE;
+      
+        Long type = f.getEncTypeId().getTypeId();
+//        boolean res = type != CommonConstants.PLAIN_ENCRYPTION_TYPE && type != CommonConstants.GROUP_FILE_TYPE;
+//        System.out.println("res: "+res+" filetype: "+type+"  plain: "+CommonConstants.PLAIN_ENCRYPTION_TYPE+"  group: "+CommonConstants.GROUP_FILE_TYPE);
+        return type != CommonConstants.PLAIN_ENCRYPTION_TYPE && f.getTypeId().getTypeId() != CommonConstants.GROUP_FILE_TYPE;
+        //return false;
     }
 }

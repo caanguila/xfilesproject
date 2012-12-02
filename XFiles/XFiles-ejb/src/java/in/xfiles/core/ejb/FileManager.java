@@ -3,10 +3,12 @@ package in.xfiles.core.ejb;
 import in.xfiles.core.crypto.FileEncryptor;
 import in.xfiles.core.entity.*;
 import in.xfiles.core.helpers.CommonConstants;
+import in.xfiles.core.helpers.CommonTools;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.ShamirSchema;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,6 +20,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import java.util.*;
+import java.util.logging.Level;
 import javax.persistence.Query;
 
 /**
@@ -38,6 +41,8 @@ public class FileManager implements FileManagerLocal, CommonConstants {
     private UserManagerLocal um;
     @EJB
     private GroupManagerLocal gml;
+    @EJB
+    private MessageManagerLocal mml;
 
     @Override
     @Asynchronous
@@ -128,6 +133,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         }
     }
 
+    // parametr k stores in table encryption files
     private void persistGroupFile(Files f, UploadedFileWrapper ufw, File targetFile, Collection<User> owners, int k) {
         log.info("Persisting of Group file!");
 
@@ -246,6 +252,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         }
 
         try {
+          if(!file.getTypeId().getTypeId().equals(CommonConstants.GROUP_FILE_TYPE)){
             DownloadRequest request = new DownloadRequest();
             request.setUser(u);
             request.setFile(file);
@@ -275,10 +282,97 @@ public class FileManager implements FileManagerLocal, CommonConstants {
 
             log.trace("requestDownload(): file has been decrypted: output = " + targetFile.getAbsolutePath());
             lm.addRecord(userId, DOWNLOAD_COMPLETE, "Decryption completed", targetFile.getAbsolutePath(), null);
+        }else{
+            
+            groupDownloadRequest(file, u);
+        }
+          
         } catch (Exception ex) {
         }
     }
 
+    private void groupDownloadRequest(Files file, User user){
+        log.debug("Request for group file!!!");
+        DownloadRequest request = new DownloadRequest();
+            request.setUser(user);
+            request.setFile(file);
+            request.setDateRequested(new Date());
+            request.setStatus(DownloadRequest.APPROVED_STATUS);
+            request.setProperties("");
+            em.persist(request);
+            Groups group = null;
+            for(Groups gr: file.getGroupsCollection()){
+             //   log.debug(gr.getName()+"  "+gr.getUsersCollection().contains(user));
+                group = gr;
+            }
+            if(group == null) {
+                log.debug("Bad, very bad");
+                return;
+            }
+            //proff
+            //Send messages to Users of this file
+            String message = "user with Id: "+user.getUserId()+" want to download fileID: "+file.getFileId()+" name: "+file.getName();
+            mml.sendGruopMessage(group.getGroupId(),message , CommonConstants.GROUP_ACCESS_MESSAGE, user.getUserId());
+            for(User u:group.getUsersCollection()){
+                log.debug("Should send mess to "+u);
+                
+            }
+    }
+    
+    @Override
+    @Asynchronous
+    public void completeGroupFile(DownloadRequest request) {
+        try {
+            String prop = request.getProperties();
+            ArrayList result = CommonTools.parceElements(prop);
+            HashMap secretParts = new HashMap();
+            Collection<PasswordStorage> col = request.getFile().getPasswordStorageCollection();
+            log.debug("col: "+col.size());
+            for(int i=0; i<result.size(); i+=2){
+                String val = (String) result.get(i+1);
+                log.debug(result.get(i)+" value: "+val);
+                
+                    for(PasswordStorage ps : col){
+                        if(val.equals(ps.getUserId()+"")){
+                            Integer x = new Integer(ps.getOptions());
+                            secretParts.put(x, ps.getPassword());
+                        }
+                    }
+                
+            }
+            log.debug("parts size: "+secretParts.keySet().size());
+            String secret = ShamirSchema.combineSecret(secretParts); //combine Secret
+            log.debug("Secret: "+secret);
+            Files file = request.getFile();
+            
+                FileEncryptor engine = FileEncryptor.getEncryptor(file.getEncTypeId().getName());
+                engine.setKey(secret);
+                log.debug("FIle download key: " + secret + " encrypt path: " + file.getEnFileId().getPath());
+                File downloadDirectory = new File(FileManager.REQUESTED_DOWNLOADS_DIRECTORY);
+                downloadDirectory.mkdirs();
+                File targetFile = File.createTempFile("download_", ".tmp", downloadDirectory);
+                engine.decryptFile(new File(file.getEnFileId().getPath()), targetFile);
+
+                // TODO: create zip archive and send the link and password via email
+
+                request.setDateProvided(new Date());
+                request.setOutputFile(targetFile.getAbsolutePath());
+                request.setStatus(DownloadRequest.READY_STATUS);
+                em.merge(request);
+                em.flush();
+
+                log.trace("requestDownload(): file has been decrypted: output = " + targetFile.getAbsolutePath());
+                lm.addRecord(request.getUser().getUserId(), FileManager.DOWNLOAD_COMPLETE, "Decryption completed", targetFile.getAbsolutePath(), null);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SequreManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SequreManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     @Override
     public void testDatabase(Long userId) {
         log.debug(em);

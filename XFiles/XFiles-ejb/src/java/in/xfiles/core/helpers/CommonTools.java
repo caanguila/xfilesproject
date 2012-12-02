@@ -1,6 +1,7 @@
 package in.xfiles.core.helpers;
 
 import java.util.Collection;
+import java.util.ArrayList;
 
 /**
  * This class should contain different useful methods.
@@ -29,5 +30,29 @@ public abstract class CommonTools {
         if(c == null || c.size() != 1)
             return null;
         return c.iterator().next();
+    }
+    
+    public static ArrayList parceElements(String target){
+        ArrayList result = new ArrayList();
+        
+       
+        String[] parts1 = target.split(":");
+        for(String p1: parts1){            
+            String[] parts2 = p1.split("=");
+            for(int i=0; i<parts2.length; i++){
+                
+                if(parts2[i].equals("user_id")){
+                    if(i+1<parts2.length){
+                        String value = parts2[i+1];
+                        result.add("user_id");
+                        result.add(value);
+                    }
+                }
+                
+                
+            }
+        }
+        
+        return result;
     }
 }
