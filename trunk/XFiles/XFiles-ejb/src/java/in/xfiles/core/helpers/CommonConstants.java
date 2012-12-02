@@ -15,6 +15,7 @@ public interface CommonConstants {
     Long PRIVATE_GROUP              = 7L;
     Long AES_ENCRYPTION_TYPE        = 8L;
     Long PLAIN_ENCRYPTION_TYPE      = 9L;
+    Long GROUP_ACCESS_MESSAGE       = 10L;
     
     Long REGESTRATION_OF_USER       = 1L;
     Long USER_LOGOUT                = 2L;

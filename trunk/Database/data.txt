@@ -25,6 +25,8 @@ values(8, 'Password Storage', 'AES');
 insert into Types(type_id, category, name)
 values(9, 'Password Storage', 'plain');
 
+insert into Types(type_id, category, name)
+values(10, 'Message', 'group file access');
 
 
 

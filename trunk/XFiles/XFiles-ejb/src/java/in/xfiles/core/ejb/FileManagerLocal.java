@@ -23,10 +23,12 @@ public interface FileManagerLocal {
     
     void requestDownload(long userId, long fileId, String key);
 
-    public Files getFileById(Long userId, long fileId);
+     Files getFileById(Long userId, long fileId);
 
-    public List<DownloadRequest> getRequestsByUserId(Long userId);
+     List<DownloadRequest> getRequestsByUserId(Long userId);
 
-    public DownloadRequest getRequestsById(Long reqiestId);
+     DownloadRequest getRequestsById(Long reqiestId);
+    
+     void completeGroupFile(DownloadRequest request);
    
 }

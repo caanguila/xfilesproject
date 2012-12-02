@@ -1,13 +1,7 @@
 package in.xfiles.web.users;
 
-import in.xfiles.core.ejb.LogManagerLocal;
-import in.xfiles.core.ejb.UserManagerLocal;
-import in.xfiles.core.ejb.GroupManagerLocal;
-import in.xfiles.core.ejb.SequreManagerLocal;
-import in.xfiles.core.entity.Files;
-import in.xfiles.core.entity.Groups;
-import in.xfiles.core.entity.Log;
-import in.xfiles.core.entity.User;
+import in.xfiles.core.ejb.*;
+import in.xfiles.core.entity.*;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.ShamirSchema;
 import in.xfiles.web.utils.JSFHelper;
@@ -27,7 +21,7 @@ import org.apache.log4j.Logger;
 @ManagedBean
 @ViewScoped
 public class UserInfoBean implements Serializable {
-    
+
     private static final Logger log = Logger.getLogger(UserInfoBean.class);
     @EJB
     private UserManagerLocal userManager;
@@ -37,6 +31,9 @@ public class UserInfoBean implements Serializable {
     private GroupManagerLocal gml;
     @EJB
     private SequreManagerLocal sml;
+    @EJB
+    private MessageManagerLocal mml;
+   
     
     public Long userId;
     public String userName;
@@ -46,27 +43,43 @@ public class UserInfoBean implements Serializable {
     public String email;
     public String information;
     private User user;
-    
     public int step;
     public int currentHistoryIndex;
     public int historyPage;
     public int historyPageCount;
+    public Groups currentGroup;
+    public Messages currentMessage;
     /**
      * Creates a new instance of UserInfoBean
      */
     public UserInfoBean() {
         userId = JSFHelper.getUserId();
     }
-    
+
     @PostConstruct
     private void init() {
         if (userId != null && user == null) {
             user = userManager.getUserById(userId);
-            
+
         } else {
             log.warn("User Id is " + userId);
         }
-        
+
+        step = 10;
+        currentHistoryIndex = 0;
+        historyPage = 1;
+    }
+
+    
+    public void refreshAction(){
+     userId = JSFHelper.getUserId();   
+     if (userId != null && user == null) {
+            user = userManager.getUserById(userId);
+
+        } else {
+            log.warn("User Id is " + userId);
+        }
+
         step = 10;
         currentHistoryIndex = 0;
         historyPage = 1;
@@ -82,29 +95,14 @@ public class UserInfoBean implements Serializable {
         log.info(information);
         log.info(userId);
         user = userManager.modifyUserInfo(userId, userName, surName, information);
-        
-        
+
+
     }
     
-    public void createTestGroup(){
-        
-        if(user == null) return;
-        else{
-            ArrayList<User> list = new ArrayList<User>();
-            list.add(user);
-           Groups g =  gml.createGroup(list, "Test Group", "FUCK!", CommonConstants.PRIVATE_GROUP);
-        }
-       HashMap<Integer, String> result =  ShamirSchema.splitShare("bda2e18e9c4f23dfbcbade3caf9d5e86ba36bd53a29344b94407e44326a0507a", 6, 3);
-       for(Integer key: result.keySet()){
-            System.out.println("Key: "+key+"  val: "+result.get(key));              
-           }
-       String cobmine = ShamirSchema.combineSecret(result);
-       System.out.println("combine: "+cobmine);   
-       } 
-       
-    
-    
-    
+    public List<Messages> getUserMessages(){
+                
+        return (List<Messages>) mml.getUserInputMessages(userId);
+    }
     
     public List<Log> getHistoryElements() {
         System.out.println("User Logs size: " + lm.getRecordsByUser(user));
@@ -114,45 +112,141 @@ public class UserInfoBean implements Serializable {
         if (logs == null) {
             return list;
         }
-        Iterator<Log> iter = logs.iterator();        
+        Iterator<Log> iter = logs.iterator();
         while (iter.hasNext()) {
             Log one = iter.next();
             list.add(one);
         }
         Collections.sort(list);
-        
-        
-        historyPageCount = logs.size()/step;
-        if(logs.size()%step >0) historyPageCount++;
-        
+
+
+        historyPageCount = logs.size() / step;
+        if (logs.size() % step > 0) {
+            historyPageCount++;
+        }
+
         return list;
     }
-    
+
     public List<Log> getNextHistoryElements() {
         List<Log> out = new ArrayList<Log>();
         List<Log> part = getHistoryElements();
-        
+
         int length = part.size();
-        if(currentHistoryIndex >= length) currentHistoryIndex -= step;
-        
-       // historyPage = currentHistoryIndex/step + 1;
-       // if(historyPage>historyPageCount) historyPage = historyPageCount;
-        
-        for(int i = currentHistoryIndex; i<currentHistoryIndex+step && i<length; i++){
-           // log.info(""+part.get(i));
-        out.add(part.get(i));
+        if (currentHistoryIndex >= length) {
+            currentHistoryIndex -= step;
         }
-        
-        
+
+        // historyPage = currentHistoryIndex/step + 1;
+        // if(historyPage>historyPageCount) historyPage = historyPageCount;
+
+        for (int i = currentHistoryIndex; i < currentHistoryIndex + step && i < length; i++) {
+            // log.info(""+part.get(i));
+            out.add(part.get(i));
+        }
+
+
         return out;
     }
-   
-    public Groups currentGroup;
     
-    public void processGroupNode(Groups item){
+
+    public void processGroupNode(Groups item) {
         currentGroup = item;
     }
+     public void processMessageNode(Messages item) {
+        currentMessage = item;
+        log.debug("Message: "+currentMessage);
+    }
 
+    public boolean isGroupDownloadRequest(){
+        if(currentMessage!= null){
+            return currentMessage.getTypeId().getTypeId().equals(CommonConstants.GROUP_ACCESS_MESSAGE);
+        }
+        
+        return false;
+    }
+    
+    public void acceptRequest(){
+        //should modify record in requests table
+        log.debug("user: "+user.getUserId()+" has accepted group file to user: "+currentMessage.getSenderId());
+        sml.acceptRequestByUser(currentMessage);
+    }
+    public void denyRequest(){
+        //Should delete record from messages after deny/accept button
+        log.debug("user: "+user.getUserId()+" has denied access group file to user: "+currentMessage.getSenderId());
+    }
+
+
+    public List<Groups> getUserGroups() {
+        List<Groups> out = new ArrayList<Groups>();
+        Collection<Groups> groups = gml.getGruopsByUser(userId);
+        if (user != null) {
+            for (Groups gr : groups) {
+                out.add(gr);
+            }
+        }
+        return out;
+    }
+
+    public List<User> getGroupsUsers() {
+        List<User> out = new ArrayList<User>();
+        if (currentGroup != null) {
+            for (User u : currentGroup.getUsersCollection()) {
+                out.add(u);
+            }
+            log.info("Group files: " + currentGroup.getFilesCollection().size());
+        }
+        return out;
+    }
+
+    public int getHistoryPagesCount() {
+        return historyPageCount;
+    }
+
+    public void setStepAction(int i) {
+        step = i;
+        log.info("Step: " + step);
+        historyPageCount = getHistoryElements().size() / step;
+        if (getHistoryElements().size() % step > 0) {
+            historyPageCount++;
+        }
+        currentHistoryIndex = 0;
+        historyPage = 1;
+    }
+
+    public void nextAction() {
+        currentHistoryIndex += step;
+        historyPage++;
+        if (historyPage > historyPageCount) {
+            historyPage = historyPageCount;
+        }
+        log.info("Next: " + currentHistoryIndex);
+    }
+
+    public void previousAction() {
+        currentHistoryIndex -= step;
+        historyPage--;
+        if (historyPage < 1) {
+            historyPage = 1;
+        }
+        if (currentHistoryIndex < 0) {
+            currentHistoryIndex = 0;
+        }
+        log.info("Previous: " + currentHistoryIndex);
+    }
+
+    
+    
+    public Messages getCurrentMessage() {
+        return currentMessage;
+    }
+
+    public void setCurrentMessage(Messages currentMessage) {
+        this.currentMessage = currentMessage;
+    }
+
+    
+   
     public Groups getCurrentGroup() {
         return currentGroup;
     }
@@ -161,78 +255,29 @@ public class UserInfoBean implements Serializable {
         this.currentGroup = currentGroup;
     }
     
-    public List<Groups> getUserGroups(){
-        List<Groups> out = new ArrayList<Groups>();
-        Collection<Groups> groups = gml.getGruopsByUser(userId);
-        if(user!=null){
-            for(Groups gr: groups){
-                 out.add(gr);
-            }
-        }
-        return out;
-    }
-    public  List<User> getGroupsUsers(){
-         List<User> out = new ArrayList<User>();
-         if(currentGroup!=null){
-             for(User u: currentGroup.getUsersCollection()){
-                 out.add(u);
-            }
-             log.info("Group files: "+currentGroup.getFilesCollection().size());
-         }
-         return out;
-    }
-    
-    public int getHistoryPagesCount(){
-        return historyPageCount;
-    }
-    
-    public void setStepAction(int i){
-        step = i;
-        log.info("Step: "+step);
-        historyPageCount = getHistoryElements().size()/step;
-        if(getHistoryElements().size()%step >0) historyPageCount++;
-        currentHistoryIndex = 0;
-        historyPage = 1;
-    }
-    
-    public void nextAction(){
-        currentHistoryIndex +=step;
-        historyPage++;
-        if(historyPage > historyPageCount) historyPage = historyPageCount;
-        log.info("Next: "+currentHistoryIndex);
-    } 
-    
-    public void previousAction(){
-        currentHistoryIndex -=step;
-        historyPage--;
-        if(historyPage < 1) historyPage = 1;
-        if(currentHistoryIndex<0) currentHistoryIndex = 0;
-        log.info("Previous: "+currentHistoryIndex);
-    }
-    
     public Date getDateCreation() {
         dateCreation = user.getDateCreation();
         return dateCreation;
     }
-    
+
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
-    
+
     public Date getDateSuspend() {
         dateSuspend = user.getDateSuspended();
         return dateSuspend;
     }
-    
+
     public void setDateSuspend(Date dateSuspend) {
         this.dateSuspend = dateSuspend;
     }
-    
+
     public String getEmail() {
         email = user.getEmail();
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -244,39 +289,38 @@ public class UserInfoBean implements Serializable {
     public void setHistoryPage(int historyPage) {
         this.historyPage = historyPage;
     }
-    
-    
+
     public String getInformation() {
         information = user.getInformation();
         return information;
     }
-    
+
     public void setInformation(String information) {
         this.information = information;
     }
-    
+
     public String getSurName() {
         surName = user.getSurname();
         return surName;
     }
-    
+
     public void setSurName(String surName) {
         this.surName = surName;
     }
-    
+
     public String getUserName() {
         userName = user.getName();
         return userName;
     }
-    
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
-    
+
     public Long getUserId() {
         return userId;
     }
-    
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -296,6 +340,4 @@ public class UserInfoBean implements Serializable {
     public void setStep(int step) {
         this.step = step;
     }
-    
-    
 }

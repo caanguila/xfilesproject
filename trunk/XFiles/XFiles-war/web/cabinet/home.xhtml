@@ -22,7 +22,7 @@
                         <f:ajax render=":cabinetContentContainer :refresh_groups :groups_list_form "  />
                     </h:commandLink></li>
                 <li><h:commandLink id="messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer"  />
+                        <f:ajax render=":cabinetContentContainer :refresh_messages :messages_list_form :group_access_form"  />
                     </h:commandLink></li>
                 <li><h:commandLink id="profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
                         <f:ajax render=":cabinetContentContainer :change_info_form"  />
@@ -40,7 +40,7 @@
                 <h:panelGroup id ="user_files_tree" rendered="#{cabinetController.tableVisible}" > 
                     <h1>Files</h1>
                     <h:form id="refresh_files_tree">
-                        <h:commandLink value="refresh" class="btn btn-small" style="margin-left: 60%;" >
+                        <h:commandLink value="refresh" class="btn btn-small" actionListener="#{userInfoBean.refreshAction()}" style="margin-left: 60%;" >
                             <i class="icon-refresh"></i>
                             <f:ajax render=":refresh_files_tree :files_list_form :cabinetContentContainer" />
                         </h:commandLink>
@@ -74,7 +74,7 @@
                      <h1>Groups</h1>
                     
                     <h:form id="refresh_groups">
-                        <h:commandLink value="refresh" class="btn btn-small" style="margin-left: 60%;" >
+                        <h:commandLink value="refresh" actionListener="#{userInfoBean.refreshAction()}" class="btn btn-small" style="margin-left: 60%;" >
                             <i class="icon-refresh"></i>
                             <f:ajax render=":groups_list_form :refresh_groups :cabinetContentContainer" />
                         </h:commandLink>
@@ -109,6 +109,44 @@
                 
                 <h:panelGroup id ="user_messages" rendered="#{cabinetController.messagesVisible}" >
                      <h1>Messages</h1>
+                    
+                    <h:form id="refresh_messages">
+                        <h:commandLink value="refresh" actionListener="#{userInfoBean.refreshAction()}" class="btn btn-small" style="margin-left: 60%;" >
+                            <i class="icon-refresh"></i>
+                            <f:ajax render=":messages_list_form :refresh_messages :cabinetContentContainer" />
+                        </h:commandLink>
+                    </h:form>
+                <h:panelGrid id="messages_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
+                <h:outputLabel id ="messages_list_label" style="width: 300px;" class ="label label-info" value="Message List" />
+                <h:outputLabel id ="messages_info_label" style="width: 300px;" class ="label label-info" value="Info" />
+                
+                 <h:form id="messages_list_form" >
+                     <ui:repeat var="item" value="#{userInfoBean.userMessages}" id="for_messages" >
+                         <h:commandLink value="message #{item.messageId}" actionListener="#{userInfoBean.processMessageNode(item)}">
+                                     <f:ajax render=":messages_info :group_access_form" execute="@form" />
+                                 </h:commandLink>
+                                    <br/>
+                                </ui:repeat>
+                 </h:form>
+                 
+                <h:panelGroup id="messages_info" >
+                    <h:outputLabel value="ID: #{userInfoBean.currentMessage.messageId}" />
+                    <h:outputLabel value="Date Send: #{userInfoBean.currentMessage.dateSend}" />
+                    <h:outputLabel value="Date Resieved: #{userInfoBean.currentMessage.dateRecieved}" />
+                    <h:outputLabel value="Sender: #{userInfoBean.currentMessage.senderId.userId}" />
+                    <h:outputLabel value="Message: #{userInfoBean.currentMessage.message}" />
+                    <h:form id="group_access_form">
+                        <h:panelGroup class="btn-group">
+                            <h:commandLink value="Accept" class="btn btn-small" actionListener="#{userInfoBean.acceptRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
+                                <f:ajax execute="@form" render=":user_messages"/>
+                            </h:commandLink>
+                            <h:commandLink value="Deny" class="btn btn-small" actionListener="#{userInfoBean.denyRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
+                                  <f:ajax execute="@form" render=":user_messages"/>
+                            </h:commandLink>
+                        </h:panelGroup>    
+                    </h:form>    
+                </h:panelGroup>
+            </h:panelGrid>
                  </h:panelGroup>
                 
                 <h:panelGroup id ="user_profile" rendered="#{cabinetController.profileVisible}" >
@@ -200,7 +238,7 @@
                                        <i class="icon-arrow-right" />
                                        <f:ajax render=":user_history :history_table" />
                                     </h:commandLink>
-                                      <h:commandLink value="refresh" class="btn btn-small"   style="margin-bottom: 17px;">
+                                      <h:commandLink value="refresh" class="btn btn-small" actionListener="#{userInfoBean.refreshAction()}"  style="margin-bottom: 17px;">
                                             <i class="icon-refresh"></i>
                                             <f:ajax render=":history_table :cabinetContentContainer" />
                                      </h:commandLink>

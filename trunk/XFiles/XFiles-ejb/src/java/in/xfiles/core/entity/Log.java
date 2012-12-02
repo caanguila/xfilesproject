@@ -55,7 +55,7 @@ public class Log implements Serializable, Comparable<Log> {
    
     @Column(name="date_creation")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreation;
+    Date dateCreation;
 
     public Date getDateCreation() {
         return dateCreation;
