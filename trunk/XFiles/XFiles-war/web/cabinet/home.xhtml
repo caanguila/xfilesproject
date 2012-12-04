@@ -40,7 +40,7 @@
                 <h:panelGroup id ="user_files_tree" rendered="#{cabinetController.tableVisible}" > 
                     <h1>Files</h1>
                     <h:form id="refresh_files_tree">
-                        <h:commandLink value="refresh" class="btn btn-small" actionListener="#{userInfoBean.refreshAction()}" style="margin-left: 60%;" >
+                        <h:commandLink value="refresh" class="btn btn-small" actionListener="#{filesBean.refreshAction()}" style="margin-left: 60%;" >
                             <i class="icon-refresh"></i>
                             <f:ajax render=":refresh_files_tree :files_list_form :cabinetContentContainer" />
                         </h:commandLink>
@@ -51,7 +51,7 @@
                 
                  <h:form id="files_list_form" >
                      <ui:repeat var="item" value="#{filesBean.tableElements}" id="for" >
-                                 <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}">
+                         <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}" style="#{filesBean.fileStyle(item)}}">
                                      <f:ajax render=":file_info" execute="@form" />
                                  </h:commandLink>
                                     <br/>
@@ -138,10 +138,10 @@
                     <h:form id="group_access_form">
                         <h:panelGroup class="btn-group">
                             <h:commandLink value="Accept" class="btn btn-small" actionListener="#{userInfoBean.acceptRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
-                                <f:ajax execute="@form" render=":user_messages"/>
+                                <f:ajax execute="@form" render=":user_messages :messages_info"/>
                             </h:commandLink>
                             <h:commandLink value="Deny" class="btn btn-small" actionListener="#{userInfoBean.denyRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
-                                  <f:ajax execute="@form" render=":user_messages"/>
+                                  <f:ajax execute="@form" render=":user_messages :messages_info"/>
                             </h:commandLink>
                         </h:panelGroup>    
                     </h:form>    

@@ -20,7 +20,7 @@ public interface MessageManagerLocal {
     
      Collection<Messages> getMessagesByDate(Date creation, Date recieve);
      
-     void sendMessage(Long recipientId, Long senderId, String message, Long typeId, Long groupId);
+     void sendMessage(Long recipientId, Long senderId, String message, Long typeId, Long groupId, String options);
      
-     void sendGruopMessage(Long groupId,String message, Long typeId, Long senderId);
+     void sendGruopMessage(Long groupId,String message, Long typeId, Long senderId, Long requestId);
 }

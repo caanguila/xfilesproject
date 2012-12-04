@@ -6,6 +6,7 @@ package in.xfiles.web.files;
 
 import in.xfiles.core.ejb.FileManagerLocal;
 import in.xfiles.core.entity.Files;
+import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.web.utils.JSFHelper;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,18 @@ public class FilesBean implements Serializable{
     System.out.println("Current file: "+currentFile);
     }
     
+    public void refreshAction(){
+       
+        currentFile = null;
+    }
+    
+    public String fileStyle(Files elem){
+        if(elem.getTypeId().getTypeId().equals(CommonConstants.GROUP_FILE_TYPE))
+            return "color: #08C;";
+            
+            
+        return "";
+    }
      public List<Files> getTableElements() {
          System.out.println("User Files size: "+bean.getFilesByUser(JSFHelper.getUserId()).size());
         Collection<Files> files =  bean.getFilesByUser(JSFHelper.getUserId());

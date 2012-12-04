@@ -55,22 +55,39 @@ public class SequreManager implements SequreManagerLocal{
     public void acceptRequestByUser(Messages message) {
         Long groupId = message.getGroupId();
         User recipient = message.getRecipientId();
-        User sender = message.getSenderId();
+     //   User sender = message.getSenderId();
         Groups gr = em.find(Groups.class, groupId);
         if(gr == null){
             log.warn("Incorrect group id: "+groupId);
             return;
         }
-        Files file = gr.getFilesCollection().iterator().next();
-        List<DownloadRequest> resList = em.createQuery("select u from DownloadRequest u where u.user =:userId and u.file =:fileId")
-                .setParameter("userId", sender)
-                .setParameter("fileId", file).getResultList();
-        if(resList.isEmpty()) {
-            log.warn("There is no suitable requests for message: "+message);
+      //  Files file = gr.getFilesCollection().iterator().next();
+        
+        ArrayList<String> params = CommonTools.parceElements(message.getOptions());
+        if(params.isEmpty()){
+            log.warn("Notification message has no params like: request_id=some_string");
             return;
         }
+        String requestId="";
+        for(int i=0; i<params.size(); i+=2){
+          if(params.get(i).equals("request_id")){
+             requestId = params.get(i+1);             
+          }  
+        }
+//        List<DownloadRequest> resList = em.createQuery("select u from DownloadRequest u where u.user =:userId and u.file =:fileId")
+//                .setParameter("userId", sender)
+//                .setParameter("fileId", file).getResultList();
+//        if(resList.isEmpty()) {
+//            log.warn("There is no suitable requests for message: "+message);
+//            return;
+//        }
         
-        DownloadRequest req = resList.get(0);
+  //      DownloadRequest req = resList.get(0);//I think there should be the last user request
+        DownloadRequest req = em.find(DownloadRequest.class, new Long(requestId));
+        if(req == null){
+            log.warn("Can't find download request!");
+            return;
+        }
         if(validatePropForUserId(req, recipient)){
             log.debug("modify request: "+req.getId());
             String param = "user_id="+recipient.getUserId();
@@ -90,10 +107,11 @@ public class SequreManager implements SequreManagerLocal{
         if(validateDownloadGroupFile(req)){
             fml.completeGroupFile(req);
             //Delete all messages connecting with group file
-            List<Messages> messages = em.createQuery("select u from Messages u where u.groupId=:group and u.senderId=:sender and u.typeId =:type")
+            List<Messages> messages = em.createQuery("select u from Messages u where u.groupId=:group and u.senderId=:sender and u.typeId =:type and u.options =:messOptions")
                    .setParameter("group", gr.getGroupId())
                    .setParameter("sender", message.getSenderId())
-                   .setParameter("type", message.getTypeId()).getResultList();
+                   .setParameter("type", message.getTypeId())
+                   .setParameter("messOptions", message.getOptions()).getResultList();
                 for(Messages m: messages ){
                     
                     em.remove(m);

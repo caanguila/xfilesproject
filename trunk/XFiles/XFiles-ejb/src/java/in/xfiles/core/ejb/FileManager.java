@@ -112,13 +112,13 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             } else {
                 int k = 3;
                 // minimum parts
-                User u1 = em.find(User.class, 2640L);
-                User u2 = em.find(User.class, 2649L);
-                User u3 = em.find(User.class, 2675L);
-                User u4 = em.find(User.class, 2685L);
-                User u5 = em.find(User.class, 2691L);
+                User u1 = em.find(User.class, 3801L);
+                User u2 = em.find(User.class, 3803L);
+                User u3 = em.find(User.class, 3805L);
+                User u4 = em.find(User.class, 3807L);
+                User u5 = em.find(User.class, 3809L);
                 Collection<User> owners = new HashSet<User>();
-                owners.add(u1);
+                owners.add(ufw.getUploadedBy());
                 owners.add(u2);
                 owners.add(u3);
                 owners.add(u4);
@@ -153,7 +153,9 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         Groups gr = gml.createGroup(owners, "Group for file: " + f.getName(), "", CommonConstants.PRIVATE_GROUP);
         log.info("group created: " + gr.getGroupId());
         //work with file
-        f.setUsersCollection(owners); //who can see this file
+        Collection<User> createdBy = new HashSet<User>();
+        createdBy.add(ufw.getUploadedBy());
+        f.setUsersCollection(createdBy); //who can see this file
 
         Encryptionfiles ef = new Encryptionfiles();
         ef.setPath(targetFile.getAbsolutePath());
@@ -163,14 +165,14 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         log.info("encFiles persisted: " + ef.getEnFileId());
         f.setEnFileId(ef);  // from where we can download this file
 
-        log.info("Users share secret: " + f.getUsersCollection().size() + " with minimum parts: " + ef.getAttributes());
+        log.info("Users share secret: " + gr.getUsersCollection().size()+"  created by: "+f.getUsersCollection().size() + " with minimum parts: " + ef.getAttributes());
 
 
         String secret = ufw.getKey();
         HashMap<Integer, String> parts = ShamirSchema.splitShare(secret, owners.size(), k); //Share secret
         Collection<PasswordStorage> pswds = new ArrayList<PasswordStorage>(); // Passwords for one file
         int i = 1;
-        for (User u : f.getUsersCollection()) {
+        for (User u : gr.getUsersCollection()) {
             PasswordStorage ps = new PasswordStorage();
             ps.setUserId(u.getUserId());
             ps.setPassword(parts.get(i));
@@ -312,7 +314,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             //proff
             //Send messages to Users of this file
             String message = "user with Id: "+user.getUserId()+" want to download fileID: "+file.getFileId()+" name: "+file.getName();
-            mml.sendGruopMessage(group.getGroupId(),message , CommonConstants.GROUP_ACCESS_MESSAGE, user.getUserId());
+            mml.sendGruopMessage(group.getGroupId(),message , CommonConstants.GROUP_ACCESS_MESSAGE, user.getUserId(), request.getId());
             for(User u:group.getUsersCollection()){
                 log.debug("Should send mess to "+u);
                 
