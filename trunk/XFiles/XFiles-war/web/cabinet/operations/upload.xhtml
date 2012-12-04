@@ -13,38 +13,50 @@
 
         <ui:define name="submenu">
         </ui:define>
-        
+
         <ui:define name="content">
             <p><strong>File upload form</strong></p>
-            <div id="fileuploadfprm_container">
+            <div id="fileuploadfprm_container" class="grid_7">
                 <form id="fileupload" method="post" enctype="multipart/form-data" action="#{request.contextPath}/operations/fileupload">
                     <h:panelGroup id="upload_errors" rendered="#{param['error'] != null}">
                         <ul class="message">
                             <li class="message_bad">Error: Failed to upload file. Try again.</li>
                         </ul>
                     </h:panelGroup>
-                    <table style="width: 650px; vertical-align: central;">
+                    <table style="vertical-align: central;">
                         <tr>
-                            <td style="width: 150px;">File:</td>
-                            <td style="width: 450px;"><input class="input-xlarge" type="file" name="file" multiple="false"/></td>
+                            <td style="width: 180px;">File:</td>
+                            <td><input class="input-xlarge" type="file" name="file" multiple="false"/></td>
                         </tr>
                         <tr>
                             <td>Encryption Type:</td>
                             <td>
-                                <select class="input-large" name="encryption_type" id="encription_type" onchange="hidePasswordField();">
-                                        <option value="plain">No encryption</option>
-                                        <option value="AES">AES</option>
+                                <select style="width: 150px;" name="encryption_type" id="encription_type" onchange="hidePasswordField();">
+                                    <option value="plain">No encryption</option>
+                                    <option value="AES">AES</option>
                                 </select>
-                                <input id="secret_key" style="display: none;" type="password" placeholder="Password" name="secret_key"/>
+                                <input id="secret_key" style="display: none; width: 120px;" type="password" placeholder="Password" name="secret_key"/>
                             </td>
                         </tr>
                         <tr>
                             <td>Access Type:</td>
-                            <td><select class="input-xlarge" name="access_type">
+                            <td><select class="input-xlarge" id="access_type" name="access_type" onchange="accessTypeChange();">
                                     <option value="public">Public Access</option>
                                     <option value="private" selected="true">Private Access</option>
                                     <option value="group">Group Access</option>
-                                </select></td>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="user_list_row" style="display: none;">
+                            <td>
+                                Users that are included into group (min. 3):
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" onclick="showUserSelectionPanel();">Select</a>
+                                <ul id="user_list">
+
+                                </ul>
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -59,6 +71,27 @@
                     <input type="hidden" name="redirect" value="#{request.contextPath}/faces/cabinet/home.xhtml#uploaded"/>
                     <input type="hidden" name="error_redirect" value="#{request.contextPath}/faces/cabinet/operations/upload.xhtml?error=1"/>
                 </form>
+
+
+            </div>
+            <div id="user_selection_panel" class="grid_4" style="display: none;">
+                <h:form prependId="false">
+                    Enter the e-mails of users and click add.
+                    <h:inputTextarea class="input-large" style="width: 260px; height: 120px;" value="#{userSelectionBean.inputEmails}"/>
+                    <div style="width: 260px; text-align: right;">
+                        <h:commandLink class="button_green" value="Add" actionListener="#{userSelectionBean.parseUsersAction}">
+                            <f:ajax render="parsed_users" execute="@form" onevent="updateUsers"/>
+                        </h:commandLink>
+                    </div>
+                    <h:panelGroup id="parsed_users">
+                        <ui:repeat value="#{userSelectionBean.parsedUsers}" var="parsedUser">
+                            <li id="user_id#{parsedUser.userId}">
+                                #{parsedUser.name} #{parsedUser.surname} [#{parsedUser.userId}][<a style="color: red; font-weight: bold;" href="javascript:void(0);" onclick="delUser('user_id#{parsedUser.userId}');">×</a>]
+                                <input type="hidden" name="group_users[]" value="#{parsedUser.userId}"/>
+                            </li>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </h:form>
             </div>
             <script type="text/javascript">
                 function hidePasswordField(e) {
@@ -69,110 +102,41 @@
                         $('#secret_key').val('');
                     }
                 }
+                
+                function accessTypeChange() {
+                    var accessType = $('#access_type').val();
+                    if(accessType === 'group') {
+                        $('#user_list_row').css('display', 'table-row');
+                    } else {
+                        $('#user_list_row').css('display', 'none');
+                    }
+                }
+                
+                function showUserSelectionPanel() {
+                    $('#user_selection_panel').toggle();
+                }
+                
+                function updateUsers(e) {
+                    if(e.status === 'success') {
+                        $('#user_list').append($('#parsed_users').html());
+                        $('#parsed_users').html('');
+                        var seen = {};
+                        $('#user_list li').each(function() {
+                            var txt = $(this).text();
+                            if (seen[txt])
+                                $(this).remove();
+                            else
+                                seen[txt] = true;
+                        });
+                    }
+                }
+                
+                function delUser(t) {
+                    $('#'+t).remove();
+                }
             </script>
         </ui:define>
 
-        <ui:define name="toolbar">
-            <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
-
-            <div class="options float">
-
-                <section class="header_color clearfix">
-                    <h2>Header pattern</h2>
-                    <div class="header_white">
-                        <a href="#" data-src="light_honeycomb.png"></a>
-                        <a href="#" data-src="little_pluses.png"></a>
-                        <a href="#" data-src="45degreee_fabric.png"></a>
-                        <a href="#" data-src="60degree_gray.png"></a>	
-                        <a href="#" data-src="beige_paper.png"></a>
-                        <a href="#" data-src="bright_squares.png"></a>
-                        <a href="#" data-src="brushed_alu.png"></a>
-                        <a href="#" data-src="concrete_wall_2.png"></a>
-                        <a href="#" data-src="concrete_wall_3.png"></a>
-                        <a href="#" data-src="white_sand.png"></a>
-                        <a href="#" data-src="vichy.png"></a>
-                        <a href="#" data-src="wavecut.png"></a>
-                        <a href="#" data-src="white_carbon.png"></a>
-                        <a href="#" data-src="rockywall.png"></a>
-                        <a href="#" data-src="smooth_wall.png"></a>
-                        <a href="#" data-src="noisy.png"></a>
-                        <a href="#" data-src="old_mathematics.png"></a>
-                        <a href="#" data-src="paper_1.png"></a>
-                        <a href="#" data-src="paper_2.png"></a>
-                        <a href="#" data-src="paper_3.png"></a>
-                        <a href="#" data-src="pinstripe.png"></a>
-                        <a href="#" data-src="leather_1.png"></a>
-                        <a href="#" data-src="cork_1.png"></a>
-                        <a href="#" data-src="double_lined.png"></a>
-                        <a href="#" data-src="exclusive_paper.png"></a>
-                        <a href="#" data-src="fabric_1.png"></a>
-                        <a href="#" data-src="soft_wallpaper.png"></a>
-                        <a href="#" data-src="subtle_freckles.png"></a>
-                        <a href="#" data-src="subtle_orange_emboss.png"></a>
-                        <a href="#" data-src="green_gobbler.png"></a>
-                        <a href="#" data-src="grunge_wall.png"></a>
-                        <a href="#" data-src="handmadepaper.png"></a>
-                    </div>
-                    <div class="header_black">
-                        <a href="#" data-src="always_grey.png"></a>
-                        <a href="#" data-src="brushed_alu_dark.png"></a>
-                        <a href="#" data-src="padded.png"></a>
-                        <a href="#" data-src="gray_sand.png"></a>
-                        <a href="#" data-src="crossed_stripes.png"></a>
-                        <a href="#" data-src="green-fibers.png"></a>
-                        <a href="#" data-src="tactile_noise.png"></a>
-                        <a href="#" data-src="black_denim.png"></a>
-                        <a href="#" data-src="black-Linen.png"></a>
-                        <a href="#" data-src="blackmamba.png"></a>
-                        <a href="#" data-src="carbon_fibre.png"></a>
-                        <a href="#" data-src="dark_stripes.png"></a>
-                        <a href="#" data-src="darth_stripe.png"></a>
-                        <a href="#" data-src="concrete_wall.png"></a>
-                        <a href="#" data-src="black_paper.png"></a>
-                        <a href="#" data-src="micro_carbon.png"></a>
-                        <a href="#" data-src="random_grey_variations.png"></a>
-                        <a href="#" data-src="wood_1.png"></a>
-                    </div>
-                </section>
-
-                <section class="showcase_color clearfix">
-                    <h2>Showcase pattern</h2>
-                    <a href="#" data-src="light_honeycomb.png"></a>
-                    <a href="#" data-src="little_pluses.png"></a>
-                    <a href="#" data-src="45degreee_fabric.png"></a>
-                    <a href="#" data-src="60degree_gray.png"></a>	
-                    <a href="#" data-src="beige_paper.png"></a>
-                    <a href="#" data-src="bright_squares.png"></a>
-                    <a href="#" data-src="brushed_alu.png"></a>
-                    <a href="#" data-src="concrete_wall_2.png"></a>
-                    <a href="#" data-src="concrete_wall_3.png"></a>
-                    <a href="#" data-src="white_sand.png"></a>
-                    <a href="#" data-src="vichy.png"></a>
-                    <a href="#" data-src="wavecut.png"></a>
-                    <a href="#" data-src="white_carbon.png"></a>
-                    <a href="#" data-src="rockywall.png"></a>
-                    <a href="#" data-src="smooth_wall.png"></a>
-                    <a href="#" data-src="noisy.png"></a>
-                    <a href="#" data-src="old_mathematics.png"></a>
-                    <a href="#" data-src="paper_1.png"></a>
-                    <a href="#" data-src="paper_2.png"></a>
-                    <a href="#" data-src="paper_3.png"></a>
-                    <a href="#" data-src="pinstripe.png"></a>
-                    <a href="#" data-src="leather_1.png"></a>
-                    <a href="#" data-src="cork_1.png"></a>
-                    <a href="#" data-src="double_lined.png"></a>
-                    <a href="#" data-src="exclusive_paper.png"></a>
-                    <a href="#" data-src="fabric_1.png"></a>
-                    <a href="#" data-src="soft_wallpaper.png"></a>
-                    <a href="#" data-src="subtle_freckles.png"></a>
-                    <a href="#" data-src="subtle_orange_emboss.png"></a>
-                    <a href="#" data-src="green_gobbler.png"></a>
-                    <a href="#" data-src="grunge_wall.png"></a>
-                    <a href="#" data-src="handmadepaper.png"></a>
-                </section>
-
-            </div>
-        </ui:define>
     </ui:composition>
 
 </html>

@@ -112,17 +112,10 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             } else {
                 int k = 3;
                 // minimum parts
-                User u1 = em.find(User.class, 3801L);
-                User u2 = em.find(User.class, 3803L);
-                User u3 = em.find(User.class, 3805L);
-                User u4 = em.find(User.class, 3807L);
-                User u5 = em.find(User.class, 3809L);
                 Collection<User> owners = new HashSet<User>();
-                owners.add(ufw.getUploadedBy());
-                owners.add(u2);
-                owners.add(u3);
-                owners.add(u4);
-                owners.add(u5);
+                if(ufw.getGroupUsers() == null || ufw.getGroupUsers().size()<3)
+                    throw new RuntimeException("not enough group users!!!");
+                owners.addAll(ufw.getGroupUsers());
                 persistGroupFile(f, ufw, targetFile, owners, k);
             }
             String session = getCurrentUserSession(ufw.getUploadedBy());
