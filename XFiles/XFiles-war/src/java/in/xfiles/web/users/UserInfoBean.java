@@ -83,7 +83,11 @@ public class UserInfoBean implements Serializable {
         step = 10;
         currentHistoryIndex = 0;
         historyPage = 1;
+        currentGroup = null;
+        currentMessage = null;
     }
+    
+    
     
     public void saveParametersAction(ActionEvent evt) {
         log.info("Save parametr Action");
@@ -168,8 +172,10 @@ public class UserInfoBean implements Serializable {
     
     public void acceptRequest(){
         //should modify record in requests table
+        
         log.debug("user: "+user.getUserId()+" has accepted group file to user: "+currentMessage.getSenderId());
         sml.acceptRequestByUser(currentMessage);
+        if(((List<Messages>) mml.getUserInputMessages(userId)).isEmpty()) currentMessage = null;
     }
     public void denyRequest(){
         //Should delete record from messages after deny/accept button

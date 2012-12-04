@@ -4,10 +4,7 @@
  */
 package in.xfiles.core.ejb;
 
-import in.xfiles.core.entity.Groups;
-import in.xfiles.core.entity.Messages;
-import in.xfiles.core.entity.Types;
-import in.xfiles.core.entity.User;
+import in.xfiles.core.entity.*;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
@@ -42,7 +39,7 @@ public class MessageManager implements MessageManagerLocal{
     }
 
     @Override
-    public void sendMessage(Long recipientId, Long senderId, String message, Long typeId, Long groupId) {
+    public void sendMessage(Long recipientId, Long senderId, String message, Long typeId, Long groupId, String options) {
         User recipient = entityManager.find(User.class, recipientId);
         if(recipient == null){
             log.warn("recipient user: "+recipient);
@@ -73,11 +70,12 @@ public class MessageManager implements MessageManagerLocal{
         m.setTypeId(type);
         m.setGroupId(groupId);
         m.setDateSend(new Date());
+        m.setOptions(options);
         entityManager.persist(m);
     }
 
     @Override
-    public void sendGruopMessage(Long groupId, String message, Long typeId, Long senderId) {
+    public void sendGruopMessage(Long groupId, String message, Long typeId, Long senderId, Long requestId) {
         Groups gr =entityManager.find(Groups.class, groupId);
             if(gr == null){
                 log.warn("Group is incorrect: "+gr);
@@ -93,10 +91,16 @@ public class MessageManager implements MessageManagerLocal{
             log.warn("sender user: "+sender);
             return;
         }
+        DownloadRequest request = entityManager.find(DownloadRequest.class, requestId);
+        if(request == null){
+                log.warn("Request is incorrect: "+request);
+                return;
+            }
+        String requestOptions = "request_id="+requestId;
         
         for(User u : gr.getUsersCollection()){
            if(!sender.equals(u))
-           sendMessage(u.getUserId(), senderId, message, typeId, groupId);
+           sendMessage(u.getUserId(), senderId, message, typeId, groupId, requestOptions);
         }
     }
     

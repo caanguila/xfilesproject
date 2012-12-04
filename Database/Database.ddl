@@ -43,8 +43,8 @@ CREATE TABLE Users (
   user_id         BIGSERIAL NOT NULL, 
   name           varchar(255) NOT NULL, 
   surname        varchar(255) NOT NULL, 
-  date_creation  date NOT NULL, 
-  date_suspended date, 
+  date_creation  timestamp NOT NULL, 
+  date_suspended timestamp, 
   email          varchar(255) NOT NULL, 
   information    varchar(2000), 
   photo          bytea, 
@@ -61,13 +61,14 @@ CREATE TABLE Types (
 
 CREATE TABLE Messages (
   message_id     BIGSERIAL NOT NULL, 
-  date_send     date, 
+  date_send     timestamp, 
   group_id      int8, 
   type_id       int8, 
   sender_id     int8, 
   recipient_id  int8, 
   message       varchar(5000), 
-  date_recieved date, 
+  date_recieved timestamp, 
+  options     varchar(2000),
   PRIMARY KEY (message_id));
 
 CREATE TABLE Groups (
@@ -142,7 +143,7 @@ CREATE TABLE Logs (
   type_action_id int8, 
   ip_adress      varchar(255), 
   options        varchar(255),
-  date_creation date,  
+  date_creation  timestamp,  
   session_name   varchar(300), 
   message        varchar(1000), 
   PRIMARY KEY (log_id));

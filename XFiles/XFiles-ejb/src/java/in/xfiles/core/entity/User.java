@@ -46,10 +46,12 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "date_creation")
-    private java.sql.Date dateCreation;
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date dateCreation;
     
     @Column(name = "date_suspended")
-    private java.sql.Date dateSuspended;
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date dateSuspended;
     
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
@@ -121,19 +123,19 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public java.sql.Date getDateCreation() {
+    public java.util.Date getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(java.sql.Date dateCreation) {
+    public void setDateCreation(java.util.Date dateCreation) {
         this.dateCreation = dateCreation;
     }
 
-    public java.sql.Date getDateSuspended() {
+    public java.util.Date getDateSuspended() {
         return dateSuspended;
     }
 
-    public void setDateSuspended(java.sql.Date dateSuspended) {
+    public void setDateSuspended(java.util.Date dateSuspended) {
         this.dateSuspended = dateSuspended;
     }
 

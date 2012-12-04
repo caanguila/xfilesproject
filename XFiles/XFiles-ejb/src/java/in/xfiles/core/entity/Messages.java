@@ -29,7 +29,7 @@ public class Messages implements Serializable {
     private Long messageId;
     
     @Column(name = "date_send")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateSend;
     
     
@@ -41,7 +41,7 @@ public class Messages implements Serializable {
     private String message;
     
     @Column(name = "date_recieved")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateRecieved;
     
     @JoinColumn(name = "recipient_id", referencedColumnName = "user_id")
@@ -51,6 +51,9 @@ public class Messages implements Serializable {
     @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
     @ManyToOne
     private User senderId;
+    
+    @Column(name="options")
+    private String options;
     
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne
@@ -84,6 +87,15 @@ public class Messages implements Serializable {
         this.dateSend = dateSend;
     }
 
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
+    }
+    
+    
     public long getGroupId() {
         return groupId;
     }

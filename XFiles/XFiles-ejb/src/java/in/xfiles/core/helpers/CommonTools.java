@@ -32,7 +32,7 @@ public abstract class CommonTools {
         return c.iterator().next();
     }
     
-    public static ArrayList parceElements(String target){
+    public static ArrayList<String> parceElements(String target){
         ArrayList result = new ArrayList();
         
        
@@ -45,6 +45,13 @@ public abstract class CommonTools {
                     if(i+1<parts2.length){
                         String value = parts2[i+1];
                         result.add("user_id");
+                        result.add(value);
+                    }
+                }
+                if(parts2[i].equals("request_id")){
+                    if(i+1<parts2.length){
+                        String value = parts2[i+1];
+                        result.add("request_id");
                         result.add(value);
                     }
                 }
