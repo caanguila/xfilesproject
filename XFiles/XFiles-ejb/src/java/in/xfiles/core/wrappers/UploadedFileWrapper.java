@@ -3,6 +3,7 @@ package in.xfiles.core.wrappers;
 import in.xfiles.core.entity.User;
 import java.io.File;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Aggregates all necessary information about uploaded file.
@@ -20,6 +21,7 @@ public class UploadedFileWrapper implements Serializable {
     private long checksum;
     private User uploadedBy;
     private String key;
+    private Set<User> groupUsers;
 
     public File getFile() {
         return file;
@@ -91,6 +93,14 @@ public class UploadedFileWrapper implements Serializable {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public Set<User> getGroupUsers() {
+        return groupUsers;
+    }
+
+    public void setGroupUsers(Set<User> groupUsers) {
+        this.groupUsers = groupUsers;
     }
 
     @Override

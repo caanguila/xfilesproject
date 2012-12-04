@@ -10,388 +10,298 @@
         <ui:param name="pageTitle" value="Home"/>
         <ui:param name="webSiteTitle" value="X Files"/>
 
-        
+
         <ui:define name="submenu">
             <h:form id="controll_panel_form" >
-            <ul>
-                <li><h:commandLink id="files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer :refresh_files_tree :files_list_form" />
-                    </h:commandLink></li>
-          
-                <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer :refresh_groups :groups_list_form "  />
-                    </h:commandLink></li>
-                <li><h:commandLink id="messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer :refresh_messages :messages_list_form :group_access_form"  />
-                    </h:commandLink></li>
-                <li><h:commandLink id="profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer :change_info_form"  />
-                    </h:commandLink></li>
-                <li><h:commandLink id="history_link" value="History" actionListener="#{cabinetController.historyLinkListener(e)}">
-                        <f:ajax render=":cabinetContentContainer :history_table"  />
-                    </h:commandLink></li>
-            </ul>
+                <ul>
+                    <li><h:commandLink id="files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
+                            <f:ajax render=":cabinetContentContainer :refresh_files_tree :files_list_form" />
+                        </h:commandLink></li>
+
+                    <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
+                            <f:ajax render=":cabinetContentContainer :refresh_groups :groups_list_form "  />
+                        </h:commandLink></li>
+                    <li><h:commandLink id="messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
+                            <f:ajax render=":cabinetContentContainer :refresh_messages :messages_list_form :group_access_form"  />
+                        </h:commandLink></li>
+                    <li><h:commandLink id="profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
+                            <f:ajax render=":cabinetContentContainer :change_info_form"  />
+                        </h:commandLink></li>
+                    <li><h:commandLink id="history_link" value="History" actionListener="#{cabinetController.historyLinkListener(e)}">
+                            <f:ajax render=":cabinetContentContainer :history_table"  />
+                        </h:commandLink></li>
+                </ul>
             </h:form>
-        
+
         </ui:define>
         <ui:define name="content">
             <h:panelGroup id="cabinetContentContainer">
-                    
+
                 <h:panelGroup id ="user_files_tree" rendered="#{cabinetController.tableVisible}" > 
                     <h1>Files</h1>
                     <h:form id="refresh_files_tree">
-                        <h:commandLink value="refresh" class="btn btn-small" actionListener="#{filesBean.refreshAction()}" style="margin-left: 60%;" >
-                            <i class="icon-refresh"></i>
-                            <f:ajax render=":refresh_files_tree :files_list_form :cabinetContentContainer" />
-                        </h:commandLink>
+                        <div class="grid_8" style="text-align: right;">
+                            <h:commandLink style="margin-right: 20px;" value="refresh" class="btn btn-small" actionListener="#{filesBean.refreshAction()}">
+                                <i class="icon-refresh"></i>
+                                <f:ajax render=":refresh_files_tree :files_list_form :cabinetContentContainer" />
+                            </h:commandLink>
+                        </div>
                     </h:form>
-                <h:panelGrid id="files_tree_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
-                <h:outputLabel id ="files_list_label" style="width: 300px;" class ="label label-info" value="Files List" />
-                <h:outputLabel id ="files_info_label" style="width: 300px;" class ="label label-info" value="Info" />
-                
-                 <h:form id="files_list_form" >
-                     <ui:repeat var="item" value="#{filesBean.tableElements}" id="for" >
-                         <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}" style="#{filesBean.fileStyle(item)}}">
-                                     <f:ajax render=":file_info" execute="@form" />
-                                 </h:commandLink>
-                                    <br/>
-                                </ui:repeat>
-                 </h:form>
-                 
-                <h:panelGroup id="file_info" >
-                    <h:outputLabel value="ID: #{filesBean.currentFileID}" />
-                    <h:outputLabel id="file_name" value="Name: #{filesBean.currentFileName}" />
-                    <h:outputLabel value="Content type: #{filesBean.currentFileContType} " />
-                    <h:outputLabel value="Size:  #{filesBean.currentFileSize}" />
-                    <h:outputLabel value="CRC:  #{filesBean.currentFileCRC}" />
-                    <h:outputLabel value="access type id:  #{filesBean.currentFileType}" />
-                    <h:outputLabel value="Is folder:  #{filesBean.currentFileIsFolder}" /> 
+                    <h:panelGrid id="files_tree_grid" columns="2" class="table table-hover grid_8" style="text-align: left;" >
+                        <h:outputLabel id ="files_list_label" style="width: 300px;" class ="label label-info" value="Files List" />
+                        <h:outputLabel id ="files_info_label" style="width: 260px;" class ="label label-info" value="Info" />
+
+                        <h:form id="files_list_form" >
+                            <ui:repeat var="item" value="#{filesBean.tableElements}" id="for" >
+                                <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}" style="#{filesBean.fileStyle(item)}}">
+                                    <f:ajax render=":file_info" execute="@form" />
+                                </h:commandLink>
+                                <br/>
+                            </ui:repeat>
+                        </h:form>
+
+                        <h:panelGroup id="file_info" >
+                            <h:outputLabel value="ID: #{filesBean.currentFileID}" />
+                            <h:outputLabel id="file_name" value="Name: #{filesBean.currentFileName}" />
+                            <h:outputLabel value="Content type: #{filesBean.currentFileContType} " />
+                            <h:outputLabel value="Size:  #{filesBean.currentFileSize}" />
+                            <h:outputLabel value="CRC:  #{filesBean.currentFileCRC}" />
+                            <h:outputLabel value="access type id:  #{filesBean.currentFileType}" />
+                            <h:outputLabel value="Is folder:  #{filesBean.currentFileIsFolder}" /> 
+                            <h:link outcome="operations/download.xhtml" value="Download" rendered="#{filesBean.currentFileID ne null}">
+                                <f:param name="file_id" value="#{filesBean.currentFileID}"/>
+                            </h:link>
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+                    <div class="grid_3">
+                        <h3>Operations:</h3>
+                        <h:link class="button_green" outcome="/cabinet/operations/upload.xhtml" value="Upload File" style="width: auto; height: auto;">
+                            <f:param name="parent" value="#{param['folder']}"/>
+                        </h:link>
+                    </div>
                 </h:panelGroup>
-            </h:panelGrid>
-            </h:panelGroup>
-                
+
                 <h:panelGroup id ="user_groups" rendered="#{cabinetController.groupsVisible}" >
-                     <h1>Groups</h1>
-                    
+                    <h1>Groups</h1>
+
                     <h:form id="refresh_groups">
                         <h:commandLink value="refresh" actionListener="#{userInfoBean.refreshAction()}" class="btn btn-small" style="margin-left: 60%;" >
                             <i class="icon-refresh"></i>
                             <f:ajax render=":groups_list_form :refresh_groups :cabinetContentContainer" />
                         </h:commandLink>
                     </h:form>
-                <h:panelGrid id="groups_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
-                <h:outputLabel id ="groups_list_label" style="width: 300px;" class ="label label-info" value="Groups List" />
-                <h:outputLabel id ="groups_info_label" style="width: 300px;" class ="label label-info" value="Info" />
-                
-                 <h:form id="groups_list_form" >
-                     <ui:repeat var="item" value="#{userInfoBean.userGroups}" id="for_group" >
-                         <h:commandLink value="#{item.name}" actionListener="#{userInfoBean.processGroupNode(item)}">
-                                     <f:ajax render=":group_info" execute="@form" />
-                                 </h:commandLink>
-                                    <br/>
-                                </ui:repeat>
-                 </h:form>
-                 
-                <h:panelGroup id="group_info" >
-                    <h:outputLabel value="ID: #{userInfoBean.currentGroup.groupId}" />
-                    <h:outputLabel value="Name: #{userInfoBean.currentGroup.name}" />
-                    <h:outputLabel value="Description:  #{userInfoBean.currentGroup.description}" /> 
-                    <h:outputLabel value="Type:  #{userInfoBean.currentGroup.typeId.name}" /> 
-                    <h:outputLabel value="Users info:" /> 
-                    <ui:repeat var="item" value="#{userInfoBean.groupsUsers}" id="for_group_users" >
-                        <h:outputLabel value="ID: #{item.userId}  Name: #{item.name} " />
-                                   
-                                </ui:repeat>
+                    <h:panelGrid id="groups_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
+                        <h:outputLabel id ="groups_list_label" style="width: 300px;" class ="label label-info" value="Groups List" />
+                        <h:outputLabel id ="groups_info_label" style="width: 300px;" class ="label label-info" value="Info" />
+
+                        <h:form id="groups_list_form" >
+                            <ui:repeat var="item" value="#{userInfoBean.userGroups}" id="for_group" >
+                                <h:commandLink value="#{item.name}" actionListener="#{userInfoBean.processGroupNode(item)}">
+                                    <f:ajax render=":group_info" execute="@form" />
+                                </h:commandLink>
+                                <br/>
+                            </ui:repeat>
+                        </h:form>
+
+                        <h:panelGroup id="group_info" >
+                            <h:outputLabel value="ID: #{userInfoBean.currentGroup.groupId}" />
+                            <h:outputLabel value="Name: #{userInfoBean.currentGroup.name}" />
+                            <h:outputLabel value="Description:  #{userInfoBean.currentGroup.description}" /> 
+                            <h:outputLabel value="Type:  #{userInfoBean.currentGroup.typeId.name}" /> 
+                            <h:outputLabel value="Users info:" /> 
+                            <ui:repeat var="item" value="#{userInfoBean.groupsUsers}" id="for_group_users" >
+                                <h:outputLabel value="ID: #{item.userId}  Name: #{item.name} " />
+
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </h:panelGrid>
                 </h:panelGroup>
-            </h:panelGrid>
-                     </h:panelGroup>
-                
-                
+
+
                 <h:panelGroup id ="user_messages" rendered="#{cabinetController.messagesVisible}" >
-                     <h1>Messages</h1>
-                    
+                    <h1>Messages</h1>
+
                     <h:form id="refresh_messages">
                         <h:commandLink value="refresh" actionListener="#{userInfoBean.refreshAction()}" class="btn btn-small" style="margin-left: 60%;" >
                             <i class="icon-refresh"></i>
                             <f:ajax render=":messages_list_form :refresh_messages :cabinetContentContainer" />
                         </h:commandLink>
                     </h:form>
-                <h:panelGrid id="messages_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
-                <h:outputLabel id ="messages_list_label" style="width: 300px;" class ="label label-info" value="Message List" />
-                <h:outputLabel id ="messages_info_label" style="width: 300px;" class ="label label-info" value="Info" />
-                
-                 <h:form id="messages_list_form" >
-                     <ui:repeat var="item" value="#{userInfoBean.userMessages}" id="for_messages" >
-                         <h:commandLink value="message #{item.messageId}" actionListener="#{userInfoBean.processMessageNode(item)}">
-                                     <f:ajax render=":messages_info :group_access_form" execute="@form" />
-                                 </h:commandLink>
-                                    <br/>
-                                </ui:repeat>
-                 </h:form>
-                 
-                <h:panelGroup id="messages_info" >
-                    <h:outputLabel value="ID: #{userInfoBean.currentMessage.messageId}" />
-                    <h:outputLabel value="Date Send: #{userInfoBean.currentMessage.dateSend}" />
-                    <h:outputLabel value="Date Resieved: #{userInfoBean.currentMessage.dateRecieved}" />
-                    <h:outputLabel value="Sender: #{userInfoBean.currentMessage.senderId.userId}" />
-                    <h:outputLabel value="Message: #{userInfoBean.currentMessage.message}" />
-                    <h:form id="group_access_form">
-                        <h:panelGroup class="btn-group">
-                            <h:commandLink value="Accept" class="btn btn-small" actionListener="#{userInfoBean.acceptRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
-                                <f:ajax execute="@form" render=":user_messages :messages_info"/>
-                            </h:commandLink>
-                            <h:commandLink value="Deny" class="btn btn-small" actionListener="#{userInfoBean.denyRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
-                                  <f:ajax execute="@form" render=":user_messages :messages_info"/>
-                            </h:commandLink>
-                        </h:panelGroup>    
-                    </h:form>    
+                    <h:panelGrid id="messages_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
+                        <h:outputLabel id ="messages_list_label" style="width: 300px;" class ="label label-info" value="Message List" />
+                        <h:outputLabel id ="messages_info_label" style="width: 300px;" class ="label label-info" value="Info" />
+
+                        <h:form id="messages_list_form" >
+                            <ui:repeat var="item" value="#{userInfoBean.userMessages}" id="for_messages" >
+                                <h:commandLink value="message #{item.messageId}" actionListener="#{userInfoBean.processMessageNode(item)}">
+                                    <f:ajax render=":messages_info :group_access_form" execute="@form" />
+                                </h:commandLink>
+                                <br/>
+                            </ui:repeat>
+                        </h:form>
+
+                        <h:panelGroup id="messages_info" >
+                            <h:outputLabel value="ID: #{userInfoBean.currentMessage.messageId}" />
+                            <h:outputLabel value="Date Send: #{userInfoBean.currentMessage.dateSend}" />
+                            <h:outputLabel value="Date Resieved: #{userInfoBean.currentMessage.dateRecieved}" />
+                            <h:outputLabel value="Sender: #{userInfoBean.currentMessage.senderId.userId}" />
+                            <h:outputLabel value="Message: #{userInfoBean.currentMessage.message}" />
+                            <h:form id="group_access_form">
+                                <h:panelGroup class="btn-group">
+                                    <h:commandLink value="Accept" class="btn btn-small" actionListener="#{userInfoBean.acceptRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
+                                        <f:ajax execute="@form" render=":user_messages :messages_info"/>
+                                    </h:commandLink>
+                                    <h:commandLink value="Deny" class="btn btn-small" actionListener="#{userInfoBean.denyRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
+                                        <f:ajax execute="@form" render=":user_messages :messages_info"/>
+                                    </h:commandLink>
+                                </h:panelGroup>    
+                            </h:form>    
+                        </h:panelGroup>
+                    </h:panelGrid>
                 </h:panelGroup>
-            </h:panelGrid>
-                 </h:panelGroup>
-                
+
                 <h:panelGroup id ="user_profile" rendered="#{cabinetController.profileVisible}" >
-                    
-                     <h1>Profile</h1>
-                     <h:panelGroup id="user_profile_group">
-                         
-                     <h:panelGroup id="user_group_info" style="width: 100%;">
-                         <h:panelGrid id="user_info_grid" columns="2" class="table table-striped">
-                             <h:outputLabel class="profileTableLeft" value="ID: " />
-                             <h:outputLabel value="#{userInfoBean.userId}" style="text-align: left; width: 300px;" />
-                             <h:outputLabel class="profileTableLeft" value="Name: " />
-                             <h:outputLabel value="#{userInfoBean.userName}" />
-                             <h:outputLabel class="profileTableLeft" value="Surname: " />
-                             <h:outputLabel value="#{userInfoBean.surName}" />
-                             <h:outputLabel class="profileTableLeft" value="Date of creation:  " />
-                             <h:outputLabel value="#{userInfoBean.dateCreation}" />
-                             <h:outputLabel class="profileTableLeft" value="Date suspended:  " />
-                             <h:outputLabel value="#{userInfoBean.dateSuspend}" />
-                             <h:outputLabel class="profileTableLeft" value="Email:  " />
-                             <h:outputLabel value="#{userInfoBean.email}" />
-                             <h:outputLabel class="profileTableLeft" value="Information: " /> 
-                             <h:outputLabel value="#{userInfoBean.information}" /> 
-                         </h:panelGrid>
-                         <a id="change_button" class="button_green" href="javascript:void(0);" onclick="hideUserInfo();">Change</a>
-                     </h:panelGroup>
-                     
-                     
-                     <h:panelGroup id="user_edit_group" style="width: 100%; display: none;">
-                         <h:form id="change_info_form">
-                          <h:panelGrid id="change_grid_info" columns="2" class="table table-striped">
-                            <h:outputLabel class="profileTableLeft" value="ID: " />
-                            <h:outputLabel value="#{userInfoBean.userId}" />
-                            <h:outputLabel class="profileTableLeft" value="Name: " />
-                            <h:inputText value="#{userInfoBean.userName}" />
-                            <h:outputLabel class="profileTableLeft" value="Surname: " />
-                            <h:inputText value="#{userInfoBean.surName}" />
-                            <h:outputLabel class="profileTableLeft" value="Date of creation:  " />
-                            <h:outputLabel value="#{userInfoBean.dateCreation}" />
-                            <h:outputLabel class="profileTableLeft" value="Date suspended:  " />
-                            <h:outputLabel value="#{userInfoBean.dateSuspend}" />
-                            <h:outputLabel class="profileTableLeft" value="Email:  " />
-                            <h:outputLabel value="#{userInfoBean.email}" />
-                            <h:outputLabel class="profileTableLeft" value="Information: " /> 
-                            <h:inputText value="#{userInfoBean.information}" /> 
-                         </h:panelGrid>
-                             <h:commandLink onclick="hideUserForm()" id="save_button" class="button_green" value="Save" actionListener="#{userInfoBean.saveParametersAction}">
-                                 <f:ajax render=":user_profile_group :change_info_form" execute=":change_info_form"/>
-                             </h:commandLink>
-                        </h:form>     
-                     </h:panelGroup>
-                     
-                      <script type="text/javascript">
-                function hideUserInfo() {
-                    $('#user_group_info').css('display', 'none');
-                    $('#user_group_info').css('width', '100%');
-                    $('#user_edit_group').css('display', 'inline-block');
-                    $('#user_edit_group').css('width', '100%');
-                    $('#change_button').css('display', 'none');
-                    $('#save_button').css('display', 'inline-block');
-//                    if($('#encription_type').val() != 'plain')
-//                        $('#secret_key').css('display', 'inline-block');
-//                    else {
-//                        $('#secret_key').css('display', 'none');
-//                        $('#secret_key').val('');
-//                    }
-                }
-                function hideUserForm() {
-                 $('#user_group_info').css('display', 'inline-block');
-                 $('#user_group_info').css('width', '100%');
-                 $('#user_edit_group').css('display', 'none');
-                 $('#user_edit_group').css('width', '100%');
-                 $('#change_button').css('display', 'inline-block');
-                 $('#save_button').css('display', 'none');
-            }
-            </script>
-                     </h:panelGroup>  
-                 </h:panelGroup>
-                <h:panelGroup id ="user_history" rendered="#{cabinetController.historyVisible}" >
-                     <h1>History</h1>
-                                           
-                             <h:form id="history_table"> 
-                                 <h:panelGroup class="btn-group">
-                                     <h:commandLink class="btn btn-small" style="margin-left: 64%; margin-bottom: 17px;" actionListener="#{userInfoBean.previousAction()}">
-                                       <i class="icon-arrow-left" />
-                                       <f:ajax render=":user_history :history_table" />
-                                    </h:commandLink>
-                                     <h:commandLink class="btn btn-small" style="margin-bottom: 17px;" actionListener="#{userInfoBean.nextAction()}">
-                                       <i class="icon-arrow-right" />
-                                       <f:ajax render=":user_history :history_table" />
-                                    </h:commandLink>
-                                      <h:commandLink value="refresh" class="btn btn-small" actionListener="#{userInfoBean.refreshAction()}"  style="margin-bottom: 17px;">
-                                            <i class="icon-refresh"></i>
-                                            <f:ajax render=":history_table :cabinetContentContainer" />
-                                     </h:commandLink>
-                                    <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#" style="margin-bottom: 17px;">
-                                        Show
-                                        <span class="caret"></span>
-                                    </a>
-                                    
-                                     <ul class="dropdown-menu has-tip" style="margin-left: 92%; width: 63px;">
-                                         <div class="btn-group btn-group-vertical">
- 
-                                             <h:commandLink value="10" class="btn btn-mini" style="width: 21px;" actionListener="#{userInfoBean.setStepAction(10)}" >
-                                                  <f:ajax render=":user_history :history_table" />
-                                            </h:commandLink>
-                                          <h:commandLink value="20" class="btn btn-mini" style="width: 21px;" actionListener="#{userInfoBean.setStepAction(20)}" >
-                                                  <f:ajax render=":user_history :history_table" />
-                                            </h:commandLink>
-                                            
-                                         </div>
-                                         
-                    
-                                     </ul>
-                                     
-                                     
-                                                                       
-                                      
-                                 </h:panelGroup>
-                                
-                                 <table class="table table-striped">
-                                      <tr>
-                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Log Id"/></td>
-                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Ip"/></td>
-<!--                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Options"/></td>-->
-                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Date"/></td>                                         
-                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Message"/></td>
-                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Action Name"/></td>
-                                     </tr>
-                                     <ui:repeat var="item" value="#{userInfoBean.nextHistoryElements}" id="for_history" >
-                                    <tr>
-                                        <td><h:outputLabel style="width: 150px;" value="#{item.logId}"/></td>
-                                        <td><h:outputLabel style="width: 150px;" value="#{item.ipAdress}"/></td>
-                                        <td><h:outputLabel style="width: 150px;" value="#{item.dateCreation}"/></td>
-                                        <td><h:outputLabel style="width: 150px;" value="#{item.message}"/></td>
-                                        <td><h:outputLabel style="width: 150px;" value="#{item.typeActionId.name}"/></td>
-                                    </tr> 
-                                    </ui:repeat>
-                                 </table>
-                                 <h:outputLabel style="font-weight:bold; text-align: center" value="Page #{userInfoBean.historyPage} of #{userInfoBean.historyPagesCount}"/>
-                             </h:form>    
-                          
+
+                    <h1>Profile</h1>
+                    <h:panelGroup id="user_profile_group">
+
+                        <h:panelGroup id="user_group_info" style="width: 100%;">
+                            <h:panelGrid id="user_info_grid" columns="2" class="table table-striped">
+                                <h:outputLabel class="profileTableLeft" value="ID: " />
+                                <h:outputLabel value="#{userInfoBean.userId}" style="text-align: left; width: 300px;" />
+                                <h:outputLabel class="profileTableLeft" value="Name: " />
+                                <h:outputLabel value="#{userInfoBean.userName}" />
+                                <h:outputLabel class="profileTableLeft" value="Surname: " />
+                                <h:outputLabel value="#{userInfoBean.surName}" />
+                                <h:outputLabel class="profileTableLeft" value="Date of creation:  " />
+                                <h:outputLabel value="#{userInfoBean.dateCreation}" />
+                                <h:outputLabel class="profileTableLeft" value="Date suspended:  " />
+                                <h:outputLabel value="#{userInfoBean.dateSuspend}" />
+                                <h:outputLabel class="profileTableLeft" value="Email:  " />
+                                <h:outputLabel value="#{userInfoBean.email}" />
+                                <h:outputLabel class="profileTableLeft" value="Information: " /> 
+                                <h:outputLabel value="#{userInfoBean.information}" /> 
+                            </h:panelGrid>
+                            <a id="change_button" class="button_green" href="javascript:void(0);" onclick="hideUserInfo();">Change</a>
+                        </h:panelGroup>
+
+
+                        <h:panelGroup id="user_edit_group" style="width: 100%; display: none;">
+                            <h:form id="change_info_form">
+                                <h:panelGrid id="change_grid_info" columns="2" class="table table-striped">
+                                    <h:outputLabel class="profileTableLeft" value="ID: " />
+                                    <h:outputLabel value="#{userInfoBean.userId}" />
+                                    <h:outputLabel class="profileTableLeft" value="Name: " />
+                                    <h:inputText value="#{userInfoBean.userName}" />
+                                    <h:outputLabel class="profileTableLeft" value="Surname: " />
+                                    <h:inputText value="#{userInfoBean.surName}" />
+                                    <h:outputLabel class="profileTableLeft" value="Date of creation:  " />
+                                    <h:outputLabel value="#{userInfoBean.dateCreation}" />
+                                    <h:outputLabel class="profileTableLeft" value="Date suspended:  " />
+                                    <h:outputLabel value="#{userInfoBean.dateSuspend}" />
+                                    <h:outputLabel class="profileTableLeft" value="Email:  " />
+                                    <h:outputLabel value="#{userInfoBean.email}" />
+                                    <h:outputLabel class="profileTableLeft" value="Information: " /> 
+                                    <h:inputText value="#{userInfoBean.information}" /> 
+                                </h:panelGrid>
+                                <h:commandLink onclick="hideUserForm()" id="save_button" class="button_green" value="Save" actionListener="#{userInfoBean.saveParametersAction}">
+                                    <f:ajax render=":user_profile_group :change_info_form" execute=":change_info_form"/>
+                                </h:commandLink>
+                            </h:form>     
+                        </h:panelGroup>
+
+                        <script type="text/javascript">
+                            function hideUserInfo() {
+                                $('#user_group_info').css('display', 'none');
+                                $('#user_group_info').css('width', '100%');
+                                $('#user_edit_group').css('display', 'inline-block');
+                                $('#user_edit_group').css('width', '100%');
+                                $('#change_button').css('display', 'none');
+                                $('#save_button').css('display', 'inline-block');
+                                //                    if($('#encription_type').val() != 'plain')
+                                //                        $('#secret_key').css('display', 'inline-block');
+                                //                    else {
+                                //                        $('#secret_key').css('display', 'none');
+                                //                        $('#secret_key').val('');
+                                //                    }
+                            }
+                            function hideUserForm() {
+                                $('#user_group_info').css('display', 'inline-block');
+                                $('#user_group_info').css('width', '100%');
+                                $('#user_edit_group').css('display', 'none');
+                                $('#user_edit_group').css('width', '100%');
+                                $('#change_button').css('display', 'inline-block');
+                                $('#save_button').css('display', 'none');
+                            }
+                        </script>
+                    </h:panelGroup>  
                 </h:panelGroup>
-<!--           
-            <H3>HERE will be the main page of the user cabinet.</H3>
-            
-            <p><strong>Here is an example of long article.</strong></p>
-            
-            <p>Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipiscing elit. Aenean at vestibulum nunc. Sed augue magna, molestie at varius vitae, aliquam et purus. Quisque lacus enim, cursus a ornare non, ultricies quis nisl. Morbi eget velit dignissim ante sodales fringilla. Vestibulum molestie sagittis neque quis dignissim.</p>
-            <p><strong>Integer congue, erat id lobortis rutrum, libero dolor cursus nibh, vel volutpat lectus sem vulputate nisi.</strong></p>
-            <p>Donec enim ligula, malesuada et elementum non, euismod eu neque. Vivamus lorem elit, malesuada nec egestas eu, congue eget justo. Aliquam laoreet dictum tristique. Duis quam tortor, ultricies sit amet euismod sed, auctor quis mauris. Phasellus ac sollicitudin nisl.</p>
-            <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-            <p>Maecenas ac justo leo. Quisque auctor neque et tortor molestie at porta lorem faucibus. Sed eget nisi quis dolor posuere condimentum. Suspendisse sem justo, lacinia iaculis fermentum in, tempus vel magna. Morbi metus tortor, volutpat vitae posuere non, commodo nec lectus.</p>
+                <h:panelGroup id ="user_history" rendered="#{cabinetController.historyVisible}" >
+                    <h1>History</h1>
 
-            <div class="space"></div>
-            <hr />
+                    <h:form id="history_table"> 
+                        <h:panelGroup class="btn-group">
+                            <h:commandLink class="btn btn-small" style="margin-left: 64%; margin-bottom: 17px;" actionListener="#{userInfoBean.previousAction()}">
+                                <i class="icon-arrow-left" />
+                                <f:ajax render=":user_history :history_table" />
+                            </h:commandLink>
+                            <h:commandLink class="btn btn-small" style="margin-bottom: 17px;" actionListener="#{userInfoBean.nextAction()}">
+                                <i class="icon-arrow-right" />
+                                <f:ajax render=":user_history :history_table" />
+                            </h:commandLink>
+                            <h:commandLink value="refresh" class="btn btn-small" actionListener="#{userInfoBean.refreshAction()}"  style="margin-bottom: 17px;">
+                                <i class="icon-refresh"></i>
+                                <f:ajax render=":history_table :cabinetContentContainer" />
+                            </h:commandLink>
+                            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#" style="margin-bottom: 17px;">
+                                Show
+                                <span class="caret"></span>
+                            </a>
 
-            <a href="#" class="button_grey_big">Big grey button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_green_big">Big green button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_grey">Grey button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_green">Green button</a><h:outputText value="&#160;" />
-            <a href="#" class="read_more">Read more</a>
+                            <ul class="dropdown-menu has-tip" style="margin-left: 92%; width: 63px;">
+                                <div class="btn-group btn-group-vertical">
 
-            <div class="space"></div>
-            <hr />
+                                    <h:commandLink value="10" class="btn btn-mini" style="width: 21px;" actionListener="#{userInfoBean.setStepAction(10)}" >
+                                        <f:ajax render=":user_history :history_table" />
+                                    </h:commandLink>
+                                    <h:commandLink value="20" class="btn btn-mini" style="width: 21px;" actionListener="#{userInfoBean.setStepAction(20)}" >
+                                        <f:ajax render=":user_history :history_table" />
+                                    </h:commandLink>
 
-            <h2>Headline &lt;h2&gt;</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+                                </div>
 
-            <h3>Headline &lt;h3&gt;</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
 
-            <h4>Headline &lt;h4&gt;</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+                            </ul>
 
-            <h5>Headline &lt;h5&gt;</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+                        </h:panelGroup>
 
-            <h6>Headline &lt;h6&gt;</h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
+                        <table class="table table-striped">
+                            <tr>
+                                <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Log Id"/></td>
+                                <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Ip"/></td>
+                                <!--                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Options"/></td>-->
+                                <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Date"/></td>                                         
+                                <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Message"/></td>
+                                <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Action Name"/></td>
+                            </tr>
+                            <ui:repeat var="item" value="#{userInfoBean.nextHistoryElements}" id="for_history" >
+                                <tr>
+                                    <td><h:outputLabel style="width: 150px;" value="#{item.logId}"/></td>
+                                    <td><h:outputLabel style="width: 150px;" value="#{item.ipAdress}"/></td>
+                                    <td><h:outputLabel style="width: 150px;" value="#{item.dateCreation}"/></td>
+                                    <td><h:outputLabel style="width: 150px;" value="#{item.message}"/></td>
+                                    <td><h:outputLabel style="width: 150px;" value="#{item.typeActionId.name}"/></td>
+                                </tr> 
+                            </ui:repeat>
+                        </table>
+                        <h:outputLabel style="font-weight:bold; text-align: center" value="Page #{userInfoBean.historyPage} of #{userInfoBean.historyPagesCount}"/>
+                    </h:form>    
 
-            <div class="space"></div>
-            <hr />
-
-            <h2><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h2&gt;</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h3><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h3&gt;</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h4><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h4&gt;</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h5><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h5&gt;</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h6><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h6&gt;</h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <h4 class="small_section">Small section headline</h4>
-            <p>Maecenas non tempor nisl. In hac habitasse platea dictumst. Etiam sagittis viverra cursus.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <p class="message_good message">This is a good message.</p>
-            <p class="message_bad message">This is a bad message.</p>
-            <p class="message_info message">You should know about this message.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <ul>
-                <li>Lorem ipsum</li>
-                <li>Praesent metu</li>
-                <li>Integer congue</li>
-                <li>Phasellus</li>
-                <li>
-                    Mentum interdum
-                    <ul>
-                        <li>Lorem ipsum</li>
-                        <li>Praesent metu</li>
-                        <li>Integer congue</li>
-                    </ul>
-                </li>
-            </ul>-->
-</h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
         </ui:define>
-        
-        <ui:define name="toolbar">
-            <a href="#" class="hide"><img src="img/hide.png" alt="" /></a>
 
-            <div class="options float">
-                <section class="header_color clearfix">
-                    <h2>Operations:</h2>
-                    <h:link class="button_grey" outcome="/cabinet/operations/upload.xhtml" value="Upload File" style="width: auto; height: auto;">
-                        <f:param name="parent" value="#{param['folder']}"/>
-                    </h:link>
-                </section>
-                
-            </div>
-        </ui:define>
     </ui:composition>
 
 </html>

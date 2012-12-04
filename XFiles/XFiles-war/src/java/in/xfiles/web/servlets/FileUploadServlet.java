@@ -3,6 +3,7 @@ package in.xfiles.web.servlets;
 import in.xfiles.core.ejb.FileManagerLocal;
 import in.xfiles.core.ejb.LogManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
+import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
@@ -10,6 +11,9 @@ import in.xfiles.core.wrappers.UploadedFileWrapper;
 import in.xfiles.web.utils.SessionHelper;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,6 +47,7 @@ public class FileUploadServlet extends HttpServlet {
     public static final String PARENT_FILE_ID_PARAM = "parent_file_id";
     public static final String GROUP_ID_PARAM = "group_id";
     public static final String SECRET_KEY_PARAM = "secret_key";
+    public static final String GROUP_USERS_PARAM = "group_users[]";
     
     private String redirect, errorRedirect;
     
@@ -82,6 +87,7 @@ public class FileUploadServlet extends HttpServlet {
         String parentFileId = getValidParameter(request, PARENT_FILE_ID_PARAM);
         String groupId = getValidParameter(request, GROUP_ID_PARAM);
         String secretKey = getValidParameter(request, SECRET_KEY_PARAM);
+        String[] groupUsers = request.getParameterValues(GROUP_USERS_PARAM);
         
         Object o = request.getAttribute(FILE_PARAM);
         if(o == null) {
@@ -109,6 +115,24 @@ public class FileUploadServlet extends HttpServlet {
                 ufw.setEncryptionType(encryptionType);
                 ufw.setAccessType(accessType);
                 ufw.setUploadedBy(um.getUserById(userId));
+                if(groupUsers != null && groupUsers.length > 2) {
+                    Set<User> groupUsersSet = new HashSet<User>();
+                    groupUsersSet.add(um.getUserById(userId));
+                    for(String s: groupUsers) {
+                        if(!StringUtils.isValidInteger(s)) {
+                            throw new IllegalArgumentException("Invalid userId: "+s);
+                        }
+                        User gu = um.getUserById(Long.parseLong(s));
+                        if(gu == null) {
+                            throw new IllegalArgumentException("Invalid userId: "+s);
+                        }
+                        groupUsersSet.add(gu);
+                    }
+                    if(groupUsersSet.size() < 3) {
+                        throw new IllegalArgumentException("We need at least 3 users to create a group");
+                    }    
+                    ufw.setGroupUsers(groupUsersSet);
+                }
                 fm.processFile(ufw);
                 log.info("File is sent to the core for processing: "+ufw);
             } catch (Exception ex) {
