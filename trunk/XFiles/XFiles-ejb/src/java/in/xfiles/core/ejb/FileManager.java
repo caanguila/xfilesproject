@@ -292,7 +292,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             request.setUser(user);
             request.setFile(file);
             request.setDateRequested(new Date());
-            request.setStatus(DownloadRequest.APPROVED_STATUS);
+            request.setStatus(DownloadRequest.REQUESTED_STATUS);
             request.setProperties("");
             em.persist(request);
             Groups group = null;
@@ -465,7 +465,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         if (userId == null) {
             return Collections.EMPTY_LIST;
         }
-        return em.createQuery("SELECT r FROM DownloadRequest r WHERE r.user.userId = :userId order by r.dateRequested", DownloadRequest.class).setParameter("userId", userId).getResultList();
+        return em.createQuery("SELECT r FROM DownloadRequest r WHERE r.user.userId = :userId order by r.dateRequested desc", DownloadRequest.class).setParameter("userId", userId).getResultList();
     }
 
     @Override

@@ -2,6 +2,7 @@ package in.xfiles.core.quartz.jobs;
 
 import in.xfiles.core.helpers.EJBHelper;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
@@ -26,7 +27,7 @@ public abstract class BaseJob implements Job {
         try {
             entityManager = EJBHelper.getInstance().getEntityManager();
             if(isTransacted()) {
-                EJBHelper.getInstance().resolve("java:comp/UserTransaction", UserTransaction.class);
+                userTransaction = EJBHelper.getInstance().resolve("java:comp/UserTransaction", UserTransaction.class);
             }
         } catch (Exception ex) {
             System.err.println("BaseJob.init(): failed");
@@ -38,7 +39,7 @@ public abstract class BaseJob implements Job {
     public abstract void execute(JobExecutionContext jec) throws JobExecutionException;
     
     protected boolean isTransacted() {
-        return false;
+        return true;
     }
     
     protected UserTransaction getUserTransaction() {
@@ -65,6 +66,12 @@ public abstract class BaseJob implements Job {
         UserTransaction utx = getUserTransaction();    
         if(utx!= null)
             utx.rollback();
+    }
+    
+    protected void finish() {
+        EntityManagerFactory f = getEntityManager().getEntityManagerFactory();
+        getEntityManager().close();
+        f.close();
     }
     
 }

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
@@ -41,6 +40,7 @@ public class UpdateRequestExpirationJob extends BaseJob {
                 if(log.isTraceEnabled()) {
                     log.trace("execute(): Nothing to update/remove.");
                     rollbackTransaction();
+                    finish();
                     return;
                 }
             }
@@ -50,8 +50,9 @@ public class UpdateRequestExpirationJob extends BaseJob {
                     .setParameter("readyStatus", DownloadRequest.READY_STATUS)
                     .setParameter("dateProvided", date)
                     .executeUpdate();
-            commitTransaction();
             em.flush();
+            commitTransaction();
+            
             if(log.isTraceEnabled()) {
                 log.trace("execute(): "+r+" request have been marked EXPIRED");
             }
@@ -87,12 +88,6 @@ public class UpdateRequestExpirationJob extends BaseJob {
     @Override
     public boolean isTransacted() {
         return true;
-    }
-    
-    protected void finish() {
-        EntityManagerFactory emf = getEntityManager().getEntityManagerFactory();
-        getEntityManager().close();
-        emf.close();
     }
     
 }
