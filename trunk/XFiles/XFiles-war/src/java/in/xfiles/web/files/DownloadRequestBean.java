@@ -10,6 +10,7 @@ import in.xfiles.web.utils.JSFHelper;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -26,15 +27,34 @@ public class DownloadRequestBean implements Serializable {
     @EJB
     private FileManagerLocal fm;
     
+    // initialized in constructor
     private String key;
     private String fileId;
+    
+    // initialized in PostConstruct method
+    private boolean canDownload = false;
+    private boolean fileExists;
+    private Files file;
     
     /**
      * Creates a new instance of DownloadRequestBean
      */
     public DownloadRequestBean() {
         fileId = StringUtils.getValidString(JSFHelper.getRequest().getParameter("file_id"));
-        System.err.println("init!");
+        key = null;
+    }
+    
+    @PostConstruct
+    private void init() {
+        long fileId = StringUtils.getValidInt(this.fileId);
+        fileExists = fm.fileExists(fileId);
+        if(fileExists) {
+            canDownload = fm.canDownload(JSFHelper.getUserId(), fileId);
+            if(canDownload) {
+                file = fm.getFileById(JSFHelper.getUserId(), fileId);
+            }
+        }
+        
     }
 
     public String getKey() {
@@ -52,6 +72,14 @@ public class DownloadRequestBean implements Serializable {
     public void setFileId(String fileId) {
         this.fileId = fileId;
     }
+
+    public boolean isCanDownload() {
+        return canDownload;
+    }
+
+    public boolean isFileExists() {
+        return fileExists;
+    }
     
     /**
      * Get all download requests made by current user
@@ -62,20 +90,12 @@ public class DownloadRequestBean implements Serializable {
     }
     
     public void createRequest(ActionEvent evt) {
-        System.err.println("hello");
         long fileId = StringUtils.getValidInt(this.fileId);
         fm.requestDownload(JSFHelper.getUserId(), fileId, CryptoHelper.SHA256(key));
-        System.err.println("Download has been requested");
-    }
-    
-    public boolean fileExists() {
-        long fileId = StringUtils.getValidInt(this.fileId);
-        return fm.fileExists(JSFHelper.getUserId(), fileId);
     }
     
     public Files getFile() {
-        long fileId = StringUtils.getValidInt(this.fileId);
-        return fm.getFileById(JSFHelper.getUserId(), fileId);
+        return file;
     }
     
     public boolean isPasswordNeeded() {
@@ -84,9 +104,7 @@ public class DownloadRequestBean implements Serializable {
             return false;
       
         Long type = f.getEncTypeId().getTypeId();
-//        boolean res = type != CommonConstants.PLAIN_ENCRYPTION_TYPE && type != CommonConstants.GROUP_FILE_TYPE;
-//        System.out.println("res: "+res+" filetype: "+type+"  plain: "+CommonConstants.PLAIN_ENCRYPTION_TYPE+"  group: "+CommonConstants.GROUP_FILE_TYPE);
-        return type != CommonConstants.PLAIN_ENCRYPTION_TYPE && f.getTypeId().getTypeId() != CommonConstants.GROUP_FILE_TYPE;
-        //return false;
+        return type != CommonConstants.PLAIN_ENCRYPTION_TYPE 
+                    && f.getTypeId().getTypeId() != CommonConstants.GROUP_FILE_TYPE;
     }
 }

@@ -15,8 +15,29 @@
         </ui:define>
 
         <ui:define name="content">
-            <h:form id="create_request_form">    
-                <h:panelGroup id="request_download_controls" rendered="#{downloadRequestBean.fileExists()}">
+            <h:form id="create_request_form" rendered="#{downloadRequestBean.canDownload}"> 
+                You are about to download file ##{downloadRequestBean.fileId}.
+                <h:panelGrid class="table" columns="2">
+                    <h:outputText value="File Name:"/> 
+                    <h:outputText value="#{downloadRequestBean.file.name}"/>
+
+                    <h:outputText value="Description:"/>
+                    <h:outputText value="#{downloadRequestBean.file.description}"/>
+
+                    <h:outputText value="Content-type:"/>
+                    <h:outputText value="#{downloadRequestBean.file.contentType}"/>
+
+                    <h:outputText value="Uploaded by:"/>
+                    <h:outputText value="#{downloadRequestBean.file.createdBy.name} #{downloadRequestBean.file.createdBy.surname}"/>
+
+                    <h:outputText value="File Size (kbytes):"/>
+                    <h:outputText value="#{downloadRequestBean.file.size/(1024*1024)}">
+                        <f:convertNumber pattern="#0.00"/>
+                    </h:outputText>
+
+                    <h:outputText value="Checksum (CRC32):"/> <h:outputText value="#{downloadRequestBean.file.crc}"/>
+                </h:panelGrid>
+                <h:panelGroup id="request_download_controls">
                     <h:panelGrid columns="2">
                         <h:outputText value="Password" rendered="#{downloadRequestBean.passwordNeeded}"/>
                         <h:inputSecret value="#{downloadRequestBean.key}" rendered="#{downloadRequestBean.passwordNeeded}"/>
@@ -24,10 +45,20 @@
                         <h:commandLink id="request_download_btn" actionListener="#{downloadRequestBean.createRequest}" 
                                        class="button_green" value="Request Download" 
                                        onclick="$('#request_download_controls').css('display', 'none');">
-                            <f:ajax execute=":create_request_form requests" />
+                            <f:ajax execute="@form" onevent="handleRequestDownload"/>
                         </h:commandLink>
                     </h:panelGrid>
                 </h:panelGroup>
+            </h:form>
+            <h:panelGroup rendered="#{!downloadRequestBean.canDownload}" class="grid_8">
+                <ul class="message">
+                    <li class="message_bad">
+                        <h:panelGroup rendered="#{!downloadRequestBean.fileExists}">The requested file does not exists.</h:panelGroup>
+                        <h:panelGroup rendered="#{downloadRequestBean.fileExists}">You don't have permissions to download this file.</h:panelGroup>
+                    </li>
+                </ul>
+            </h:panelGroup>
+            <div class="grid_10">
                 <p></p>
                 <h3>All your download requests:</h3>
                 <h:panelGroup id="requests">
@@ -54,8 +85,13 @@
                         </ui:repeat>
                     </table>
                 </h:panelGroup>
-            </h:form>
-
+            </div>
+            <script type="text/javascript">
+                function handleRequestDownload(e) {
+                    if(e.status === 'success')
+                        $('#create_request_form').remove();
+                }
+            </script>
         </ui:define>
 
     </ui:composition>

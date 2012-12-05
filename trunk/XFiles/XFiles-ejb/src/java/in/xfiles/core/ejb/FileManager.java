@@ -432,9 +432,14 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             return null;
         }
     }
+    
+    public boolean fileExists(long fileId) {
+        Files f = em.find(Files.class, fileId);
+        return f != null;
+    }
 
     @Override
-    public boolean fileExists(Long userId, long fileId) {
+    public boolean canDownload(Long userId, long fileId) {
         if (userId == null) {
             return false;
         }
@@ -442,18 +447,43 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         if (f == null) {
             return false;
         }
+        User u = em.find(User.class, userId);
+        if(u == null) {
+            // illegal user
+            return false;
+        }
+        // TODO: As Administrator, I should be able to download any file.
+//        if(ADMINISTRATOR_USER_TYPE.equals(u.getTypeId().getTypeId())) {
+//            // I am admin!
+//            return true;
+//        }
+        
         if (PUBLIC_FILE_TYPE.equals(f.getTypeId().getTypeId())) {
+            // public file
             return true;
         }
-        if (f.getUsersCollection().contains(em.find(User.class, userId))) {
+        if (f.getUsersCollection().contains(u)) {
+            // I am the owner
             return true;
+        }
+        if(GROUP_FILE_TYPE.equals(f.getTypeId().getTypeId())) {
+            Collection<Groups> groups = f.getGroupsCollection();
+            if(groups == null || groups.isEmpty()) {
+                return false;
+            }
+            for(Groups g: groups) {
+                if(g.getUsersCollection().contains(u)) {
+                    // I'm is partisipant of the group
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     @Override
     public Files getFileById(Long userId, long fileId) {
-        if (fileExists(userId, fileId)) {
+        if (canDownload(userId, fileId)) {
             return em.find(Files.class, fileId);
         } else {
             return null;
@@ -465,7 +495,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         if (userId == null) {
             return Collections.EMPTY_LIST;
         }
-        return em.createQuery("SELECT r FROM DownloadRequest r WHERE r.user.userId = :userId order by r.dateRequested desc", DownloadRequest.class).setParameter("userId", userId).getResultList();
+        return em.createQuery("SELECT r FROM DownloadRequest r WHERE r.user.userId = :userId and r.status <> 3 order by r.dateRequested desc", DownloadRequest.class).setParameter("userId", userId).getResultList();
     }
 
     @Override
@@ -480,7 +510,7 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             log.warn("File can't be "+file);
             return null;
         }
-       return  em.createQuery("SELECT r FROM DownloadRequest r WHERE r.file=:userFile")
+       return  em.createQuery("SELECT r FROM DownloadRequest r WHERE r.file=:userFile and r.status <> 3 order by r.dateRequested desc")
                .setParameter("userFile", file).getResultList();
     }
 }
