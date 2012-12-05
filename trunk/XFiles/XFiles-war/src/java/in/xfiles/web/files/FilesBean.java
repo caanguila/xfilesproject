@@ -5,6 +5,7 @@
 package in.xfiles.web.files;
 
 import in.xfiles.core.ejb.FileManagerLocal;
+import in.xfiles.core.entity.DownloadRequest;
 import in.xfiles.core.entity.Files;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.web.utils.JSFHelper;
@@ -81,8 +82,15 @@ public class FilesBean implements Serializable{
 
   
   
+    public List<DownloadRequest> getdownloadRequestsByFile(){
+        
+        return bean.getDownloadRequestByFile(currentFile);
+    }
     
-     
+    public boolean isCurrentFileSelected(){
+        if(currentFile != null) return true;        
+        return false;
+    }
       
      public Files getCurrentFile(){
          System.out.println("ID");

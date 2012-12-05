@@ -15,7 +15,7 @@
             <h:form id="controll_panel_form" >
                 <ul>
                     <li><h:commandLink id="files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
-                            <f:ajax render=":cabinetContentContainer :refresh_files_tree :files_list_form" />
+                            <f:ajax render=":cabinetContentContainer :refresh_files_tree :files_list_form :request_by_file " />
                         </h:commandLink></li>
 
                     <li><h:commandLink id="group_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
@@ -47,14 +47,15 @@
                             </h:commandLink>
                         </div>
                     </h:form>
+                    <h:panelGrid columns="1">
                     <h:panelGrid id="files_tree_grid" columns="2" class="table table-hover grid_8" style="text-align: left;" >
-                        <h:outputLabel id ="files_list_label" style="width: 300px;" class ="label label-info" value="Files List" />
-                        <h:outputLabel id ="files_info_label" style="width: 260px;" class ="label label-info" value="Info" />
+                        <h:outputLabel id ="files_list_label" style="width: 350px;" class ="label label-info" value="Files List" />
+                        <h:outputLabel id ="files_info_label" style="width: 350px;" class ="label label-info" value="Info" />
 
                         <h:form id="files_list_form" >
                             <ui:repeat var="item" value="#{filesBean.tableElements}" id="for" >
                                 <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}" style="#{filesBean.fileStyle(item)}}">
-                                    <f:ajax render=":file_info" execute="@form" />
+                                    <f:ajax render=":file_info :request_by_file" execute="@form" />
                                 </h:commandLink>
                                 <br/>
                             </ui:repeat>
@@ -73,6 +74,37 @@
                             </h:link>
                         </h:panelGroup>
                     </h:panelGrid>
+                        
+                      
+                               <h:form id="request_by_file">    
+              
+                <p></p>
+                <h3>All your download requests for current file:</h3>
+                <h:panelGroup id="requests">
+                    <table class="table table-striped" style="width: 760px;">
+                        <tr>
+                            <th style="text-align: center;"># ID</th>
+                            <th style="text-align: center;">File ID</th>
+                            <th style="text-align: center;">Date Requested</th>
+                            <th style="text-align: center;">Date Provided</th>
+                            <th style="text-align: center;">Status</th>
+                            
+                        </tr>
+                        <ui:repeat value="#{filesBean.downloadRequestsByFile}" var="downloadRequest">
+                            <tr>
+                                <td style="text-align: center;">#{downloadRequest.id}</td>
+                                <td style="text-align: center;">#{downloadRequest.file.fileId}</td>
+                                <td>#{downloadRequest.dateRequested}</td>
+                                <td>#{downloadRequest.dateProvided}</td>
+                                <td style="text-align: center;">#{downloadRequest.status}</td>
+                                
+                            </tr>
+                        </ui:repeat>
+                    </table>
+                </h:panelGroup>
+            </h:form>
+                            
+                        </h:panelGrid>
 
                     <div class="grid_3">
                         <h3>Operations:</h3>

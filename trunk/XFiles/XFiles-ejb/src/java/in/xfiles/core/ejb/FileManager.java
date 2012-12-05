@@ -475,4 +475,12 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         }
         return em.find(DownloadRequest.class, requestId);
     }
+    public List<DownloadRequest> getDownloadRequestByFile(Files file){
+        if(file == null){
+            log.warn("File can't be "+file);
+            return null;
+        }
+       return  em.createQuery("SELECT r FROM DownloadRequest r WHERE r.file=:userFile")
+               .setParameter("userFile", file).getResultList();
+    }
 }
