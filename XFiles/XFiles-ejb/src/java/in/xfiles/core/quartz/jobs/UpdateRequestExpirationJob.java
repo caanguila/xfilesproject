@@ -22,11 +22,13 @@ import org.quartz.JobExecutionException;
 public class UpdateRequestExpirationJob extends BaseJob {
 
     private final Logger log = Logger.getLogger(UpdateRequestExpirationJob.class);
+    private static final int TTL = 120; // time in minutes
+    
     
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
         log.debug("execute(): job started");
-        Date date = new Date(System.currentTimeMillis() - 60*60*1000*2); // 2 hours before now
+        Date date = new Date(System.currentTimeMillis() - TTL*60*1000); // TTL minutes before now
 
         EntityManager em = getEntityManager();
         try {
@@ -40,7 +42,6 @@ public class UpdateRequestExpirationJob extends BaseJob {
                 if(log.isTraceEnabled()) {
                     log.trace("execute(): Nothing to update/remove.");
                     rollbackTransaction();
-                    finish();
                     return;
                 }
             }

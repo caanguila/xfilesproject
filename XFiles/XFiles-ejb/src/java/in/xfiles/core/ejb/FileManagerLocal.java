@@ -19,7 +19,7 @@ public interface FileManagerLocal {
     
     Collection<Files> getFilesByUser(Long usertId); 
 
-    boolean fileExists(Long userId, long fileId);
+    boolean canDownload(Long userId, long fileId);
     
     void requestDownload(long userId, long fileId, String key);
 
@@ -32,4 +32,6 @@ public interface FileManagerLocal {
      void completeGroupFile(DownloadRequest request);
      
      List<DownloadRequest> getDownloadRequestByFile(Files file);
+     
+     boolean fileExists(long fileId);
 }
