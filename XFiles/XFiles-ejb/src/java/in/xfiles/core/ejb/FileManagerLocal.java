@@ -30,5 +30,6 @@ public interface FileManagerLocal {
      DownloadRequest getRequestsById(Long reqiestId);
     
      void completeGroupFile(DownloadRequest request);
-   
+     
+     List<DownloadRequest> getDownloadRequestByFile(Files file);
 }
