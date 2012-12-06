@@ -2,6 +2,7 @@ package in.xfiles.core.ejb;
 
 import in.xfiles.core.entity.DownloadRequest;
 import in.xfiles.core.entity.Files;
+import in.xfiles.core.entity.User;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
 import javax.ejb.Local;
 import java.util.Collection;
@@ -31,7 +32,7 @@ public interface FileManagerLocal {
     
      void completeGroupFile(DownloadRequest request);
      
-     List<DownloadRequest> getDownloadRequestByFile(Files file);
+     List<DownloadRequest> getDownloadRequestByFile(Files file, User u);
      
      boolean fileExists(long fileId);
 }

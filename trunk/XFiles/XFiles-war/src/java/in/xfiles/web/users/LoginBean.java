@@ -1,9 +1,7 @@
 package in.xfiles.web.users;
 
-import in.xfiles.core.ejb.LogManagerLocal;
-import in.xfiles.core.ejb.PasswordManagerLocal;
-import in.xfiles.core.ejb.SessionManagerLocal;
-import in.xfiles.core.ejb.UserManagerLocal;
+import in.xfiles.core.ejb.*;
+import in.xfiles.core.entity.Log;
 import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
@@ -40,10 +38,13 @@ public class LoginBean implements Serializable {
     private PasswordManagerLocal pm;
     
     @EJB
-    LogManagerLocal lm;
+    private LogManagerLocal lm;
     
     @EJB
-    SessionManagerLocal sm;
+    private SessionManagerLocal sm;
+    
+    @EJB
+    private SequreManagerLocal sml;
     
     private String login;
     private String password;
@@ -86,16 +87,27 @@ public class LoginBean implements Serializable {
        HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
       
        Long userId = pm.checkUserPassword(login, pwd);
-        lm.addRecord(userId, CommonConstants.USER_LOGIN, "try to login", ""+login+"  "+pwd, session.getId());
+       
       // sm.modifySession(session, userId, httpServletRequest.getRemoteAddr() , "TO_DO", session.getId());
        
        
-       if(userId == null)
+       if(userId == null){
+           User u = um.getUserByLogin(login);
+           if(u!=null && u.getDateSuspended()!=null){
+               currentUser = u;
+               return false;
+           }
+           Log rec = lm.addRecord(userId, CommonConstants.USER_LOGIN, "try to login", "login="+login+":password="+pwd, session.getId());
+           sml.validateUserInput(rec.getOptions());
            return false;
+       }
        currentUser = um.getUserById(userId);
-       
+       if(currentUser.getDateSuspended() != null){
+            return false;
+       }
        sm.modifySession(session, userId, httpServletRequest.getRemoteAddr() , "TO_DO", session.getId());
-       lm.addRecord(userId, CommonConstants.SUCCESS_LOGIN, "success", ""+login, session.getId());
+       Log rec = lm.addRecord(userId, CommonConstants.SUCCESS_LOGIN, "success", "login="+login+":password="+pwd, session.getId());
+       sml.validateUserInput(rec.getOptions());
        JSFHelper.setUserId(userId);
        return currentUser != null;
     }
@@ -116,6 +128,14 @@ public class LoginBean implements Serializable {
         password = null;
         
         if(!tryLogin(login, pwd)) {
+            if(currentUser!=null && currentUser.getDateSuspended()!=null){
+                JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Authentication:", "This user is banned since: "+currentUser.getDateSuspended());
+                currentUser = null;
+                loginStatus = "fail";
+                pwd = null;
+                return;
+            }
+            
             JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Authentication:", "Incorrect credentials.");
             loginStatus = "fail";
             pwd = null;

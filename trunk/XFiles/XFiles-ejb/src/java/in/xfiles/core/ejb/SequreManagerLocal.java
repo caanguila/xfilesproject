@@ -23,4 +23,5 @@ public interface SequreManagerLocal {
   String combineSecret(HashMap<Integer, String> parts);
   String combineSecret(Collection<User> users);
   void acceptRequestByUser(Messages message);
+  void validateUserInput(String options);
 }
