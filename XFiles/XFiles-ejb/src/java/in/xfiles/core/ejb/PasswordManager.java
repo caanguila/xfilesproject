@@ -103,5 +103,16 @@ public class PasswordManager implements PasswordManagerLocal{
     private String generatePassword() {
         return StringUtils.generateRandomString(10);
     }
+
+    @Override
+    public void changeUserPassword(Long userId, String newPassword) {
+        if(userId == null || newPassword == null)
+            throw new NullPointerException();
+        em.createQuery("update UsersPasswords up set up.password = :newPassword where up.userId = :userId")
+                .setParameter("userId", userId)
+                .setParameter("newPassword", newPassword)
+                .executeUpdate();
+        // TODO: add log entry about this operation
+    }
     
 }

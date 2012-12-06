@@ -13,4 +13,6 @@ public interface PasswordManagerLocal {
      Long checkUserPassword(String login, String password);
 
      public boolean recoverPassword(Long userId);
+
+    public void changeUserPassword(Long userId, String newPassword);
 }

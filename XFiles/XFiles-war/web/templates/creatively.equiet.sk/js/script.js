@@ -94,12 +94,12 @@ $(document).ready(function () {
     
 	/* Twitter news stream */
 	$('#twitter').tweet({
-		username: 'envato',
+		username: 'xfiles_security',
 		loading_text: 'loading tweets...',
 		query: null,							// [string]   optional search query
 		count: 3,								// [integer]  how many tweets to display?
 		retweets: true,							// [boolean]  whether to fetch (official) retweets (not supported in all display modes)
-		template: '{text}{time}',   			// [string or function] template used to construct each tweet <li> - see code for available vars
+		template: '{text}{time}'   			// [string or function] template used to construct each tweet <li> - see code for available vars
 	});
 	
 	/* Map */
