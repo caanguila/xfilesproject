@@ -25,7 +25,7 @@
                             <f:ajax render=":cabinetContentContainer :refresh_messages :messages_list_form :group_access_form"  />
                         </h:commandLink></li>
                     <li><h:commandLink id="profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
-                            <f:ajax render=":cabinetContentContainer :change_info_form"  />
+                            <f:ajax render=":cabinetContentContainer :change_info_form :change_password_form"  />
                         </h:commandLink></li>
                     <li><h:commandLink id="history_link" value="History" actionListener="#{cabinetController.historyLinkListener(e)}">
                             <f:ajax render=":cabinetContentContainer :history_table"  />
@@ -48,63 +48,63 @@
                         </div>
                     </h:form>
                     <h:panelGrid columns="1">
-                    <h:panelGrid id="files_tree_grid" columns="2" class="table table-hover grid_8" style="text-align: left;" >
-                        <h:outputLabel id ="files_list_label" style="width: 350px;" class ="label label-info" value="Files List" />
-                        <h:outputLabel id ="files_info_label" style="width: 350px;" class ="label label-info" value="Info" />
+                        <h:panelGrid id="files_tree_grid" columns="2" class="table table-hover grid_8" style="text-align: left;" >
+                            <h:outputLabel id ="files_list_label" style="width: 350px;" class ="label label-info" value="Files List" />
+                            <h:outputLabel id ="files_info_label" style="width: 350px;" class ="label label-info" value="Info" />
 
-                        <h:form id="files_list_form" >
-                            <ui:repeat var="item" value="#{filesBean.tableElements}" id="for" >
-                                <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}" style="#{filesBean.fileStyle(item)}}">
-                                    <f:ajax render=":file_info :request_by_file" execute="@form" />
-                                </h:commandLink>
-                                <br/>
-                            </ui:repeat>
+                            <h:form id="files_list_form" >
+                                <ui:repeat var="item" value="#{filesBean.tableElements}" id="for" >
+                                    <h:commandLink value="#{item.name}" actionListener="#{filesBean.processTreeNode(item)}" style="#{filesBean.fileStyle(item)}}">
+                                        <f:ajax render=":file_info :request_by_file" execute="@form" />
+                                    </h:commandLink>
+                                    <br/>
+                                </ui:repeat>
+                            </h:form>
+
+                            <h:panelGroup id="file_info">
+                                <h:outputLabel value="ID: #{filesBean.currentFileID}" />
+                                <h:outputLabel id="file_name" value="Name: #{filesBean.currentFileName}" />
+                                <h:outputLabel value="Content type: #{filesBean.currentFileContType} " />
+                                <h:outputLabel value="Size:  #{filesBean.currentFileSize}" />
+                                <h:outputLabel value="CRC:  #{filesBean.currentFileCRC}" />
+                                <h:outputLabel value="access type id:  #{filesBean.currentFileType}" />
+                                <h:outputLabel value="Is folder:  #{filesBean.currentFileIsFolder}" /> 
+                                <h:link outcome="operations/download.xhtml" value="Download" rendered="#{filesBean.currentFileID ne null}">
+                                    <f:param name="file_id" value="#{filesBean.currentFileID}"/>
+                                </h:link>
+                            </h:panelGroup>
+                        </h:panelGrid>
+
+
+                        <h:form id="request_by_file">    
+
+                            <p></p>
+                            <h3>All your download requests for current file:</h3>
+                            <h:panelGroup id="requests">
+                                <table class="table table-striped" style="width: 760px;">
+                                    <tr>
+                                        <th style="text-align: center;"># ID</th>
+                                        <th style="text-align: center;">File ID</th>
+                                        <th style="text-align: center;">Date Requested</th>
+                                        <th style="text-align: center;">Date Provided</th>
+                                        <th style="text-align: center;">Status</th>
+
+                                    </tr>
+                                    <ui:repeat value="#{filesBean.downloadRequestsByFile}" var="downloadRequest">
+                                        <tr>
+                                            <td style="text-align: center;">#{downloadRequest.id}</td>
+                                            <td style="text-align: center;">#{downloadRequest.file.fileId}</td>
+                                            <td>#{downloadRequest.dateRequested}</td>
+                                            <td>#{downloadRequest.dateProvided}</td>
+                                            <td style="text-align: center;">#{downloadRequest.status}</td>
+
+                                        </tr>
+                                    </ui:repeat>
+                                </table>
+                            </h:panelGroup>
                         </h:form>
 
-                        <h:panelGroup id="file_info" >
-                            <h:outputLabel value="ID: #{filesBean.currentFileID}" />
-                            <h:outputLabel id="file_name" value="Name: #{filesBean.currentFileName}" />
-                            <h:outputLabel value="Content type: #{filesBean.currentFileContType} " />
-                            <h:outputLabel value="Size:  #{filesBean.currentFileSize}" />
-                            <h:outputLabel value="CRC:  #{filesBean.currentFileCRC}" />
-                            <h:outputLabel value="access type id:  #{filesBean.currentFileType}" />
-                            <h:outputLabel value="Is folder:  #{filesBean.currentFileIsFolder}" /> 
-                            <h:link outcome="operations/download.xhtml" value="Download" rendered="#{filesBean.currentFileID ne null}">
-                                <f:param name="file_id" value="#{filesBean.currentFileID}"/>
-                            </h:link>
-                        </h:panelGroup>
                     </h:panelGrid>
-                        
-                      
-                               <h:form id="request_by_file">    
-              
-                <p></p>
-                <h3>All your download requests for current file:</h3>
-                <h:panelGroup id="requests">
-                    <table class="table table-striped" style="width: 760px;">
-                        <tr>
-                            <th style="text-align: center;"># ID</th>
-                            <th style="text-align: center;">File ID</th>
-                            <th style="text-align: center;">Date Requested</th>
-                            <th style="text-align: center;">Date Provided</th>
-                            <th style="text-align: center;">Status</th>
-                            
-                        </tr>
-                        <ui:repeat value="#{filesBean.downloadRequestsByFile}" var="downloadRequest">
-                            <tr>
-                                <td style="text-align: center;">#{downloadRequest.id}</td>
-                                <td style="text-align: center;">#{downloadRequest.file.fileId}</td>
-                                <td>#{downloadRequest.dateRequested}</td>
-                                <td>#{downloadRequest.dateProvided}</td>
-                                <td style="text-align: center;">#{downloadRequest.status}</td>
-                                
-                            </tr>
-                        </ui:repeat>
-                    </table>
-                </h:panelGroup>
-            </h:form>
-                            
-                        </h:panelGrid>
 
                     <div class="grid_3">
                         <h3>Operations:</h3>
@@ -215,7 +215,9 @@
                                 <h:outputLabel class="profileTableLeft" value="Information: " /> 
                                 <h:outputLabel value="#{userInfoBean.information}" /> 
                             </h:panelGrid>
-                            <a id="change_button" class="button_green" href="javascript:void(0);" onclick="hideUserInfo();">Change</a>
+                            <div style="width: 80%; text-align: right;">
+                                <a id="change_button" class="button_green" href="javascript:void(0);" onclick="hideUserInfo();">Change Profile</a>
+                            </div>
                         </h:panelGroup>
 
 
@@ -237,10 +239,37 @@
                                     <h:outputLabel class="profileTableLeft" value="Information: " /> 
                                     <h:inputText value="#{userInfoBean.information}" /> 
                                 </h:panelGrid>
-                                <h:commandLink onclick="hideUserForm()" id="save_button" class="button_green" value="Save" actionListener="#{userInfoBean.saveParametersAction}">
-                                    <f:ajax render=":user_profile_group :change_info_form" execute=":change_info_form"/>
-                                </h:commandLink>
+                                <div style="width: 80%; text-align: right;">
+                                    <h:commandLink onclick="hideUserForm()" id="save_button" class="button_green" value="Save" actionListener="#{userInfoBean.saveParametersAction}">
+                                        <f:ajax render=":user_profile_group :change_info_form" execute=":change_info_form"/>
+                                    </h:commandLink>
+                                    <a href="javascript:void(0);" onclick="hideUserForm();" class="button_grey">Cancel</a>
+                                </div>
                             </h:form>     
+                        </h:panelGroup>
+                        <p></p>
+                        <h3>Change Password Form</h3>
+                        <h:panelGroup id="user_change_password" style="width: 100%;">
+                            <h:form id="change_password_form">
+                                <h:messages id="messages" title="Errors" showDetail="true"
+                                            style="margin-left: 0; list-style-type: none; width: 80%;" class="message"
+                                            errorClass="message_bad" infoClass="message_good"
+                                            warnClass="message_info" fatalClass="message_bad">
+                                </h:messages>
+                                <h:panelGrid id="change_grid_info" columns="2" class="table table-striped">
+                                    <h:outputLabel class="profileTableLeft" value="Old password:" />
+                                    <h:inputSecret value="#{changePasswordBean.oldPassword}" />
+                                    <h:outputLabel class="profileTableLeft" value="New password:" />
+                                    <h:inputSecret value="#{changePasswordBean.newPassword}" />
+                                    <h:outputLabel class="profileTableLeft" value="Confirm password:" />
+                                    <h:inputSecret value="#{changePasswordBean.confirmPassword}" />
+                                </h:panelGrid>
+                                <div style="width: 80%; text-align: right;">
+                                    <h:commandLink id="change_password_button" class="button_green" value="Apply new password" actionListener="#{changePasswordBean.changePasswordAction}">
+                                        <f:ajax render=":change_password_form" execute="@form"/>
+                                    </h:commandLink>
+                                </div>
+                            </h:form>   
                         </h:panelGroup>
 
                         <script type="text/javascript">
@@ -251,12 +280,6 @@
                                 $('#user_edit_group').css('width', '100%');
                                 $('#change_button').css('display', 'none');
                                 $('#save_button').css('display', 'inline-block');
-                                //                    if($('#encription_type').val() != 'plain')
-                                //                        $('#secret_key').css('display', 'inline-block');
-                                //                    else {
-                                //                        $('#secret_key').css('display', 'none');
-                                //                        $('#secret_key').val('');
-                                //                    }
                             }
                             function hideUserForm() {
                                 $('#user_group_info').css('display', 'inline-block');

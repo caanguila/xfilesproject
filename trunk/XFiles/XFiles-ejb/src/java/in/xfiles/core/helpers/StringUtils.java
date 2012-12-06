@@ -28,6 +28,14 @@ import java.util.regex.Pattern;
         return getValidString(s).isEmpty();
     }
     
+    public static boolean isNotEmpty(String... values) {
+        for(String s : values) {
+            if(isEmpty(s))
+                return  false;
+        }
+        return true;
+    }
+    
     public static boolean isTrue(String s) {
         return isTrue(s, "yes", "true", "1", "ok", "on");
     }

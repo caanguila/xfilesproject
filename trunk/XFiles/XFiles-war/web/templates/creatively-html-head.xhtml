@@ -13,10 +13,10 @@
             <meta charset="utf-8"/>
             
             <c:if test="#{request.serverPort == 80}">
-            <base href="http://#{request.serverName}#{request.contextPath}/"/>
+            <base href="#{request.secure ? 'https' : 'http'}://#{request.serverName}#{request.contextPath}/"/>
             </c:if>
             <c:if test="#{request.serverPort != 80}">
-            <base href="http://#{request.serverName}:#{request.serverPort}#{request.contextPath}/"/>
+            <base href="#{request.secure ? 'https' : 'http'}://#{request.serverName}:#{request.serverPort}#{request.contextPath}/"/>
             </c:if>
             
             <!-- Page title -->
