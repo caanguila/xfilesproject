@@ -55,7 +55,20 @@ public abstract class CommonTools {
                         result.add(value);
                     }
                 }
-                
+                if(parts2[i].equals("login")){
+                    if(i+1<parts2.length){
+                        String value = parts2[i+1];
+                        result.add("login");
+                        result.add(value);
+                    }
+                }
+                if(parts2[i].equals("password")){
+                    if(i+1<parts2.length){
+                        String value = parts2[i+1];
+                        result.add("password");
+                        result.add(value);
+                    }
+                }
                 
             }
         }

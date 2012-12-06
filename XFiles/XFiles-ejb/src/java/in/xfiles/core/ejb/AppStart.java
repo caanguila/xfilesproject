@@ -1,6 +1,7 @@
 package in.xfiles.core.ejb;
 
 
+import in.xfiles.core.quartz.jobs.UpdateBannedUsersJob;
 import in.xfiles.core.quartz.jobs.UpdateRequestExpirationJob;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -68,6 +69,15 @@ public class AppStart {
                     .repeatForever())
                 .build();
             scheduler.scheduleJob(updateRequestExpirationJob, trigger);
+            
+            JobDetail updateBannedUsersJob = JobBuilder.newJob(UpdateBannedUsersJob.class).build();
+            Trigger bannTriger = TriggerBuilder.newTrigger()
+                .startNow()
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                    .withIntervalInMinutes(1)
+                    .repeatForever())
+                .build();
+            scheduler.scheduleJob(updateBannedUsersJob, bannTriger);
         } catch (Exception ex) {
             log.error("scheduleJobs(): failed to schedule UpdateRequestExpirationJob.", ex);
         }

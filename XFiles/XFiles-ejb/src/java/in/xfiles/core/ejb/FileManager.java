@@ -505,12 +505,16 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         }
         return em.find(DownloadRequest.class, requestId);
     }
-    public List<DownloadRequest> getDownloadRequestByFile(Files file){
+    public List<DownloadRequest> getDownloadRequestByFile(Files file, User u){
         if(file == null){
             log.warn("File can't be "+file);
             return null;
         }
-       return  em.createQuery("SELECT r FROM DownloadRequest r WHERE r.file=:userFile and r.status <> 3 order by r.dateRequested desc")
-               .setParameter("userFile", file).getResultList();
+        if(u == null){
+            return null;
+        }
+       return  em.createQuery("SELECT r FROM DownloadRequest r WHERE r.file=:userFile and r.user=:user and r.status <> 3 order by r.dateRequested desc")
+               .setParameter("userFile", file)
+               .setParameter("user", u).getResultList();
     }
 }

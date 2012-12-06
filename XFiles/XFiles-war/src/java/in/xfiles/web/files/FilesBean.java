@@ -84,7 +84,7 @@ public class FilesBean implements Serializable{
   
     public List<DownloadRequest> getdownloadRequestsByFile(){
         
-        return bean.getDownloadRequestByFile(currentFile);
+        return bean.getDownloadRequestByFile(currentFile, JSFHelper.getCurrentUser());
     }
     
     public boolean isCurrentFileSelected(){

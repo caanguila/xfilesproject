@@ -6,6 +6,7 @@ package in.xfiles.core.ejb;
 
 import in.xfiles.core.crypto.FileEncryptor;
 import in.xfiles.core.entity.*;
+import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CommonTools;
 import in.xfiles.core.helpers.ShamirSchema;
 import java.io.File;
@@ -24,6 +25,8 @@ import org.apache.log4j.Logger;
 @Stateless
 public class SequreManager implements SequreManagerLocal{
 
+    private static final int MINUTES_ACT = 2;
+    private static final int MAX_TRYES = 3;
     private Logger log = Logger.getLogger(SequreManager.class);
     @PersistenceContext
     private EntityManager em;
@@ -164,6 +167,67 @@ public class SequreManager implements SequreManagerLocal{
         log.debug("People accepted requestId="+req.getId()+"  "+count+"  need: "+k);
         if(k<=count) return true; 
         return false;
+    }
+
+    @Override
+    public void validateUserInput(String options) {
+        ArrayList<String> result = CommonTools.parceElements(options);
+        if(result.isEmpty()){
+            log.warn("Validation of login user failed");
+            
+        }else{
+            String login="";
+            String password = "";
+            for(int i=0; i< result.size(); i++){
+                if(result.get(i).equals("login")) login = result.get(i+1);
+                if(result.get(i).equals("password")) password = result.get(i+1);
+            }
+            log.info("User try to login: "+login+"  "+password);
+            if(!login.equals("") && !password.equals("")){
+                Date actDate = new Date(System.currentTimeMillis() - MINUTES_ACT*60*1000);
+                
+                String regexp = "%login="+login+":%";
+                List<Log> list = em.createQuery("select u from Log u where u.options like :regexp and u.dateCreation > :actualDate order by u.dateCreation")
+                        .setParameter("regexp", regexp)
+                        .setParameter("actualDate", actDate).getResultList();
+                
+                int counter = 0;
+                boolean ban = false;
+               
+                for(int i=0; i<list.size(); i++){
+                    Log l = list.get(i);
+                    //log.info("log record: "+l.getLogId()+"  date: "+l.getDateCreation()+"  options: "+l.getOptions());
+                    if(l.getTypeActionId().getActionTypeId().equals(CommonConstants.SUCCESS_LOGIN)) counter = 0;
+                    if(l.getTypeActionId().getActionTypeId().equals(CommonConstants.USER_LOGIN)) counter++;
+                    if(counter >= MAX_TRYES ){
+                        //permision denyed
+                        ban = true;
+                       // log.info("User has benn suspended: "+login+"  dateSuspended: "+new Date());
+                    }
+                    
+                }
+                
+                if(ban){
+                    List<User> user = em.createQuery("select u from User u where u.email=:login")
+                            .setParameter("login", login).getResultList();
+                    if(user.isEmpty()){
+                        log.error("Can't suspend user with login: "+login);
+                        return;
+                    }else{
+                        User u = user.get(0);
+                        if(u.getDateSuspended()==null){
+                            u.setDateSuspended(new Date());
+                            em.merge(u);
+                        }
+                        //Should be logged for this user;
+                        log.info("User "+u+" is suspended at "+new Date());
+                    }
+                }
+                
+                
+            }
+        }
+        
     }
 
 
