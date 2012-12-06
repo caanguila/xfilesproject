@@ -104,11 +104,12 @@ public class UserInfoBean implements Serializable {
     }
     
     public List<Messages> getUserMessages(){
-                
+                if(userId == null) return null;
         return (List<Messages>) mml.getUserInputMessages(userId);
     }
     
     public List<Log> getHistoryElements() {
+        if(userId == null) return null;
         System.out.println("User Logs size: " + lm.getRecordsByUser(user));
         Collection<Log> logs = lm.getRecordsByUser(user);
         ArrayList<Log> list = new ArrayList<Log>();
@@ -133,6 +134,7 @@ public class UserInfoBean implements Serializable {
     }
 
     public List<Log> getNextHistoryElements() {
+        if(userId == null) return null;
         List<Log> out = new ArrayList<Log>();
         List<Log> part = getHistoryElements();
 
@@ -184,6 +186,7 @@ public class UserInfoBean implements Serializable {
 
 
     public List<Groups> getUserGroups() {
+        if(userId == null) return null;
         List<Groups> out = new ArrayList<Groups>();
         Collection<Groups> groups = gml.getGruopsByUser(userId);
         if (user != null) {
@@ -195,6 +198,7 @@ public class UserInfoBean implements Serializable {
     }
 
     public List<User> getGroupsUsers() {
+        if(userId == null) return null;
         List<User> out = new ArrayList<User>();
         if (currentGroup != null) {
             for (User u : currentGroup.getUsersCollection()) {
@@ -206,6 +210,7 @@ public class UserInfoBean implements Serializable {
     }
 
     public int getHistoryPagesCount() {
+       
         return historyPageCount;
     }
 
