@@ -52,7 +52,8 @@ public class FeedbackBean {
         // TODO: regexp validate email
         try {
             em.sendSimpleEmail("Feedback from "+name+" "+email, message, "admin@xfiles.in");
-            JSFHelper.addMessage(FacesMessage.SEVERITY_INFO, "Info:", "Your messages has been sent.");
+            JSFHelper.addMessage(FacesMessage.SEVERITY_INFO, "Info:", "Your message has been sent.");
+            message = null;
         } catch (Exception ex) {
             JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Unexpected server error.");
             log.error("sendFeedbackAction(): Failed to send user feedback message.", ex);

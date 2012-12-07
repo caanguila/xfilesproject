@@ -236,13 +236,8 @@ public class FileManager implements FileManagerLocal, CommonConstants {
             log.debug("requestDownload(): there is no file with ID = " + fileId);
             return;
         }
-        Collection<User> owners = file.getUsersCollection();
-        if (owners == null || owners.isEmpty()) {
-            log.error("The list of file owners is empty or null! fileId=" + fileId);
-            return;
-        }
 
-        if (!PUBLIC_FILE_TYPE.equals(file.getTypeId().getTypeId()) && !owners.contains(u)) {
+        if (!canDownload(userId, fileId)) {
             log.debug("requestDownload(): permission denied. fileId = " + fileId);
             return;
         }

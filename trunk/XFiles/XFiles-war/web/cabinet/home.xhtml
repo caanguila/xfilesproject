@@ -283,7 +283,7 @@
                                 </h:panelGrid>
                                 <div style="width: 80%; text-align: right;">
                                     <h:commandLink onclick="hideUserForm()" id="save_button" class="button_green" value="Save" actionListener="#{userInfoBean.saveParametersAction}">
-                                        <f:ajax render=":user_profile_group :change_info_form" execute=":change_info_form"/>
+                                        <f:ajax render=":user_profile_group :change_info_form :change_password_form" execute=":change_info_form"/>
                                     </h:commandLink>
                                     <a href="javascript:void(0);" onclick="hideUserForm();" class="button_grey">Cancel</a>
                                 </div>

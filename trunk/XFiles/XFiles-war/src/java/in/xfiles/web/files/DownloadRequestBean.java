@@ -91,7 +91,10 @@ public class DownloadRequestBean implements Serializable {
     
     public void createRequest(ActionEvent evt) {
         long fileId = StringUtils.getValidInt(this.fileId);
-        fm.requestDownload(JSFHelper.getUserId(), fileId, CryptoHelper.SHA256(key));
+        if(isPasswordNeeded())
+            fm.requestDownload(JSFHelper.getUserId(), fileId, CryptoHelper.SHA256(key));
+        else 
+            fm.requestDownload(JSFHelper.getUserId(), fileId, null);
     }
     
     public Files getFile() {
