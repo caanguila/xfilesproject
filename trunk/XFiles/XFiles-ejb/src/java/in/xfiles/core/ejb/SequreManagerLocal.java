@@ -22,6 +22,6 @@ public interface SequreManagerLocal {
   HashMap<Integer, String> splitShare(String secret, int n, int k);
   String combineSecret(HashMap<Integer, String> parts);
   String combineSecret(Collection<User> users);
-  void acceptRequestByUser(Messages message);
+  boolean approveRequestByUser(Messages message);
   void validateUserInput(String options);
 }
