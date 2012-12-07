@@ -94,7 +94,7 @@ $(document).ready(function () {
     
 	/* Twitter news stream */
 	$('#twitter').tweet({
-		username: 'envato',
+		username: 'xfiles_security',
 		loading_text: 'loading tweets...',
 		query: null,							// [string]   optional search query
 		count: 3,								// [integer]  how many tweets to display?
