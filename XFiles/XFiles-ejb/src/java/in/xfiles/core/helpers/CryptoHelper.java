@@ -5,10 +5,12 @@ import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
 import java.util.zip.CRC32;
 import javax.crypto.*;
 import javax.crypto.spec.*;
 import org.apache.log4j.Logger;
+import java.io.*;
 
 /**
  *
@@ -19,10 +21,12 @@ public class CryptoHelper {
     private static final Logger log = Logger.getLogger(CryptoHelper.class);
     private static SecretKey secretKey;
     private final static int ENCRYPTION_FILE_BUFFER_SIZE = 1024;
+    private final static int ENCRYPTION_BUFFER_SIZE = 16;
 
     public static String encryptString(String s, String algo) {
-        if(s == null)
+        if (s == null) {
             return null;
+        }
         try {
             MessageDigest md = MessageDigest.getInstance(algo);
             md.update(s.getBytes());
@@ -35,8 +39,9 @@ public class CryptoHelper {
     }
 
     private static String toHexString(byte[] byteData) {
-        if(byteData == null)
+        if (byteData == null) {
             return StringUtils.EMPTY_STRING;
+        }
         StringBuilder hexString = new StringBuilder();
         for (int i = 0; i < byteData.length; i++) {
             String hex = Integer.toHexString(0xff & byteData[i]);
@@ -115,8 +120,8 @@ public class CryptoHelper {
      * @throws IOException
      */
     public static File enCryptFile(File file, String type, String key) throws IOException {
-      //  File directory = new File("./tmp");
-      //  directory.mkdir();
+        //  File directory = new File("./tmp");
+        //  directory.mkdir();
 
         //   byte[] keyCode = getSecretKeyCode(key); // this key should be stored in database;
         Cipher cipher = getEncryptCipher(key);
@@ -210,8 +215,8 @@ public class CryptoHelper {
      * @throws IOException
      */
     public static File deCryptFile(File file, String type, String key) throws IOException {
-      //  File directory = new File("./tmp");
-      //  directory.mkdir();
+        //  File directory = new File("./tmp");
+        //  directory.mkdir();
 
         // byte[] keyCode = getSecretKeyCode(key); // this key should be stored in database
         Cipher cipher = getDecryptCipher(key);
@@ -361,5 +366,134 @@ public class CryptoHelper {
 
         return chSumm;
 
+    }
+   // private static final String PART_KEY = "helooMyDearKITY";
+
+    private static final String getPartKey(){
+        return  "helooMyDearKITY";
+    }
+    
+    public static String enCryptString(String part) {
+
+
+        Cipher cipher = getEncryptCipher(getPartKey());
+        InputStream fis = new ByteArrayInputStream(part.getBytes());
+        ByteArrayOutputStream fos = new ByteArrayOutputStream();
+
+        byte[] f = new byte[ENCRYPTION_BUFFER_SIZE];
+        int fileSize = 0; // should be added to crypt
+        try {
+            fileSize = fis.available();
+        } catch (Exception ex) {
+            log.warn(ex.toString());
+            return null;
+        }
+        byte[] crypt = null;
+        try {
+            log.debug("input String: " + part + "  fis: " + fis.toString() + "  bytes size: " + fis.available());
+            while (ENCRYPTION_BUFFER_SIZE < fis.available()) {
+                //     log.debug("file avalable: " + fis.available());
+                fis.read(f);
+                crypt = cipher.doFinal(f);
+                fos.write(crypt);
+            }
+
+            //last part of file
+            //  Arrays.fill(f, (byte)0);
+            f = new byte[ENCRYPTION_BUFFER_SIZE + 16];
+            if (ENCRYPTION_BUFFER_SIZE >= fis.available()) {
+                byte[] sizeBytes = ByteBuffer.allocate(4).putInt(fileSize).array();
+//                int last = fis.available();
+            //    log.debug("Real file size: " + fileSize + "  bytes: " + toHexString(sizeBytes) + " l: " + sizeBytes.length);
+            //    log.debug("Last part: " + fis.available());
+
+           //     log.debug("file avalable: " + fis.available());
+                //f = new byte[fis.available()];
+                fis.read(f);
+                //we will write on last size of the file to the end of pieSize massive
+                f[ENCRYPTION_BUFFER_SIZE - 4 + 16] = sizeBytes[0];
+                f[ENCRYPTION_BUFFER_SIZE - 3 + 16] = sizeBytes[1];
+                f[ENCRYPTION_BUFFER_SIZE - 2 + 16] = sizeBytes[2];
+                f[ENCRYPTION_BUFFER_SIZE - 1 + 16] = sizeBytes[3];
+                crypt = cipher.doFinal(f);
+                fos.write(crypt);
+            }
+        //    log.debug("fos: " + toHexString(fos.toByteArray()));
+            fis.close();
+
+            return new String(fos.toByteArray());
+        } catch (Exception ex) {
+            log.warn("Can't encrypt input file:");
+            log.warn("Stacktrsce: " + ex);
+        }
+
+
+        return null;
+
+
+    }
+
+    public static String decryptString(String enPart) {
+
+        try {
+            Cipher cipher = getDecryptCipher(getPartKey());
+            InputStream fis = new ByteArrayInputStream(enPart.getBytes());
+            ByteArrayOutputStream fos = new ByteArrayOutputStream();
+
+       //     log.debug("Decrypt String avalable: " + fis.available() + "  " + ENCRYPTION_BUFFER_SIZE);
+            byte[] f = new byte[ENCRYPTION_BUFFER_SIZE];
+            byte[] crypt = null;
+
+            while (ENCRYPTION_BUFFER_SIZE + 16 < fis.available()) {
+        //        log.debug("file avalable: " + fis.available());
+                fis.read(f);
+                crypt = cipher.doFinal(f);
+                fos.write(crypt);
+            }
+
+            //  f = new byte[pieSize+16];           
+            if (ENCRYPTION_BUFFER_SIZE + 16 >= fis.available()) {
+        //        log.debug("file avalable: " + fis.available());
+                byte[] fileSize = new byte[4];
+
+                f = new byte[ENCRYPTION_BUFFER_SIZE + 16];
+                fis.read(f);
+                crypt = cipher.doFinal(f);
+
+                fileSize[0] = crypt[ENCRYPTION_BUFFER_SIZE - 4 + 16];
+                fileSize[1] = crypt[ENCRYPTION_BUFFER_SIZE - 3 + 16];
+                fileSize[2] = crypt[ENCRYPTION_BUFFER_SIZE - 2 + 16];
+                fileSize[3] = crypt[ENCRYPTION_BUFFER_SIZE - 1 + 16];
+
+        //        log.debug("decrypt fileSize: " + toHexString(fileSize));
+                int sizeOfFile = Integer.parseInt(toHexString(fileSize), 16);
+                int lastPart = sizeOfFile % ENCRYPTION_BUFFER_SIZE;
+                if (lastPart == 0) {
+                    lastPart = ENCRYPTION_BUFFER_SIZE;
+                }
+        //        log.debug("real size: " + sizeOfFile);
+        //        log.debug("decrypt last part: " + lastPart);
+                byte[] lastBytePart = new byte[lastPart];
+
+                for (int i = 0; i < lastPart; i++) {
+                    lastBytePart[i] = crypt[i];
+                }
+
+                fos.write(lastBytePart);
+                return new String(fos.toByteArray());
+         //       log.info("encryprion part: " + "  decrypt: " + new String(fos.toByteArray()));
+
+            }
+
+
+        } catch (IllegalBlockSizeException ex) {
+            java.util.logging.Logger.getLogger(CryptoHelper.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            java.util.logging.Logger.getLogger(CryptoHelper.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(CryptoHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "";
     }
 }
