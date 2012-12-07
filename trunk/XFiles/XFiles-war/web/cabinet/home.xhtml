@@ -132,7 +132,7 @@
                                             <td>#{downloadRequest.dateProvided}</td>
                                             <td style="text-align: center;">#{downloadRequestBean.getStatusAsString(downloadRequest.status)}</td>
                                             <td>
-                                              <a href="#{request.contextPath}/download?id=#{downloadRequest.id}">Download</a>
+                                                <a href="#{request.contextPath}/download?id=#{downloadRequest.id}">Download</a>
                                             </td>
                                         </tr>
                                     </ui:repeat>
@@ -243,8 +243,7 @@
                             </ui:repeat>
                         </table>
                     </h:panelGroup>
-                    <p></p>
-                    <p style="font-size: smaller;"><strong>Note:</strong> The request exists only two hours since the file got ready for download.<br/>
+                    <p style="font-size: smaller;" class="grid_2"><strong>Note:</strong> The request exists only two hours since the file got ready for download.<br/>
                         After 2 hours it will expire and you will have to request the file again.</p>
                 </h:panelGroup>
 
@@ -448,7 +447,6 @@
                             <tr>
                                 <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Log Id"/></td>
                                 <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Ip"/></td>
-                                <!--                                         <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Options"/></td>-->
                                 <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Date"/></td>                                         
                                 <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Message"/></td>
                                 <td><h:outputLabel style="width: 150px; font-weight:bold;" value="Action Name"/></td>
