@@ -54,14 +54,8 @@ public class PasswordRecoveryBean implements Serializable {
     }
     
     public void recoverAction(ActionEvent evt) {
-        String qaptchaKey = JSFHelper.getSessionAttribute(String.class, "qaptcha_key");
-        if(qaptchaKey == null) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "Captcha validation failed.");
-            recoveryStatus = "fail";
-            return;
-        }
-        if(!JSFHelper.getRequest().getParameterMap().containsKey(qaptchaKey)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "Captcha validation failed");
+        
+        if(!JSFHelper.validateQaptcha(true, "Validation:", "Captcha validation failed.")) {
             recoveryStatus = "fail";
             return;
         }

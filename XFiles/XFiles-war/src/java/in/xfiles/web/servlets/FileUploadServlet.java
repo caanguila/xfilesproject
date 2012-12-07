@@ -12,7 +12,6 @@ import in.xfiles.web.utils.SessionHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://java.sun.com/jsf/passthrough">
+      xmlns:p="http://java.sun.com/jsf/passthrough"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:composition template="templates/creatively-index.xhtml">
 
@@ -18,14 +19,20 @@
             <section class="tagline grid_12">
                 <p>Advanced &amp; Secure File Storage Service.</p>
                 <div id="my">
-                    <a href="#" id="log_in" class="button_green_big" rel="popover" 
-                       data-placement="top"
-                       onclick="insidePopover = true;"                     
-                       onmouseout="insidePopover = false;">Sign In</a>
-                    <span>or</span>
-                    <a href="#myModal" id="buy" 
-                       data-toggle="modal"
-                       class="button_green_big">Register</a>
+                    <c:if test="#{!loginBean.loggedIn}">
+                        <a href="#" id="log_in" class="button_green_big" rel="popover" 
+                           data-placement="top"
+                           onclick="insidePopover = true;"                     
+                           onmouseout="insidePopover = false;">Sign In</a>
+                        <span>or</span>
+                        <a href="#myModal" id="buy" 
+                           data-toggle="modal"
+                           class="button_green_big">Register</a>
+                    </c:if>
+                    <c:if test="#{loginBean.loggedIn}">
+                        <a href="#{request.contextPath}/faces/cabinet/home.xhtml" id="go-to-cabinet" 
+                           class="button_green_big">Go to Cabinet</a>
+                    </c:if>
                 </div>
 
             </section>

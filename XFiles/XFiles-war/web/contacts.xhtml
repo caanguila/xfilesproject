@@ -21,101 +21,65 @@
         </ui:define>
 
         <ui:define name="categories">
-            <h3>Categories</h3>
-            <ul class="categories">
-                <li><a href="#">Category</a></li>
-                <li class="selected"><a href="#">Category 1</a></li>
-                <li><a href="#">Catogory 2</a></li>
-                <li><a href="#">Category 3</a></li>
-            </ul>	
+            <!-- Contact form -->
+            <h3>Send us an e-mail</h3>
+            <h:form id="contact_form" class="contact_form">
+                <div class="status">
+                    <h:messages style="margin-left: 0px;" id="status_messages" class="message" showDetail="true" errorClass="message_bad" warnClass="message_bad" infoClass="message_good"/>
+                </div>
+                <h:inputText class="input-large" id="name" placeholder="Your name" value="#{feedbackBean.name}"/>
+                <h:inputText id="email" class="input-large" placeholder="Your e-mail" value="#{feedbackBean.email}"/>
+                <h:inputTextarea id="message" style="width: 266px; height: 160px;" value="#{feedbackBean.message}" placeholder="Your feedback message"/>
+                <div class="QapTcha" style="width: 100%;"/>
+                <div style="text-align: right;">
+                    <h:commandLink class="button_green" value="Send message" actionListener="#{feedbackBean.sendFeedbackAction}">
+                        <f:ajax execute="@form" render="status_messages message email name"/>
+                    </h:commandLink>
+                </div>
+            </h:form>
+            <h3>Advertisement</h3>
+            Place for ads.	
         </ui:define>
 
         <ui:define name="content">
             <h2>Contact Us</h2>
-            
-            <p><strong>Here is an example of long article.</strong></p>
-            
-            <p>Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipiscing elit. Aenean at vestibulum nunc. Sed augue magna, molestie at varius vitae, aliquam et purus. Quisque lacus enim, cursus a ornare non, ultricies quis nisl. Morbi eget velit dignissim ante sodales fringilla. Vestibulum molestie sagittis neque quis dignissim.</p>
-            <p><strong>Integer congue, erat id lobortis rutrum, libero dolor cursus nibh, vel volutpat lectus sem vulputate nisi.</strong></p>
-            <p>Donec enim ligula, malesuada et elementum non, euismod eu neque. Vivamus lorem elit, malesuada nec egestas eu, congue eget justo. Aliquam laoreet dictum tristique. Duis quam tortor, ultricies sit amet euismod sed, auctor quis mauris. Phasellus ac sollicitudin nisl.</p>
-            <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-            <p>Maecenas ac justo leo. Quisque auctor neque et tortor molestie at porta lorem faucibus. Sed eget nisi quis dolor posuere condimentum. Suspendisse sem justo, lacinia iaculis fermentum in, tempus vel magna. Morbi metus tortor, volutpat vitae posuere non, commodo nec lectus.</p>
 
-            <div class="space"></div>
-            <hr />
+            <!-- Text -->
+            <section class="grid_8">
+                <p>Nulla id nibh nec nulla malesuada elementum. Morbi quam ante, blandit non sodales tristique, pellentesque eget sem. In quis purus mi, ut luctus velit. Mauris faucibus bibendum mauris, non dapibus lectus commodo nec.</p>
+                <p>Praesent id felis porta turpis dictum ultricies non sit amet neque. Quisque tristique, massa et tempor bibendum, nisi ipsum scelerisque elit, sit amet vehicula nisl nunc vitae magna. Donec ultricies mauris purus. Vestibulum semper accumsan sapien faucibus scelerisque.</p>
+            </section>
 
-            <a href="#" class="button_grey_big">Big grey button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_green_big">Big green button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_grey">Grey button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_green">Green button</a><h:outputText value="&#160;" />
-            <a href="#" class="read_more">Read more</a>
+            <hr class="grid_8" />
 
-            <div class="space"></div>
-            <hr />
-
-            <h2>Headline &lt;h2&gt;</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h3>Headline &lt;h3&gt;</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h4>Headline &lt;h4&gt;</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h5>Headline &lt;h5&gt;</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h6>Headline &lt;h6&gt;</h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <h2><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h2&gt;</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h3><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h3&gt;</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h4><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h4&gt;</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h5><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h5&gt;</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h6><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h6&gt;</h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <h4 class="small_section">Small section headline</h4>
-            <p>Maecenas non tempor nisl. In hac habitasse platea dictumst. Etiam sagittis viverra cursus.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <p class="message_good message">This is a good message.</p>
-            <p class="message_bad message">This is a bad message.</p>
-            <p class="message_info message">You should know about this message.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <ul>
-                <li>Lorem ipsum</li>
-                <li>Praesent metu</li>
-                <li>Integer congue</li>
-                <li>Phasellus</li>
-                <li>
-                    Mentum interdum
-                    <ul>
-                        <li>Lorem ipsum</li>
-                        <li>Praesent metu</li>
-                        <li>Integer congue</li>
-                    </ul>
+            <!-- Offices -->
+            <ul class="offices grid_8" style="list-style-type: none;">
+                <li style="list-style: none;">
+                    <img src="img/icons/flag_germany.png" alt="France" />
+                    <p class="address">
+                        123 Main Street<br />
+                        840 00 Berlin<br />
+                        Germany<br />
+                    </p>
+                    <p class="contact">
+                        <strong>E-mail:</strong> admin@xfiles.in<br />
+                        <strong>Phone:</strong> +421 123 111 222<br />
+                        <strong>Fax:</strong> +421 123 111 222<br />
+                    </p>
                 </li>
             </ul>
+
+            <hr class="grid_8" />
+
+            <!-- Map -->
+            <section class="map grid_8">
+                <script>
+                    $(function() {
+                        markers = "Germany"; // Set the address for marker
+                    });
+                </script>		  
+                <div id="map"><a href="#"><img src="img/placeholder.png" alt="Map" class="shadow" /></a></div>
+            </section> 
         </ui:define>
     </ui:composition>
 

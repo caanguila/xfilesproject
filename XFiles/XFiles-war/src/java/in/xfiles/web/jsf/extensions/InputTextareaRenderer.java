@@ -35,7 +35,6 @@ public class InputTextareaRenderer extends TextareaRenderer {
             @Override
             public void startElement(String name, UIComponent component) throws IOException {
                 super.startElement(name, component);
-                System.err.println(name);
                 if("textarea".equalsIgnoreCase(name)){
                     for(String attr : attributes) {
                         final String value = (String)component.getAttributes().get(attr);
