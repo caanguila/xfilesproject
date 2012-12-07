@@ -186,7 +186,7 @@
                     <h:form id="refresh_messages">
                         <h:commandLink value="refresh" actionListener="#{userInfoBean.refreshAction()}" class="btn btn-small" style="margin-left: 60%;" >
                             <i class="icon-refresh"></i>
-                            <f:ajax render=":messages_list_form :user_messages :cabinetContentContainer" />
+                            <f:ajax render=":messages_list_form :group_access_form :cabinetContentContainer" />
                         </h:commandLink>
                     </h:form>
                     <h:panelGrid id="messages_grid"  columns="2" class="table table-hover" style="width: 600px; text-align: left;" >
@@ -214,14 +214,15 @@
                                     
                                     
                                     <h:commandLink value="Approve" class="btn btn-small" actionListener="#{userInfoBean.approveRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
-                                        <f:ajax execute="@form" render=":user_messages :messages_info"/>
+                                        <f:ajax execute="@form" render="@form"/>
                                     </h:commandLink>
                                     <h:commandLink value="Deny" class="btn btn-small" actionListener="#{userInfoBean.denyRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
-                                        <f:ajax execute="@form" render=":user_messages :messages_info"/>
+                                        <f:ajax execute="@form" render="@form"/>
                                     </h:commandLink>
                                </h:panelGroup>   
                                 <h:panelGrid columns="2">
-                                    <h:outputLabel value="Input your password: "  rendered="#{userInfoBean.groupDownloadRequest}"/>
+                                    
+                                    <h:outputLabel value="Input your password: " style="font-weight: bold; margin-top: 6px;"  rendered="#{userInfoBean.groupDownloadRequest}"/>
                                     <h:inputSecret value="#{userInfoBean.password}"  class="input-small" rendered="#{userInfoBean.groupDownloadRequest}"/>
                                 </h:panelGrid>    
                                     <h:messages id="messages1" class="message" title="Validation Errors" showDetail="true"
