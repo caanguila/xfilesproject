@@ -31,9 +31,9 @@
                             <f:ajax render=":cabinetContentContainer :history_table"  />
                         </h:commandLink></li>
                 </ul>
-                            
+
             </h:form>
-            
+
             <script type="text/javascript">
                 $(document).ready(function() {
                     JSNAV.bind('tab', function(tab, arg) {
@@ -56,28 +56,28 @@
                     }
                 });
             
-            function selectTab(tab) {
-                window.location.hash = '#;tab;'+tab;
-            }
+                function selectTab(tab) {
+                    window.location.hash = '#;tab;'+tab;
+                }
             </script>
 
         </ui:define>
         <ui:define name="content">
             <h:panelGroup id="cabinetContentContainer">
 
-                <h:panelGroup id ="user_files_tree" rendered="#{cabinetController.tableVisible}" > 
+                <h:panelGroup id ="user_files_tree" class="grid_12" rendered="#{cabinetController.tableVisible}" > 
                     <h1>Files</h1>
-                    <h:form id="refresh_files_tree">
-                        <div class="grid_8" style="text-align: right;">
-                            <h:commandLink style="margin-right: 20px;" value="refresh" class="btn btn-small" actionListener="#{filesBean.refreshAction()}">
-                                <i class="icon-refresh"></i>
-                                <f:ajax render=":refresh_files_tree :files_list_form :cabinetContentContainer" />
-                            </h:commandLink>
-                        </div>
-                    </h:form>
-                    <h:panelGrid columns="1">
+                    <div class="grid_9">
+                        <h:form id="refresh_files_tree">
+                            <div style="text-align: right;">
+                                <h:commandLink value="refresh" class="btn btn-small" actionListener="#{filesBean.refreshAction()}">
+                                    <i class="icon-refresh"></i>
+                                    <f:ajax render=":refresh_files_tree :files_list_form :cabinetContentContainer" />
+                                </h:commandLink>
+                            </div>
+                        </h:form>
                         <h:panelGrid id="files_tree_grid" columns="2" class="table table-hover grid_8" style="text-align: left;" >
-                            <h:outputLabel id ="files_list_label" style="width: 350px;" class ="label label-info" value="Files List" />
+                            <h:outputLabel id ="files_list_label" style="width: 300px;" class ="label label-info" value="Files List" />
                             <h:outputLabel id ="files_info_label" style="width: 350px;" class ="label label-info" value="Info" />
 
                             <h:form id="files_list_form" >
@@ -102,11 +102,17 @@
                                 </h:link>
                             </h:panelGroup>
                         </h:panelGrid>
+                    </div>
 
-
+                    <div class="grid_2">
+                        <h3>Operations:</h3>
+                        <h:link class="button_green" outcome="/cabinet/operations/upload.xhtml" value="Upload File" style="width: auto; height: auto;">
+                            <f:param name="parent" value="#{param['folder']}"/>
+                        </h:link>
+                    </div>
+                    <p></p>
+                    <div class="grid_12">
                         <h:form id="request_by_file">    
-
-                            <p></p>
                             <h3>All your download requests for current file:</h3>
                             <h:panelGroup id="requests">
                                 <table class="table table-striped" style="width: 760px;">
@@ -130,16 +136,8 @@
                                     </ui:repeat>
                                 </table>
                             </h:panelGroup>
-                          
-                        </h:form>
-                                
-                    </h:panelGrid>
 
-                    <div class="grid_3">
-                        <h3>Operations:</h3>
-                        <h:link class="button_green" outcome="/cabinet/operations/upload.xhtml" value="Upload File" style="width: auto; height: auto;">
-                            <f:param name="parent" value="#{param['folder']}"/>
-                        </h:link>
+                        </h:form>
                     </div>
                 </h:panelGroup>
 
@@ -209,29 +207,29 @@
                             <h:outputLabel value="Sender: #{userInfoBean.currentMessage.senderId.userId}" />
                             <h:outputLabel value="Message: #{userInfoBean.currentMessage.message}" />
                             <h:form id="group_access_form">
-                                
+
                                 <h:panelGroup class="btn-group">
-                                    
-                                    
+
+
                                     <h:commandLink value="Approve" class="btn btn-small" actionListener="#{userInfoBean.approveRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
                                         <f:ajax execute="@form" render="@form"/>
                                     </h:commandLink>
                                     <h:commandLink value="Deny" class="btn btn-small" actionListener="#{userInfoBean.denyRequest()}" rendered="#{userInfoBean.groupDownloadRequest}">
                                         <f:ajax execute="@form" render="@form"/>
                                     </h:commandLink>
-                               </h:panelGroup>   
+                                </h:panelGroup>   
                                 <h:panelGrid columns="2">
-                                    
+
                                     <h:outputLabel value="Input your password: " style="font-weight: bold; margin-top: 6px;"  rendered="#{userInfoBean.groupDownloadRequest}"/>
                                     <h:inputSecret value="#{userInfoBean.password}"  class="input-small" rendered="#{userInfoBean.groupDownloadRequest}"/>
                                 </h:panelGrid>    
-                                    <h:messages id="messages1" class="message" title="Validation Errors" showDetail="true"
-                                          style="margin-left: 0;" errorClass="message_bad" fatalClass="message_bad"
-                                        warnClass="message_info" infoClass="message_good">
-                                    </h:messages>
-                                    
-                                    
-                                 
+                                <h:messages id="messages1" class="message" title="Validation Errors" showDetail="true"
+                                            style="margin-left: 0;" errorClass="message_bad" fatalClass="message_bad"
+                                            warnClass="message_info" infoClass="message_good">
+                                </h:messages>
+
+
+
                             </h:form>    
                         </h:panelGroup>
                     </h:panelGrid>
