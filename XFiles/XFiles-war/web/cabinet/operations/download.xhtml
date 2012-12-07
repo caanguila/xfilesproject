@@ -89,7 +89,7 @@
             <script type="text/javascript">
                 function handleRequestDownload(e) {
                     if(e.status === 'success')
-                        $('#create_request_form').remove();
+                        document.location = '#{request.contextPath}/faces/cabinet/home.xhtml';
                 }
             </script>
         </ui:define>
