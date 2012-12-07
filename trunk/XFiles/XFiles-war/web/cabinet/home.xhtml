@@ -222,6 +222,7 @@
                             <tr>
                                 <th># ID</th>
                                 <th>File ID</th>
+                                <th>Name</th>
                                 <th>Date Requested</th>
                                 <th>Date Provided</th>
                                 <th>Status</th>
@@ -231,11 +232,12 @@
                                 <tr>
                                     <td style="text-align: center;">#{downloadRequest.id}</td>
                                     <td style="text-align: center;">#{downloadRequest.file.fileId}</td>
+                                    <td style="text-align: center;">#{downloadRequest.file.name}</td>
                                     <td>#{downloadRequest.dateRequested}</td>
                                     <td>#{downloadRequest.dateProvided}</td>
                                     <td style="text-align: center;">#{downloadRequestBean.getStatusAsString(downloadRequest.status)}</td>
-                                    <td>
-                                        <a href="#{request.contextPath}/download?id=#{downloadRequest.id}">Download</a>
+                                    <td>                                        
+                                        <a href="#{request.contextPath}/download?id=#{downloadRequest.id}" >Download</a>
                                     </td>
                                 </tr>
                             </ui:repeat>
