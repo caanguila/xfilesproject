@@ -23,7 +23,10 @@
                 <renderer-class>in.xfiles.web.jsf.extensions.InputTextareaRenderer</renderer-class>
             </renderer>
         </render-kit>
-    
+        <resource-bundle>
+            <base-name>in.xfiles.web.messages.messages</base-name>
+            <var>msgs</var>
+        </resource-bundle>
     </application>
     
         
