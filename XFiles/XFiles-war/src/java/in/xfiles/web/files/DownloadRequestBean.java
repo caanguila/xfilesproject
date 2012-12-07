@@ -97,6 +97,17 @@ public class DownloadRequestBean implements Serializable {
             fm.requestDownload(JSFHelper.getUserId(), fileId, null);
     }
     
+    public String getStatusAsString(int status){
+        switch (status){
+            case DownloadRequest.APPROVED_STATUS: return "Approved";
+            case DownloadRequest.ERROR_STATUS: return "Error";
+            case DownloadRequest.EXPIRED_STATUS: return "Expired";
+            case DownloadRequest.READY_STATUS: return "Ready";
+            case DownloadRequest.REQUESTED_STATUS: return "Requested";
+        }
+        return "";
+    }
+    
     public Files getFile() {
         return file;
     }
