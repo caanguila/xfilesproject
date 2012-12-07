@@ -15,7 +15,7 @@ import java.io.Serializable;
 @ManagedBean
 @ViewScoped
 public class CabinetController implements Serializable {
-public boolean tableVisible = true;
+public boolean tableVisible;
 public boolean groupsVisible;
 public boolean messagesVisible;
 public boolean profileVisible;

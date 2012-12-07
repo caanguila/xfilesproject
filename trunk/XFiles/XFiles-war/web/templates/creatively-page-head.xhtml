@@ -44,10 +44,11 @@
                             <a href="#{request.contextPath}/faces/cabinet/home.xhtml">Cabinet</a>		
                             <c:if test="#{loginBean.loggedIn}">
                                 <ul>
-                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#tab=home">Cabinet Home</a></li>
-                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#tab=files">Files</a></li>
-                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#tab=groups">Groups</a></li>
-                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#tab=messages">Messages</a></li>
+                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#;tab">Cabinet Home</a></li>
+                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#;tab;files">Files</a></li>
+                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#;tab;groups">Groups</a></li>
+                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#;tab;messages">Messages</a></li>
+                                    <li><a href="#{request.contextPath}/faces/cabinet/home.xhtml#;tab;history">History</a></li>
                                     <li><h:form><h:commandLink action="#{loginBean.logOut}">Sign Out</h:commandLink></h:form></li>
                                 </ul>
                             </c:if>
