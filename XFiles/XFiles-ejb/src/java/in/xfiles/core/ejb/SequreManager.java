@@ -55,21 +55,21 @@ public class SequreManager implements SequreManagerLocal{
     }
 
     @Override
-    public void acceptRequestByUser(Messages message) {
+    public boolean approveRequestByUser(Messages message) {
         Long groupId = message.getGroupId();
         User recipient = message.getRecipientId();
      //   User sender = message.getSenderId();
         Groups gr = em.find(Groups.class, groupId);
         if(gr == null){
             log.warn("Incorrect group id: "+groupId);
-            return;
+            return false;
         }
       //  Files file = gr.getFilesCollection().iterator().next();
         
         ArrayList<String> params = CommonTools.parceElements(message.getOptions());
         if(params.isEmpty()){
             log.warn("Notification message has no params like: request_id=some_string");
-            return;
+            return false;
         }
         String requestId="";
         for(int i=0; i<params.size(); i+=2){
@@ -89,8 +89,9 @@ public class SequreManager implements SequreManagerLocal{
         DownloadRequest req = em.find(DownloadRequest.class, new Long(requestId));
         if(req == null){
             log.warn("Can't find download request!");
-            return;
+            return false;
         }
+        boolean result = false;
         if(validatePropForUserId(req, recipient)){
             log.debug("modify request: "+req.getId());
             String param = "user_id="+recipient.getUserId();
@@ -102,7 +103,9 @@ public class SequreManager implements SequreManagerLocal{
                 req.setProperties(prop);
             }
             em.merge(req);
+            result = true;
         }else{
+            
             log.debug("User: "+recipient.getUserId()+" has already accepted request ");
         }
         
@@ -121,6 +124,7 @@ public class SequreManager implements SequreManagerLocal{
                     }
             }
            
+        return result;
     }
     
     

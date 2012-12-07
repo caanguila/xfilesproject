@@ -168,7 +168,8 @@ public class FileManager implements FileManagerLocal, CommonConstants {
         for (User u : gr.getUsersCollection()) {
             PasswordStorage ps = new PasswordStorage();
             ps.setUserId(u.getUserId());
-            ps.setPassword(parts.get(i));
+            byte[] crypto = CryptoHelper.enCryptString(parts.get(i));
+            ps.setPassword(CryptoHelper.toHexString(crypto));
             ps.setOptions("" + i);
             log.info("Persisting of passwordStorage");
             em.persist(ps);
@@ -330,7 +331,8 @@ public class FileManager implements FileManagerLocal, CommonConstants {
                     for(PasswordStorage ps : col){
                         if(val.equals(ps.getUserId()+"")){
                             Integer x = new Integer(ps.getOptions());
-                            secretParts.put(x, ps.getPassword());
+                            byte[] sec = CryptoHelper.fromHexString(ps.getPassword());
+                            secretParts.put(x, CryptoHelper.decryptString(sec));
                         }
                     }
                 

@@ -38,7 +38,7 @@ public class CryptoHelper {
         }
     }
 
-    private static String toHexString(byte[] byteData) {
+    public static String toHexString(byte[] byteData) {
         if (byteData == null) {
             return StringUtils.EMPTY_STRING;
         }
@@ -194,7 +194,7 @@ public class CryptoHelper {
 
     }
 
-    private static byte[] fromHexString(String s) {
+    public static byte[] fromHexString(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
@@ -373,7 +373,7 @@ public class CryptoHelper {
         return  "helooMyDearKITY";
     }
     
-    public static String enCryptString(String part) {
+    public static byte[] enCryptString(String part) {
 
 
         Cipher cipher = getEncryptCipher(getPartKey());
@@ -421,7 +421,7 @@ public class CryptoHelper {
         //    log.debug("fos: " + toHexString(fos.toByteArray()));
             fis.close();
 
-            return new String(fos.toByteArray());
+            return (fos.toByteArray());
         } catch (Exception ex) {
             log.warn("Can't encrypt input file:");
             log.warn("Stacktrsce: " + ex);
@@ -433,11 +433,11 @@ public class CryptoHelper {
 
     }
 
-    public static String decryptString(String enPart) {
+    public static String decryptString(byte[] enPart) {
 
         try {
             Cipher cipher = getDecryptCipher(getPartKey());
-            InputStream fis = new ByteArrayInputStream(enPart.getBytes());
+            InputStream fis = new ByteArrayInputStream(enPart);
             ByteArrayOutputStream fos = new ByteArrayOutputStream();
 
        //     log.debug("Decrypt String avalable: " + fis.available() + "  " + ENCRYPTION_BUFFER_SIZE);
@@ -494,6 +494,6 @@ public class CryptoHelper {
             java.util.logging.Logger.getLogger(CryptoHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return "";
+        return null;
     }
 }
