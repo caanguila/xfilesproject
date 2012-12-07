@@ -14,20 +14,23 @@
         <ui:define name="submenu">
             <h:form id="controll_panel_form" prependId="false">
                 <ul>
-                    <li id="files_tab" onclick="selectTab('files');"><h:commandLink id="control_files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
+                    <li id="files_tab" onclick="selectTab('files');"><h:commandLink id="control_files_link" value="Files" actionListener="#{cabinetController.filesLinkListener}">
                             <f:ajax render=":cabinetContentContainer :refresh_files_tree :files_list_form :request_by_file " />
                         </h:commandLink></li>
 
-                    <li id="groups_tab" onclick="selectTab('groups');"><h:commandLink id="control_groups_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
+                    <li id="groups_tab" onclick="selectTab('groups');"><h:commandLink id="control_groups_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener}">
                             <f:ajax render=":cabinetContentContainer :refresh_groups :groups_list_form "  />
                         </h:commandLink></li>
-                    <li id="messages_tab" onclick="selectTab('messages');"><h:commandLink id="control_messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
+                    <li id="requests_tab" onclick="selectTab('requests');"><h:commandLink id="control_requests_link" value="Requests" actionListener="#{cabinetController.requestsLinkListener}">
+                            <f:ajax render=":cabinetContentContainer"  />
+                        </h:commandLink></li>
+                    <li id="messages_tab" onclick="selectTab('messages');"><h:commandLink id="control_messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener}">
                             <f:ajax render=":cabinetContentContainer :refresh_messages :messages_list_form :group_access_form"  />
                         </h:commandLink></li>
-                    <li id="profile_tab" onclick="selectTab('profile');"><h:commandLink id="control_profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
+                    <li id="profile_tab" onclick="selectTab('profile');"><h:commandLink id="control_profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener}">
                             <f:ajax render=":cabinetContentContainer :change_info_form :change_password_form"  />
                         </h:commandLink></li>
-                    <li id="history_tab" onclick="selectTab('history');"><h:commandLink id="control_history_link" value="History" actionListener="#{cabinetController.historyLinkListener(e)}">
+                    <li id="history_tab" onclick="selectTab('history');"><h:commandLink id="control_history_link" value="History" actionListener="#{cabinetController.historyLinkListener}">
                             <f:ajax render=":cabinetContentContainer :history_table"  />
                         </h:commandLink></li>
                 </ul>
@@ -39,23 +42,12 @@
                 $(document).ready(function() {
                     JSNAV.bind('tab', function(tab, arg) {
                         currentTab = tab || 'files';
-                        if(tab === undefined)
-                            $('#control_files_link').click();
-                        if(tab === 'files')
-                            $('#control_files_link').click();
-                        if(tab === 'groups')
-                            $('#control_groups_link').click();
-                        if(tab === 'messages')
-                            $('#control_messages_link').click();
-                        if(tab === 'profile')
-                            $('#control_profile_link').click();
-                        if(tab === 'history')
-                            $('#control_history_link').click();
+                        $('#control_'+currentTab+'_link').click();
                         $('#controll_panel_form ul li').each(
-                            function(i) {
-                                $(this).removeClass('selected');
-                            }
-                        ); 
+                        function(i) {
+                            $(this).removeClass('selected');
+                        }
+                    ); 
                         $('#'+currentTab+'_tab').addClass("selected");
                         
                     });
@@ -183,6 +175,35 @@
                             </ui:repeat>
                         </h:panelGroup>
                     </h:panelGrid>
+                </h:panelGroup>
+
+                <h:panelGroup id ="user_requests" rendered="#{cabinetController.requestsVisible}" >
+                    <h1>Download Requests</h1>
+
+                    <h:panelGroup id="requests">
+                        <table class="table table-striped grid_10">
+                            <tr>
+                                <th># ID</th>
+                                <th>File ID</th>
+                                <th>Date Requested</th>
+                                <th>Date Provided</th>
+                                <th>Status</th>
+                                <th>Link</th>
+                            </tr>
+                            <ui:repeat value="#{downloadRequestBean.downloadRequests}" var="downloadRequest">
+                                <tr>
+                                    <td style="text-align: center;">#{downloadRequest.id}</td>
+                                    <td style="text-align: center;">#{downloadRequest.file.fileId}</td>
+                                    <td>#{downloadRequest.dateRequested}</td>
+                                    <td>#{downloadRequest.dateProvided}</td>
+                                    <td style="text-align: center;">#{downloadRequest.status}</td>
+                                    <td>
+                                        <a href="#{request.contextPath}/download?id=#{downloadRequest.id}">Download</a>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </table>
+                    </h:panelGroup>
                 </h:panelGroup>
 
 

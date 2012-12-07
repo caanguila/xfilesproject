@@ -58,38 +58,10 @@
                     </li>
                 </ul>
             </h:panelGroup>
-            <div class="grid_10">
-                <p></p>
-                <h3>All your download requests:</h3>
-                <h:panelGroup id="requests">
-                    <table class="table table-striped">
-                        <tr>
-                            <th># ID</th>
-                            <th>File ID</th>
-                            <th>Date Requested</th>
-                            <th>Date Provided</th>
-                            <th>Status</th>
-                            <th>Link</th>
-                        </tr>
-                        <ui:repeat value="#{downloadRequestBean.downloadRequests}" var="downloadRequest">
-                            <tr>
-                                <td style="text-align: center;">#{downloadRequest.id}</td>
-                                <td style="text-align: center;">#{downloadRequest.file.fileId}</td>
-                                <td>#{downloadRequest.dateRequested}</td>
-                                <td>#{downloadRequest.dateProvided}</td>
-                                <td style="text-align: center;">#{downloadRequest.status}</td>
-                                <td>
-                                    <a href="#{request.contextPath}/download?id=#{downloadRequest.id}">Download</a>
-                                </td>
-                            </tr>
-                        </ui:repeat>
-                    </table>
-                </h:panelGroup>
-            </div>
             <script type="text/javascript">
                 function handleRequestDownload(e) {
                     if(e.status === 'success')
-                        document.location = '#{request.contextPath}/faces/cabinet/home.xhtml';
+                        document.location = '#{request.contextPath}/faces/cabinet/home.xhtml#;tab;requests';
                 }
             </script>
         </ui:define>
