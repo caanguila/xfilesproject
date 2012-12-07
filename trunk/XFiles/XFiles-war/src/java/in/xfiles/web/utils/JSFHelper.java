@@ -90,4 +90,19 @@ public abstract class JSFHelper {
     public static void setUserId(Long userId) {
         SessionHelper.setUserId(getSession(true), userId);
     }
+
+    public static boolean validateQaptcha(boolean showMessages, String summary, String details) {
+        String qaptchaKey = JSFHelper.getSessionAttribute(String.class, "qaptcha_key");
+        if(qaptchaKey == null) {
+            if(showMessages)
+                JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, summary, details);
+            return false;
+        }
+        if(!JSFHelper.getRequest().getParameterMap().containsKey(qaptchaKey)) {
+            if(showMessages)
+                JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, summary, details);
+            return false;
+        }
+        return true;
+    }
 }

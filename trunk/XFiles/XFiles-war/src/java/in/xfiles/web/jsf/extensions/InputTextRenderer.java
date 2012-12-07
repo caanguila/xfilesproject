@@ -16,7 +16,7 @@ import javax.faces.context.ResponseWriterWrapper;
 public class InputTextRenderer extends TextRenderer {
     
     private static final String[] attributes = new String[] {
-                                "placeholder", "type"
+                                "placeholder"
                             };
     
     @Override

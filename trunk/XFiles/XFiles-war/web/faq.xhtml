@@ -20,113 +20,60 @@
             </ul>
         </ui:define>
 
-        <ui:define name="categories">
-            <h3>Categories</h3>
-            <ul class="categories">
-                <li><a href="#">Category</a></li>
-                <li class="selected"><a href="#">Category 1</a></li>
-                <li><a href="#">Catogory 2</a></li>
-                <li><a href="#">Category 3</a></li>
-            </ul>	
+        <ui:define name="categories">	
+            <h3>Advertisement</h3>
+            Place for ads.
         </ui:define>
 
         <ui:define name="content">
             <h2>Frequently Asked Questions</h2>
-            
-<!--            <p><strong>Here is an example of long article.</strong></p>-->
+
+            <!--            <p><strong>Here is an example of long article.</strong></p>-->
             <dl> 
-               <dt>Register</dt>
-               <dd>To register for Xfiles press the green button Register (button at the top right), in the window that appears, enter your e-mail, which will be your user name, then enter your password, then repeat your password, then enter your name, if you choose to enter more information.</dd>
-               
-               <dt>Sign In</dt>
-                 <dd>To log into your account, click on the green button Sign In (the button is located on the top right), enter your email address and password.</dd>
-               <dt>Upload file. </dt>
-                 <dd>Push Upload file (the button is located on the left side in the middle), select the file on computer.Then change type of encryption (if selected AES, enter the password and access type, click Upload.</dd>
-               <dt> Top buttons.</dt>
-                 <dd>Home (return to home page), About (about us and our fayloobmenike), Services, Blog (still in development), Pricing (in development), Cabinet (your personal account management, where you can also register, log in to your account and reset your password (currently not working)).</dd>
+                <dt>How can I register in XFiles?</dt>
+                <dd>To register for Xfiles click the green button "Register" (button at the top right) on the main page of the site. 
+                    The dialog appears, where you should enter your e-mail, which will be your user name in our system, 
+                    then enter your password, then repeat your password, and after that enter your name. If you like you may enter more information.<br/>
+                    Note that <strong>e-mail</strong>, <strong>password</strong>, <strong>first name</strong> and <strong>last name</strong> are mandatory parameters.
+                    You will not be able to complete registration if you don't fill in this fields. 
+                </dd>
+
+                <dt>How to sign in to XFiles?</dt>
+                <dd>To log in to your account, click the green button "Sign In" (the button is located on the top right), 
+                    enter your e-mail address (user name) and password.</dd>
+                
+                <dt>I forgot the password to my account and cannot sign in. What should I do?</dt>
+                <dd>You can reset the password with the help of <a href="#{request.contextPath}/faces/recover.xhtml">password recovery page</a>. The password will be sent to you e-mail.</dd>
+                
+                <dt>What are the buttons in the main menu?</dt>
+                <dd>On the top of the any page you can see the main menu. It's just a set of links that helps to navigate between pages of the site.<br/>
+                    Currently, it contains the following: Home (return to home page), 
+                    About (about us and our fayloobmenike), 
+                    Services, Blog (still in development), 
+                    Pricing (in development), 
+                    Cabinet (your personal account management, where you can also register, log in to your account and reset your password and log out).</dd>
+                
+                <dt>How to upload files?</dt>
+                <dd>You can easily upload your file to XFiles. Sign in to your account and navigate to "Files" tab in personal cabinet. You will see the "Upload".
+                    By clicking this button you will be navigated to the "File upload form". Just select file to upload, specify necessary parameters and click "Upload".</dd>
+                
+                <dt>Is it possible to upload several files at a time?</dt>
+                <dd>Unfortunately, we have not implemented this feature yet. But you can upload an archive of files (ZIP, RAR and others).</dd>
+                
+                <dt>What is the maximum size of uploaded file?</dt>
+                <dd>We are at the stage of testing. So, the maximus size of uploaded file is currently set to 40 Mb.</dd>
+                
+                <dt>What is the file access type?</dt>
+                <dd>
+                    There are 3 access types of files: <strong>Private Access</strong>, <strong>Public Access</strong> and <strong>Group Access</strong>.<br/>
+                    Files with "Public Access" type can be downloaded by any user of XFiles who has the download-link to the file 
+                    (of course, the user will be able download it if he knows the password).<br/>
+                    Files with "Private Access" type can be downloaded by the owner of the file. Currently, the file can only have a single owner.
+                    "Group Access" files (or just group files) are shared between a group of users. 
+                    But in order to download the file, the user will need to get approval of at least 3 other users of the group.
+                </dd>
+                
             </dl>
-            
-<!--            <p>Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipiscing elit. Aenean at vestibulum nunc. Sed augue magna, molestie at varius vitae, aliquam et purus. Quisque lacus enim, cursus a ornare non, ultricies quis nisl. Morbi eget velit dignissim ante sodales fringilla. Vestibulum molestie sagittis neque quis dignissim.</p>
-            <p><strong>Integer congue, erat id lobortis rutrum, libero dolor cursus nibh, vel volutpat lectus sem vulputate nisi.</strong></p>
-            <p>Donec enim ligula, malesuada et elementum non, euismod eu neque. Vivamus lorem elit, malesuada nec egestas eu, congue eget justo. Aliquam laoreet dictum tristique. Duis quam tortor, ultricies sit amet euismod sed, auctor quis mauris. Phasellus ac sollicitudin nisl.</p>
-            <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-            <p>Maecenas ac justo leo. Quisque auctor neque et tortor molestie at porta lorem faucibus. Sed eget nisi quis dolor posuere condimentum. Suspendisse sem justo, lacinia iaculis fermentum in, tempus vel magna. Morbi metus tortor, volutpat vitae posuere non, commodo nec lectus.</p>-->
-
-            <div class="space"></div>
-            <hr />
-
-            <a href="#" class="button_grey_big">Big grey button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_green_big">Big green button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_grey">Grey button</a><h:outputText value="&#160;" />
-            <a href="#" class="button_green">Green button</a><h:outputText value="&#160;" />
-            <a href="#" class="read_more">Read more</a>
-
-            <div class="space"></div>
-            <hr />
-
-            <h2>Headline &lt;h2&gt;</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h3>Headline &lt;h3&gt;</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h4>Headline &lt;h4&gt;</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h5>Headline &lt;h5&gt;</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h6>Headline &lt;h6&gt;</h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <h2><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h2&gt;</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h3><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h3&gt;</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h4><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h4&gt;</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h5><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h5&gt;</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <h6><img src="img/icons/applications-internet.png" alt="" /> Headline &lt;h6&gt;</h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent metus magna, consequat at semper id, semper vitae ante.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <h4 class="small_section">Small section headline</h4>
-            <p>Maecenas non tempor nisl. In hac habitasse platea dictumst. Etiam sagittis viverra cursus.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <p class="message_good message">This is a good message.</p>
-            <p class="message_bad message">This is a bad message.</p>
-            <p class="message_info message">You should know about this message.</p>
-
-            <div class="space"></div>
-            <hr />
-
-            <ul>
-                <li>Lorem ipsum</li>
-                <li>Praesent metu</li>
-                <li>Integer congue</li>
-                <li>Phasellus</li>
-                <li>
-                    Mentum interdum
-                    <ul>
-                        <li>Lorem ipsum</li>
-                        <li>Praesent metu</li>
-                        <li>Integer congue</li>
-                    </ul>
-                </li>
-            </ul>
         </ui:define>
 
     </ui:composition>
