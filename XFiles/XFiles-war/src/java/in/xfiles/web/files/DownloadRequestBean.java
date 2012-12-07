@@ -8,7 +8,6 @@ import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.web.utils.JSFHelper;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
