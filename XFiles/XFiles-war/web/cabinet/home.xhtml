@@ -14,20 +14,20 @@
         <ui:define name="submenu">
             <h:form id="controll_panel_form" prependId="false">
                 <ul>
-                    <li onclick="selectTab('files');"><h:commandLink id="control_files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
+                    <li id="files_tab" onclick="selectTab('files');"><h:commandLink id="control_files_link" value="Files" actionListener="#{cabinetController.filesLinkListener(e)}">
                             <f:ajax render=":cabinetContentContainer :refresh_files_tree :files_list_form :request_by_file " />
                         </h:commandLink></li>
 
-                    <li onclick="selectTab('groups');"><h:commandLink id="control_groups_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
+                    <li id="groups_tab" onclick="selectTab('groups');"><h:commandLink id="control_groups_link" value="Groups" actionListener="#{cabinetController.groupsLinkListener(e)}">
                             <f:ajax render=":cabinetContentContainer :refresh_groups :groups_list_form "  />
                         </h:commandLink></li>
-                    <li onclick="selectTab('messages');"><h:commandLink id="control_messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
+                    <li id="messages_tab" onclick="selectTab('messages');"><h:commandLink id="control_messages_link" value="Messages" actionListener="#{cabinetController.messagesLinkListener(e)}">
                             <f:ajax render=":cabinetContentContainer :refresh_messages :messages_list_form :group_access_form"  />
                         </h:commandLink></li>
-                    <li onclick="selectTab('profile');"><h:commandLink id="control_profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
+                    <li id="profile_tab" onclick="selectTab('profile');"><h:commandLink id="control_profile_link" value="Profile" actionListener="#{cabinetController.profileLinkListener(e)}">
                             <f:ajax render=":cabinetContentContainer :change_info_form :change_password_form"  />
                         </h:commandLink></li>
-                    <li onclick="selectTab('history');"><h:commandLink id="control_history_link" value="History" actionListener="#{cabinetController.historyLinkListener(e)}">
+                    <li id="history_tab" onclick="selectTab('history');"><h:commandLink id="control_history_link" value="History" actionListener="#{cabinetController.historyLinkListener(e)}">
                             <f:ajax render=":cabinetContentContainer :history_table"  />
                         </h:commandLink></li>
                 </ul>
@@ -35,8 +35,10 @@
             </h:form>
 
             <script type="text/javascript">
+                var currentTab = 'files';
                 $(document).ready(function() {
                     JSNAV.bind('tab', function(tab, arg) {
+                        currentTab = tab || 'files';
                         if(tab === undefined)
                             $('#control_files_link').click();
                         if(tab === 'files')
@@ -49,6 +51,12 @@
                             $('#control_profile_link').click();
                         if(tab === 'history')
                             $('#control_history_link').click();
+                        $('#controll_panel_form ul li').each(
+                            function(i) {
+                                $(this).removeClass('selected');
+                            }
+                        ); 
+                        $('#'+currentTab+'_tab').addClass("selected");
                         
                     });
                     if(window.location.hash === '' || window.location.hash === '#') {
