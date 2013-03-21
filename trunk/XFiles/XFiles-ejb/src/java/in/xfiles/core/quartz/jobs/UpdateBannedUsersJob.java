@@ -1,15 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package in.xfiles.core.quartz.jobs;
 
-import in.xfiles.core.entity.User;
 import javax.persistence.EntityManager;
 import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import java.util.List;
 import java.util.Date;
 import java.util.logging.Level;
 /**
@@ -17,7 +11,8 @@ import java.util.logging.Level;
  * @author 7
  */
 public class UpdateBannedUsersJob extends BaseJob {
-private final Logger log = Logger.getLogger(UpdateBannedUsersJob.class);
+    
+private static final Logger log = Logger.getLogger(UpdateBannedUsersJob.class);
 
 private final static long PUNISH_MIN_TIME = 5;
     @Override

@@ -8,7 +8,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.context.ResponseWriterWrapper;
 
 /**
- * A simple renderer for h:inputText 
+ * A simple renderer for h:inputText,
  * which allows to add some custom attributes.
  * 
  * @author rogvold
@@ -16,7 +16,7 @@ import javax.faces.context.ResponseWriterWrapper;
 public class InputTextRenderer extends TextRenderer {
     
     private static final String[] attributes = new String[] {
-                                "placeholder"
+                                "placeholder", "type"
                             };
     
     @Override

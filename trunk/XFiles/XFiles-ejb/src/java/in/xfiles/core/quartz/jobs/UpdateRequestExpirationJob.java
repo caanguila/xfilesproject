@@ -14,7 +14,7 @@ import org.quartz.JobExecutionException;
 
 /**
  * Quartz Scheduler job for updating statuses of download requests.
- * All requests with READY status should expire after 2 hours 
+ * All requests with READY status should expire after 2 hours
  * with removing corresponding file.
  *
  * @author danon
