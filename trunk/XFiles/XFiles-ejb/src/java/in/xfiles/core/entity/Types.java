@@ -1,12 +1,10 @@
 package in.xfiles.core.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,9 +23,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Types implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
-    @Column(name = "type_id",columnDefinition = "BIGSERIAL")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "type_id")
     private Long typeId;
     
     @Basic(optional = false)

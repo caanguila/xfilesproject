@@ -23,9 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Messages implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
-    @Column(name = "message_id",columnDefinition = "BIGSERIAL")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "message_id")
     private Long messageId;
     
     @Column(name = "date_send")

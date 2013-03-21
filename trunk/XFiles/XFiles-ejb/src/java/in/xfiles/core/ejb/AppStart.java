@@ -3,6 +3,7 @@ package in.xfiles.core.ejb;
 
 import in.xfiles.core.quartz.jobs.UpdateBannedUsersJob;
 import in.xfiles.core.quartz.jobs.UpdateRequestExpirationJob;
+import java.io.File;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
@@ -50,6 +51,8 @@ public class AppStart {
     }
     
     private void init() throws SchedulerException {
+        new File(FileManager.FILE_UPLOAD_DIRECTORY).mkdirs();
+        new File(FileManager.REQUESTED_DOWNLOADS_DIRECTORY).mkdirs();
         scheduler = StdSchedulerFactory.getDefaultScheduler();
         scheduler.start();
     }

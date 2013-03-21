@@ -20,9 +20,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ActionTypes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
-    @Column(name = "action_type_id", columnDefinition="BIGSERIAL")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "action_type_id")
     private Long actionTypeId;
     
     @Basic(optional = false)

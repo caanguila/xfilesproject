@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class UsersPasswords implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "user_id")
     private Long userId;
     
