@@ -26,9 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
-    @Column(name = "user_id", columnDefinition = "BIGSERIAL")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "user_id")
     private Long userId;
     
     @Basic(optional = false)
@@ -47,11 +46,11 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "date_creation")
     @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date dateCreation;
+    private Date dateCreation;
     
     @Column(name = "date_suspended")
     @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date dateSuspended;
+    private Date dateSuspended;
     
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)

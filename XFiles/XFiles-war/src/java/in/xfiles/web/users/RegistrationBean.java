@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 @ViewScoped
 public class RegistrationBean extends BaseManagedBean implements CommonConstants {
     
-    private final Logger log = Logger.getLogger(RegistrationBean.class);
+    private static final Logger log = Logger.getLogger(RegistrationBean.class);
     
     @EJB
     private UserManagerLocal um;

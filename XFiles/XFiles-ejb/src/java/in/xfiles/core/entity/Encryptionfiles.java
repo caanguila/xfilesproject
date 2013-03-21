@@ -21,9 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Encryptionfiles implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
-    @Column(name = "en_file_id",columnDefinition = "BIGSERIAL")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "en_file_id")
     private Long enFileId;
     
     @Basic(optional = false)

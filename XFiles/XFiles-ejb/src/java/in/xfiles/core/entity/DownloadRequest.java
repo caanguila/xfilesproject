@@ -27,8 +27,8 @@ public class DownloadRequest implements Serializable {
     public static final int ERROR_STATUS = 4;
     
     
-    @Id @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     
     @ManyToOne

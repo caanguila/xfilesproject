@@ -26,10 +26,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Files.findByIsfolder", query = "SELECT f FROM Files f WHERE f.isfolder = :isfolder")})
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
-     @Id
-    @SequenceGenerator(sequenceName="xfiles_seq", name="seq", allocationSize=1, initialValue=1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq")
-    @Column(name = "file_id", columnDefinition = "BIGSERIAL")
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "file_id")
     private Long fileId;
     @Basic(optional = false)
     @NotNull

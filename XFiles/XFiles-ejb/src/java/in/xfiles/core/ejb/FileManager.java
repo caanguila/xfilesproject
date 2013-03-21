@@ -30,8 +30,9 @@ import javax.persistence.Query;
 @Stateless
 public class FileManager implements FileManagerLocal, CommonConstants {
 
-    public static final String FILE_UPLOAD_DIRECTORY = "uploads/";
-    public static final String REQUESTED_DOWNLOADS_DIRECTORY = "uploads/downloads/";
+    public static final String BASE_DIRECTORY = "C:/tmp/";
+    public static final String FILE_UPLOAD_DIRECTORY = BASE_DIRECTORY + "uploads/";
+    public static final String REQUESTED_DOWNLOADS_DIRECTORY = BASE_DIRECTORY + "uploads/downloads/";
     private Logger log = Logger.getLogger(FileManager.class);
     @PersistenceContext
     private EntityManager em;
