@@ -4,8 +4,8 @@ import in.xfiles.core.ejb.PasswordManagerLocal;
 import in.xfiles.core.ejb.UserManagerLocal;
 import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.StringUtils;
+import in.xfiles.web.BaseManagedBean;
 import in.xfiles.web.utils.JSFHelper;
-import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean
 @ViewScoped
-public class PasswordRecoveryBean implements Serializable {
+public class PasswordRecoveryBean extends BaseManagedBean {
     
     private final Logger log = Logger.getLogger(RegistrationBean.class);
     
@@ -54,25 +54,25 @@ public class PasswordRecoveryBean implements Serializable {
     }
     
     public void recoverAction(ActionEvent evt) {
-        
-        if(!JSFHelper.validateQaptcha(true, "Validation:", "Captcha validation failed.")) {
+        JSFHelper helper = getJSFHelper();
+        if(!helper.validateQaptcha(true, "Validation:", "Captcha validation failed.")) {
             recoveryStatus = "fail";
             return;
         }
             
         if(!validateUserInput()) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "Check your input and try again.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "Check your input and try again.");
             recoveryStatus = "fail";
             return;
         }
         
         if(!tryRecover(login)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Password cannot be recovered.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Password cannot be recovered.");
             recoveryStatus = "fail";
             return;
         }
         
-        JSFHelper.addMessage(FacesMessage.SEVERITY_INFO, "Information:", "New password has been sent to your e-mail.");    
+        helper.addMessage(FacesMessage.SEVERITY_INFO, "Information:", "New password has been sent to your e-mail.");    
         recoveryStatus = "ok";
     }
 

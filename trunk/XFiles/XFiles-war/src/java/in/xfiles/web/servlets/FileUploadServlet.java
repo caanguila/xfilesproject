@@ -8,7 +8,7 @@ import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
 import in.xfiles.core.wrappers.UploadedFileWrapper;
-import in.xfiles.web.utils.SessionHelper;
+import in.xfiles.web.utils.SessionUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -69,12 +69,12 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = SessionHelper.getSession(request, true);
+        HttpSession session = SessionUtils.getSession(request, true);
         
         redirect = getValidParameter(request, REDIRECT_PARAM, request.getContextPath()+"/faces/cabinet/operations/upload.xhtml?success=1");
         errorRedirect = getValidParameter(request, ERROR_REDIRECT_PARAM, request.getContextPath()+"/faces/cabinet/operations/upload.xhtml?error=1");
         
-        Long userId = SessionHelper.getUserId(session);
+        Long userId = SessionUtils.getUserId(session);
         if(userId == null) {
             log.debug("Permission denied. Log in.");
             redirect(response, errorRedirect);

@@ -1,7 +1,7 @@
 package in.xfiles.web.servlets;
 
 import in.xfiles.core.helpers.StringUtils;
-import in.xfiles.web.utils.SessionHelper;
+import in.xfiles.web.utils.SessionUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -36,9 +36,9 @@ public class QapTchaServlet extends HttpServlet {
         try {
             if(request != null) {
                 HttpSession session = request.getSession(true);
-                SessionHelper.setSessionAttribute(session, "qaptcha_key", null);
+                SessionUtils.setSessionAttribute(session, "qaptcha_key", null);
                 if(StringUtils.getValidString(request.getParameter("action")).equals("qaptcha")) {
-                    SessionHelper.setSessionAttribute(request.getSession(true), "qaptcha_key", request.getParameter("qaptcha_key"));
+                    SessionUtils.setSessionAttribute(request.getSession(true), "qaptcha_key", request.getParameter("qaptcha_key"));
                     out.print("{\"error\":false}");
                     return;
                 }

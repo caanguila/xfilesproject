@@ -2,6 +2,7 @@ package in.xfiles.web.users;
 
 import in.xfiles.core.ejb.EmailManagerLocal;
 import in.xfiles.core.helpers.StringUtils;
+import in.xfiles.web.BaseManagedBean;
 import in.xfiles.web.utils.JSFHelper;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,7 +12,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
-import org.jboss.weld.logging.messages.JsfMessage;
 
 /**
  * JSF View scoped Managed bean for receiving users feedback.
@@ -20,7 +20,7 @@ import org.jboss.weld.logging.messages.JsfMessage;
  */
 @ManagedBean
 @ViewScoped
-public class FeedbackBean {
+public class FeedbackBean extends BaseManagedBean {
 
     private static final Logger log = Logger.getLogger(FeedbackBean.class);
     
@@ -42,20 +42,21 @@ public class FeedbackBean {
     }
     
     public void sendFeedbackAction(ActionEvent evt) {
-        if(!JSFHelper.validateQaptcha(true, "Validation:", "Captcha validation failed!")) {
+        JSFHelper helper = getJSFHelper();
+        if(!helper.validateQaptcha(true, "Validation:", "Captcha validation failed!")) {
             return;
         }
         if(!StringUtils.isNotEmpty(message, name, email)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "All fields are mandatory.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "All fields are mandatory.");
             return;
         }
         // TODO: regexp validate email
         try {
             em.sendSimpleEmail("Feedback from "+name+" "+email, message, "admin@xfiles.in");
-            JSFHelper.addMessage(FacesMessage.SEVERITY_INFO, "Info:", "Your message has been sent.");
+            helper.addMessage(FacesMessage.SEVERITY_INFO, "Info:", "Your message has been sent.");
             message = null;
         } catch (Exception ex) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Unexpected server error.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Unexpected server error.");
             log.error("sendFeedbackAction(): Failed to send user feedback message.", ex);
         }
     }

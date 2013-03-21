@@ -6,8 +6,8 @@ import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
+import in.xfiles.web.BaseManagedBean;
 import in.xfiles.web.utils.JSFHelper;
-import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,7 +15,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ManagedBean
 @SessionScoped
-public class LoginBean implements Serializable {
+public class LoginBean extends BaseManagedBean {
     
     private final Logger log = Logger.getLogger(RegistrationBean.class);
     
@@ -61,10 +60,8 @@ public class LoginBean implements Serializable {
     public void preRenderView(ComponentSystemEvent evt) {
         if(!isLoggedIn()) {
             try {
-                HttpServletResponse response = (HttpServletResponse)JSFHelper.getExternalContext().getResponse();
-                if(!response.isCommitted()) {
-                    response.sendRedirect(JSFHelper.getRequest().getContextPath()+"/faces/login.xhtml");
-                }
+                JSFHelper helper = getJSFHelper();
+                helper.redirect("/index");
             } catch (Exception ex) {
                 if(log.isDebugEnabled()) {
                     log.debug("Failed to send redirect.", ex);
@@ -82,8 +79,8 @@ public class LoginBean implements Serializable {
     }
     
     private boolean tryLogin(String login, String pwd) {
-       
-       HttpSession session =  JSFHelper.getSession(true); 
+       JSFHelper helper = getJSFHelper();
+       HttpSession session =  helper.getSession(true); 
        HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
       
        Long userId = pm.checkUserPassword(login, pwd);
@@ -108,17 +105,15 @@ public class LoginBean implements Serializable {
        sm.modifySession(session, userId, httpServletRequest.getRemoteAddr() , "TO_DO", session.getId());
        Log rec = lm.addRecord(userId, CommonConstants.SUCCESS_LOGIN, "success", "login="+login+":password="+pwd, session.getId());
        sml.validateUserInput(rec.getOptions());
-       JSFHelper.setUserId(userId);
+       helper.setUserId(userId);
        return currentUser != null;
     }
     
     public void loginAction(ActionEvent evt) {
+        JSFHelper helper = getJSFHelper();
         currentUser = null;
-        
-        
-        
         if(!validateUserInput()) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "Check your input and try again.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation:", "Check your input and try again.");
             loginStatus = "fail";
             password = null;
             return;
@@ -129,14 +124,14 @@ public class LoginBean implements Serializable {
         
         if(!tryLogin(login, pwd)) {
             if(currentUser!=null && currentUser.getDateSuspended()!=null){
-                JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Authentication:", "This user is banned since: "+currentUser.getDateSuspended());
+                helper.addMessage(FacesMessage.SEVERITY_ERROR, "Authentication:", "This user is banned since: "+currentUser.getDateSuspended());
                 currentUser = null;
                 loginStatus = "fail";
                 pwd = null;
                 return;
             }
             
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Authentication:", "Incorrect credentials.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Authentication:", "Incorrect credentials.");
             loginStatus = "fail";
             pwd = null;
             return;
@@ -146,10 +141,11 @@ public class LoginBean implements Serializable {
     }
     
     public String logOut() {
-        HttpSession session =  JSFHelper.getSession(true); 
+        JSFHelper helper = getJSFHelper();
+        HttpSession session =  helper.getSession(true); 
         lm.addRecord(currentUser.getUserId(), CommonConstants.USER_LOGOUT, "LogOut", "", session.getId());
         currentUser = null;
-        JSFHelper.setUserId(null);
+        helper.setUserId(null);
         return "login.xhtml?faces-redirect=true";
     }
 
