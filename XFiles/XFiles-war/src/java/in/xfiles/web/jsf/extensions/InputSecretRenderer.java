@@ -8,7 +8,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.context.ResponseWriterWrapper;
 
 /**
- * A simple renderer for h:inputSecret 
+ * A simple renderer for h:inputSecret,
  * which allows to add some custom attributes.
  * 
  * @author rogvold
