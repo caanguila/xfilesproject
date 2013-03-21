@@ -5,6 +5,7 @@ import in.xfiles.core.entity.*;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.ShamirSchema;
+import in.xfiles.web.BaseManagedBean;
 import in.xfiles.web.utils.JSFHelper;
 import java.io.Serializable;
 import java.util.*;
@@ -22,7 +23,7 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean
 @ViewScoped
-public class UserInfoBean implements Serializable {
+public class UserInfoBean extends BaseManagedBean {
 
     private static final Logger log = Logger.getLogger(UserInfoBean.class);
     @EJB
@@ -58,7 +59,7 @@ public class UserInfoBean implements Serializable {
      * Creates a new instance of UserInfoBean
      */
     public UserInfoBean() {
-        userId = JSFHelper.getUserId();
+        userId = getJSFHelper().getUserId();
     }
 
     @PostConstruct
@@ -77,7 +78,7 @@ public class UserInfoBean implements Serializable {
 
     
     public void refreshAction(){
-     userId = JSFHelper.getUserId();   
+     userId = getJSFHelper().getUserId();   
      if (userId != null && user == null) {
             user = userManager.getUserById(userId);
 
@@ -179,6 +180,7 @@ public class UserInfoBean implements Serializable {
     
     public void approveRequest(){
         //should modify record in requests table
+        JSFHelper helper = getJSFHelper();
         String pwd = CryptoHelper.SHA256(password);
         log.debug("user: "+user.getUserId()+" has accepted group file to user: "+currentMessage.getSenderId()+" password: "+pwd);
         Long uId = pml.checkUserPassword(userId, pwd);
@@ -186,12 +188,11 @@ public class UserInfoBean implements Serializable {
         if(uId!=null){
             boolean result = sml.approveRequestByUser(currentMessage);
             if(result)
-                JSFHelper.addMessage(FacesMessage.SEVERITY_INFO, "Request:", "Request has been approved");
+                helper.addMessage(FacesMessage.SEVERITY_INFO, "Request:", "Request has been approved");
             else
-                JSFHelper.addMessage(FacesMessage.SEVERITY_WARN, "Request:", "Request has already been approved");
-        }
-        else{
-        JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Request:", "Incorrect password, request has't been approved");
+                helper.addMessage(FacesMessage.SEVERITY_WARN, "Request:", "Request has already been approved");
+        } else {
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Request:", "Incorrect password, request has't been approved");
         }
         if(((List<Messages>) mml.getUserInputMessages(userId)).isEmpty()) currentMessage = null;
     }

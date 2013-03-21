@@ -6,8 +6,8 @@ import in.xfiles.core.entity.Files;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
+import in.xfiles.web.BaseManagedBean;
 import in.xfiles.web.utils.JSFHelper;
-import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,12 +16,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
 /**
- * This bean provides some methods for creating and reviewing download requests
+ * This bean provides some methods for creating and reviewing download requests.
  * @author danon
  */
 @ManagedBean
 @ViewScoped
-public class DownloadRequestBean implements Serializable {
+public class DownloadRequestBean extends BaseManagedBean {
 
     @EJB
     private FileManagerLocal fm;
@@ -39,7 +39,7 @@ public class DownloadRequestBean implements Serializable {
      * Creates a new instance of DownloadRequestBean
      */
     public DownloadRequestBean() {
-        fileId = StringUtils.getValidString(JSFHelper.getRequest().getParameter("file_id"));
+        fileId = StringUtils.getValidString(getJSFHelper().getRequest().getParameter("file_id"));
         key = null;
     }
     
@@ -48,9 +48,10 @@ public class DownloadRequestBean implements Serializable {
         long fileId = StringUtils.getValidInt(this.fileId);
         fileExists = fm.fileExists(fileId);
         if(fileExists) {
-            canDownload = fm.canDownload(JSFHelper.getUserId(), fileId);
+            JSFHelper helper = getJSFHelper();
+            canDownload = fm.canDownload(helper.getUserId(), fileId);
             if(canDownload) {
-                file = fm.getFileById(JSFHelper.getUserId(), fileId);
+                file = fm.getFileById(helper.getUserId(), fileId);
             }
         }
         
@@ -85,15 +86,16 @@ public class DownloadRequestBean implements Serializable {
      * @return 
      */
     public List<DownloadRequest> getDownloadRequests() {
-        return fm.getRequestsByUserId(JSFHelper.getUserId());
+        return fm.getRequestsByUserId(getJSFHelper().getUserId());
     }
     
     public void createRequest(ActionEvent evt) {
         long fileId = StringUtils.getValidInt(this.fileId);
+        JSFHelper helper = getJSFHelper();
         if(isPasswordNeeded())
-            fm.requestDownload(JSFHelper.getUserId(), fileId, CryptoHelper.SHA256(key));
+            fm.requestDownload(helper.getUserId(), fileId, CryptoHelper.SHA256(key));
         else 
-            fm.requestDownload(JSFHelper.getUserId(), fileId, null);
+            fm.requestDownload(helper.getUserId(), fileId, null);
     }
     
     public String getStatusAsString(int status){

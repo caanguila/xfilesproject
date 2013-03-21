@@ -7,15 +7,13 @@ import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.CommonConstants;
 import in.xfiles.core.helpers.CryptoHelper;
 import in.xfiles.core.helpers.StringUtils;
+import in.xfiles.web.BaseManagedBean;
 import in.xfiles.web.utils.JSFHelper;
-import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
@@ -26,7 +24,7 @@ import org.apache.log4j.Logger;
  */
 @ManagedBean
 @ViewScoped
-public class RegistrationBean implements CommonConstants, Serializable {
+public class RegistrationBean extends BaseManagedBean implements CommonConstants {
     
     private final Logger log = Logger.getLogger(RegistrationBean.class);
     
@@ -54,34 +52,36 @@ public class RegistrationBean implements CommonConstants, Serializable {
     }
     
     private boolean validateUserInput() {
+        JSFHelper helper = getJSFHelper();
         if(StringUtils.isEmpty(email)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "E-mail field cannot be empty.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "E-mail field cannot be empty.");
             return false;
         }
         if(StringUtils.isEmpty(password)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Password cannot be empty");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Password cannot be empty");
             return false;
         }
         if(!password.equals(passwordConfirmation)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Password and Confirmation password don't match.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Password and Confirmation password don't match.");
             passwordConfirmation = null;
             password = null;
             return false;
         }
         if(StringUtils.isEmpty(firstName)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Please, specify your first name.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Please, specify your first name.");
             return false;
         }
         if(StringUtils.isEmpty(lastName)) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Please, specify your last name.");
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, "Validation Error:", "Please, specify your last name.");
             return false;
         }
         return true;
     }
     
     public void registerAction(ActionEvent evt) {
+        JSFHelper helper = getJSFHelper();
         if(!validateUserInput()) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_WARN, 
+            helper.addMessage(FacesMessage.SEVERITY_WARN, 
                     "Information:", 
                     "Cannot register new user. Please, check your input and try again.");
             registrationStatus = "fail";
@@ -94,7 +94,7 @@ public class RegistrationBean implements CommonConstants, Serializable {
         
         // Check if user exists
         if(um.getUserByLogin(email) != null) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_WARN, 
+            helper.addMessage(FacesMessage.SEVERITY_WARN, 
                     "Information:", 
                     "This login is taken by existing account.");
             registrationStatus = "fail";
@@ -104,7 +104,7 @@ public class RegistrationBean implements CommonConstants, Serializable {
         User u = um.createUser(ADMINISTRATOR_USER_TYPE, email, firstName, lastName, pwd, info);
         pwd = null;
         if(u == null) {
-            JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, 
+            helper.addMessage(FacesMessage.SEVERITY_ERROR, 
                     "Error:", 
                     "Unexpected error. See logs for details");
             registrationStatus = "fail";
@@ -117,8 +117,8 @@ public class RegistrationBean implements CommonConstants, Serializable {
             registrationStatus = "fail";
         } else {
             registrationStatus = "ok";
-            HttpSession session =  JSFHelper.getSession(true); 
-            HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpSession session =  helper.getSession(true); 
+            //HttpServletRequest httpServletRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
             lm.addRecord(u.getUserId(), CommonConstants.REGESTRATION_OF_USER, "user registered", "", session.getId());
             //sm.modifySession(session, u.getUserId(), httpServletRequest.getRemoteAddr(), "TO_DO", session.getId());
             log.info("User has been registered: "+u);

@@ -2,6 +2,7 @@ package in.xfiles.web.upload;
 
 import in.xfiles.core.ejb.UserManagerLocal;
 import in.xfiles.core.entity.User;
+import in.xfiles.web.BaseManagedBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +18,7 @@ import javax.faces.event.ActionEvent;
  */
 @ManagedBean
 @ViewScoped
-public class UserSelectionBean {
+public class UserSelectionBean extends BaseManagedBean {
     
     @EJB
     private UserManagerLocal um;

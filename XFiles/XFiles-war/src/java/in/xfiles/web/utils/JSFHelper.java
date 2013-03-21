@@ -5,23 +5,37 @@ import in.xfiles.core.entity.User;
 import in.xfiles.core.helpers.EJBHelper;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.NavigationHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * Provides some handy routines for working with JSF context and session
+ * Provides some handy routines for working with JSF context and session.
  *
  * @author danon
  */
-public abstract class JSFHelper {
+public class JSFHelper {
+    
+     private final FacesContext context;
 
-    public static FacesContext getFacesContext() {
-        return FacesContext.getCurrentInstance();
+    /**
+     * Creates new instance with current Faces context.
+     */
+    public JSFHelper() {
+        this(FacesContext.getCurrentInstance());
+    }
+    
+    public JSFHelper(FacesContext context) {
+        this.context = context;
+    }
+    
+    public FacesContext getFacesContext() {
+        return context;
     }
 
-    public static ExternalContext getExternalContext() {
+    public ExternalContext getExternalContext() {
         final FacesContext fc = getFacesContext();
         if (fc == null) {
             return null;
@@ -29,7 +43,7 @@ public abstract class JSFHelper {
         return fc.getExternalContext();
     }
 
-    public static HttpServletRequest getRequest() {
+    public HttpServletRequest getRequest() {
         final ExternalContext ec = getExternalContext();
         if (ec == null) {
             return null;
@@ -37,7 +51,7 @@ public abstract class JSFHelper {
         return (HttpServletRequest) ec.getRequest();
     }
 
-    public static Application getApplication() {
+    public Application getApplication() {
         final FacesContext fc = getFacesContext();
         if (fc == null) {
             return null;
@@ -45,23 +59,55 @@ public abstract class JSFHelper {
         return fc.getApplication();
     }
 
-    public static HttpSession getSession(boolean create) {
+    public HttpSession getSession(boolean create) {
         final HttpServletRequest request = getRequest();
         if (request == null) {
             return null;
         }
         return request.getSession(create);
     }
-
-    public static <T> T getSessionAttribute(Class<T> clazz, String name) {
-        return SessionHelper.getSessionAttribute(clazz, getSession(false), name);
+    
+    public Long getUserId() {
+        return getSessionAttribute(Long.class, "user_id");
     }
 
-    public static void setSessionAttribute(String name, Object value) {
-        SessionHelper.setSessionAttribute(getSession(false), name, value);
+    public void setUserId(Long userId) {
+        setSessionAttribute("user_id", userId);
     }
 
-    public static User getCurrentUser() {
+    public FacesMessage addMessage(FacesMessage.Severity severity, String summary, String details) {
+        return JSFHelper.addMessage(getFacesContext(), null, severity, summary, details);
+    }
+    
+    public FacesMessage addMessage(String component, FacesMessage.Severity severity, String summary, String details) {
+        return JSFHelper.addMessage(getFacesContext(), component, severity, summary, details);
+    }
+    
+    public void redirect(String nav) {
+        NavigationHandler handler = getApplication().getNavigationHandler();
+        handler.handleNavigation(getFacesContext(), null, nav+"?faces-redirect=true");
+    }
+    
+    public static FacesMessage addMessage(FacesContext fc, String component, FacesMessage.Severity severity, String summary, String details) {
+        return addMessage(fc, component, new FacesMessage(severity, summary, details));
+    }
+    
+    public static FacesMessage addMessage(FacesContext fc, String component, FacesMessage msg) {
+        if (fc != null) {
+            fc.addMessage(component, msg);
+        }
+        return msg;
+    }
+
+    public <T> T getSessionAttribute(Class<T> clazz, String name) {
+        return SessionUtils.getSessionAttribute(clazz, getSession(false), name);
+    }
+
+    public void setSessionAttribute(String name, Object value) {
+        SessionUtils.setSessionAttribute(getSession(false), name, value);
+    }
+
+    public User getCurrentUser() {
         Long userId = getUserId();
         if (userId == null) {
             return null;
@@ -69,38 +115,18 @@ public abstract class JSFHelper {
         UserManagerLocal um = EJBHelper.getInstance().getBean(UserManagerLocal.class);
         return um.getUserById(userId);
     }
-
-    public static FacesMessage addMessage(FacesContext fc, FacesMessage.Severity severity, String summary, String details) {
-        final FacesMessage msg = new FacesMessage(severity, summary, details);
-        if (fc == null) {
-            return msg;
-        }
-        fc.addMessage(null, msg);
-        return msg;
-    }
-
-    public static FacesMessage addMessage(FacesMessage.Severity severity, String summary, String details) {
-        return addMessage(getFacesContext(), severity, summary, details);
-    }
-
-    public static Long getUserId() {
-        return SessionHelper.getUserId(getSession(true));
-    }
-
-    public static void setUserId(Long userId) {
-        SessionHelper.setUserId(getSession(true), userId);
-    }
-
-    public static boolean validateQaptcha(boolean showMessages, String summary, String details) {
-        String qaptchaKey = JSFHelper.getSessionAttribute(String.class, "qaptcha_key");
+    
+    public boolean validateQaptcha(boolean showMessages, String summary, String details) {
+        String qaptchaKey = getSessionAttribute(String.class, "qaptcha_key");
         if(qaptchaKey == null) {
             if(showMessages)
-                JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, summary, details);
+                addMessage(FacesMessage.SEVERITY_ERROR, summary, details);
             return false;
         }
-        if(!JSFHelper.getRequest().getParameterMap().containsKey(qaptchaKey)) {
+        
+        if(!getRequest().getParameterMap().containsKey(qaptchaKey)) {
             if(showMessages)
-                JSFHelper.addMessage(FacesMessage.SEVERITY_ERROR, summary, details);
+                addMessage(FacesMessage.SEVERITY_ERROR, summary, details);
             return false;
         }
         return true;

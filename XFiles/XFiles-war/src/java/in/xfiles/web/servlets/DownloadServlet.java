@@ -4,7 +4,7 @@ import in.xfiles.core.ejb.FileManagerLocal;
 import in.xfiles.core.entity.DownloadRequest;
 import in.xfiles.core.helpers.FileUtils;
 import in.xfiles.core.helpers.StringUtils;
-import in.xfiles.web.utils.SessionHelper;
+import in.xfiles.web.utils.SessionUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,7 +43,7 @@ public class DownloadServlet extends HttpServlet {
         OutputStream out = response.getOutputStream();            
         try {
             String id = getValidParameter(request, "id");
-            Long userId = SessionHelper.getUserId(request.getSession());
+            Long userId = SessionUtils.getUserId(request.getSession());
             if(userId == null) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;

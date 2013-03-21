@@ -5,14 +5,14 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 /**
- * Contains a few useful null-safe methods for working with http session
+ * Contains a few useful null-safe static methods for working with http session.
  *
  * @author danon
  */
-public class SessionHelper {
+public class SessionUtils {
 
     public static final String USER_ID_SESSION_ATTR = "user_id";
-    private static final Logger log = Logger.getLogger(SessionHelper.class);
+    private static final Logger log = Logger.getLogger(SessionUtils.class);
 
     public static <T> T getSessionAttribute(Class<T> clazz, final HttpSession session, String name) {
         try {
@@ -75,5 +75,4 @@ public class SessionHelper {
         setSessionAttribute(session, USER_ID_SESSION_ATTR, userId);
     }
 
-   
 }
